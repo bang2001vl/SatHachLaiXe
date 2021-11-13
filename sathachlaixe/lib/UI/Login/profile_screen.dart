@@ -1,14 +1,14 @@
 import 'dart:ffi';
 
-import 'package:cowin_1/common/config/colors_config.dart';
-import 'package:cowin_1/common/config/texts_config.dart';
-import 'package:cowin_1/themes.dart';
-import 'package:cowin_1/views/login/widgets/textfield.dart';
-import 'package:cowin_1/widget/return_button.dart';
+import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
+import 'package:sathachlaixe/UI/Style/size.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Component/textbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../size_config.dart';
+import 'package:sathachlaixe/main.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -28,21 +28,17 @@ class ProfileScreen extends StatelessWidget {
                     height: 28.h,
                   ),
                   Text(
-                    ' Profile',
+                    'Thông tin cá nhân',
                     textAlign: TextAlign.center,
-                    style: kTextConfig.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(40),
-                      color: cwColor1,
-                    ),
+                    style: titleText40,
                   ),
                   Text(
-                    'Enter your personal information',
+                    'Vui lòng nhập chính xác thông tin cá nhân',
                     textAlign: TextAlign.center,
-                    style: kTextConfig.copyWith(
+                    style: defaultText18.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: ScreenUtil().setSp(18),
-                      color: cwColor4,
+                      color: loginSubTextColor,
                     ),
                   ),
                   SizedBox(
@@ -55,12 +51,8 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Full Name',
-                          style: kTextConfig.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: ScreenUtil().setSp(15),
-                            color: cwColor1,
-                          ),
+                          'Họ tên',
+                          style: textfieldStyle,
                         ),
                         SizedBox(
                           height: 11.h,
@@ -72,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             prefixIcon: Icon(
                               Icons.person,
-                              color: cwColor1,
+                              color: mainColor,
                             ),
                           ),
                         ),
@@ -86,12 +78,8 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Birthday',
-                          style: kTextConfig.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: ScreenUtil().setSp(15),
-                            color: cwColor1,
-                          ),
+                          'Ngày sinh',
+                          style: textfieldStyle,
                         ),
                         SizedBox(
                           height: 11.h,
@@ -103,11 +91,11 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             prefixIcon: Icon(
                               Icons.cake,
-                              color: cwColor1,
+                              color: mainColor,
                             ),
                             suffixIcon: Icon(
                               Icons.calendar_today_outlined,
-                              color: cwColor4,
+                              color: loginSubTextColor,
                             ),
                           ),
                         ),
@@ -122,11 +110,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Phone Number',
-                          style: kTextConfig.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: ScreenUtil().setSp(15),
-                            color: cwColor1,
-                          ),
+                          style: textfieldStyle,
                         ),
                         SizedBox(
                           height: 11.h,
@@ -138,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             prefixIcon: Icon(
                               Icons.phone,
-                              color: cwColor1,
+                              color: mainColor,
                             ),
                           ),
                         ),
@@ -152,12 +136,8 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Gender',
-                          style: kTextConfig.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: ScreenUtil().setSp(15),
-                            color: cwColor1,
-                          ),
+                          'Giới tính',
+                          style: textfieldStyle
                         ),
                         SizedBox(
                           height: 11.h,
@@ -169,7 +149,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             prefixIcon: Icon(
                               Icons.pending_outlined,
-                              color: cwColor1,
+                              color: mainColor,
                             ),
                           ),
                         ),
@@ -185,20 +165,15 @@ class ProfileScreen extends StatelessWidget {
                       width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
-                        color: cwColor1,
+                        color: mainColor,
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'SAVE',
-                        style: kTextConfig.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(20),
-                          color: cwColor2,
+                        'HOÀN TẤT',
+                        style: buttonText
                         ),
                       ),
                     ),
-                    onTap: () {},
-                  ),
                 ],
               ),
             ),

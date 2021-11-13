@@ -5,6 +5,8 @@ import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Component/textbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'OTP_screen.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login_screen.dart';
 
@@ -32,13 +34,18 @@ class RegisterScreen extends StatelessWidget {
                   Text(
                     'Tạo tài khoản của bạn.',
                     textAlign: TextAlign.center,
-                    style: loginSubTextColor,
+                    style: defaultText20.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: ScreenUtil().setSp(20),
+                      color: loginSubTextColor,
+                    ),
                   ),
                   SizedBox(
                     height: 40.h,
                   ),
                   TextFieldContainer(
                     child: TextField(
+                      textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.person,
@@ -88,7 +95,7 @@ class RegisterScreen extends StatelessWidget {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: "Bằng việc đăng ký, bạn đã đồng ý với ",
+                      text: "Bằng việc đăng ký, bạn đã đồng ý với\n",
                       style: defaultText18.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: ScreenUtil().setSp(14),
@@ -101,15 +108,23 @@ class RegisterScreen extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: 'và',
+                          text: 'và ',
                           style: defaultText18.copyWith(
                             fontWeight: FontWeight.w400,
                             fontSize: ScreenUtil().setSp(14),
                           ),
                         ),
                         TextSpan(
-                          text: 'privacy notice',
-                          style: kText14Medium_1,
+                          text: 'Chính sách riêng tư',
+                          style: textfieldStyle.copyWith(
+                            fontSize: ScreenUtil().setSp(14),
+                          ),
+                        ),
+                        TextSpan(
+                          text: '\n của chúng tôi.',
+                          style: textfieldStyle.copyWith(
+                            fontSize: ScreenUtil().setSp(14),
+                          ),
                         ),
                       ],
                     ),

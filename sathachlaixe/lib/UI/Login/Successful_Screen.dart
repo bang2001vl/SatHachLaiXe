@@ -1,12 +1,11 @@
-import 'package:cowin_1/common/config/colors_config.dart';
-import 'package:cowin_1/common/config/texts_config.dart';
-import 'package:cowin_1/main.dart';
-import 'package:cowin_1/views/login/profile_screen.dart';
-import 'package:cowin_1/widget/return_button.dart';
+import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
+import 'package:sathachlaixe/UI/Style/size.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../size_config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SuccessfulScreen extends StatelessWidget {
@@ -39,11 +38,11 @@ class SuccessfulScreen extends StatelessWidget {
                         width: 14.w,
                       ),
                       Text(
-                        'Registration Successful',
-                        style: kTextConfig.copyWith(
+                        'Đăng ký thành công!',
+                        style: defaultText20.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: ScreenUtil().setSp(22),
-                          color: cwColor3,
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -52,31 +51,31 @@ class SuccessfulScreen extends StatelessWidget {
                     height: 25.h,
                   ),
                   Text(
-                    'Welcome to Cowin',
+                    'Chào mừng bạn đến \n với E-Drive',
                     textAlign: TextAlign.left,
-                    style: kTextConfig.copyWith(
+                    style: defaultText20.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: ScreenUtil().setSp(35),
-                      color: cwColor1,
+                      color: mainColor,
                     ),
                   ),
                   SizedBox(
                     height: 12.h,
                   ),
                   Text(
-                    'Update your profile to get news about\nCOVID-19 and the health care suggests\nmatching desires and your lifestyle!',
+                    'Cập nhật thông tin cá nhân để có trải\nnghiệm tốt nhất!',
                     textAlign: TextAlign.left,
-                    style: kTextConfig.copyWith(
+                    style: defaultText20.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: ScreenUtil().setSp(18),
-                      color: cwColor4,
+                      color: loginSubTextColor,
                     ),
                   ),
                   SizedBox(
                     height: 13.h,
                   ),
                   Image.asset(
-                    'assets/images/Succesfull.png',
+                    'assets/images/successful.png',
                     height: 352.h,
                     width: 412.h,
                   ),
@@ -89,15 +88,15 @@ class SuccessfulScreen extends StatelessWidget {
                       width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: cwColor1,
+                        color: mainColor,
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'GET STARTED',
-                        style: kTextConfig.copyWith(
+                        'BẮT ĐẦU',
+                        style: defaultText20.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: ScreenUtil().setSp(20),
-                          color: cwColor2,
+                          color: mainColor,
                         ),
                       ),
                     ),

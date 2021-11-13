@@ -1,14 +1,13 @@
 import 'dart:ffi';
 
-import 'package:cowin_1/common/config/colors_config.dart';
-import 'package:cowin_1/common/config/texts_config.dart';
-import 'package:cowin_1/themes.dart';
-import 'package:cowin_1/views/login/widgets/textfield.dart';
-import 'package:cowin_1/widget/return_button.dart';
+import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
+import 'package:sathachlaixe/UI/Style/size.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Component/textbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../size_config.dart';
 import 'Successful_Screen.dart';
 import 'login_screen.dart';
 
@@ -31,31 +30,27 @@ class OtpScreen extends StatelessWidget {
                   Text(
                     'Verification code',
                     textAlign: TextAlign.center,
-                    style: kTextConfig.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(40),
-                      color: cwColor1,
-                    ),
+                    style: titleText40,
                   ),
                   SizedBox(
                     height: 16.h,
                   ),
                   Text(
-                    'Enter the OTP has been sent to',
+                    'Mã xác thực được gửi đến',
                     textAlign: TextAlign.center,
-                    style: kTextConfig.copyWith(
+                    style: defaultText20.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: ScreenUtil().setSp(20),
-                      color: cwColor4,
+                      color: loginSubTextColor,
                     ),
                   ),
                   Text(
                     "******5945",
                     textAlign: TextAlign.center,
-                    style: kTextConfig.copyWith(
+                    style: defaultText20.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: ScreenUtil().setSp(28),
-                      color: cwColor3,
+                      color: Colors.black,
                     ),
                   ),
                   SizedBox(
@@ -82,22 +77,19 @@ class OtpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don’t receive OTP?",
+                        "Chưa nhận được mã?",
                         textAlign: TextAlign.center,
-                        style: kTextConfig.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: ScreenUtil().setSp(18),
-                          color: cwColor4,
+                        style: defaultText18.copyWith(
+                          fontSize: ScreenUtil().setSp(17),
                         ),
                       ),
                       TextButton(
                         onPressed: () {},
                         child: Text(
-                          'RESENT OTP (112)',
-                          style: kTextConfig.copyWith(
+                          'GỬI LẠI (112)',
+                          style: textfieldStyle.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: ScreenUtil().setSp(18),
-                            color: cwColor1,
                           ),
                         ),
                       ),
@@ -112,16 +104,12 @@ class OtpScreen extends StatelessWidget {
                       width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
-                        color: cwColor1,
+                        color: mainColor,
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'VERIFY',
-                        style: kTextConfig.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(20),
-                          color: cwColor2,
-                        ),
+                        'XÁC NHẬN',
+                        style: buttonText,
                       ),
                     ),
                     onTap: () {
@@ -154,10 +142,10 @@ class TextFieldOTP extends StatelessWidget {
           textAlign: TextAlign.center,
           showCursor: false,
           readOnly: false,
-          style: kTextConfig.copyWith(
+          style: defaultText20.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: ScreenUtil().setSp(35),
-            color: cwColor1,
+            color: mainColor,
           ),
           keyboardType: TextInputType.number,
           maxLength: 1,

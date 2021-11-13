@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Component/textbox.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Style/size.dart';
 import 'Register_Screen.dart';
+
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Image.asset('assets/image/login.png'),
+                Image.asset('assets/images/login.png'),
                 SizedBox(
                   height: 26.h,
                 ),
@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: defaultText20.copyWith(
                     fontWeight: FontWeight.w400,
-                    fontSize: ScreenUtil().setSp(20),
+                    fontSize:20,
                     color: loginSubTextColor,
                   ),
                 ),
@@ -59,6 +59,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextFieldContainer(
                   child: TextField(
+                    textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.lock,
@@ -66,6 +67,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       hintText: "Mật khẩu",
                       hintStyle: textfieldStyle,
+
                       border: InputBorder.none,
                     ),
                   ),

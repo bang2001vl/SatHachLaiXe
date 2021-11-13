@@ -1,14 +1,13 @@
 import 'dart:ffi';
 
-import 'package:cowin_1/common/config/colors_config.dart';
-import 'package:cowin_1/common/config/texts_config.dart';
-import 'package:cowin_1/themes.dart';
-import 'package:cowin_1/views/login/widgets/textfield.dart';
-import 'package:cowin_1/widget/return_button.dart';
+import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
+import 'package:sathachlaixe/UI/Style/size.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Component/textbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../size_config.dart';
 import 'login_screen.dart';
 
 class ForgotPassScreen extends StatelessWidget {
@@ -29,21 +28,17 @@ class ForgotPassScreen extends StatelessWidget {
                   height: 32.h,
                 ),
                 Text(
-                  'Forgot password',
+                  'Quên mật khẩu',
                   textAlign: TextAlign.center,
-                  style: kTextConfig.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(40),
-                    color: cwColor1,
-                  ),
+                  style: titleText40,
                 ),
                 Text(
-                  'Enter the Email/ Phone number associated\nwith your account and we’ll send an email\nwith instruction to reset your password',
+                  'Nhập email bạn đã đăng ký.',
                   textAlign: TextAlign.left,
-                  style: kTextConfig.copyWith(
+                  style: defaultText20.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: ScreenUtil().setSp(18),
-                    color: cwColor4,
+                    color: loginSubTextColor,
                   ),
                 ),
                 SizedBox(
@@ -63,12 +58,8 @@ class ForgotPassScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Email/ Phone number',
-                        style: kTextConfig.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: ScreenUtil().setSp(15),
-                          color: cwColor1,
-                        ),
+                        'Email',
+                        style: textfieldStyle
                       ),
                       SizedBox(
                         height: 11.h,
@@ -80,7 +71,7 @@ class ForgotPassScreen extends StatelessWidget {
                           ),
                           prefixIcon: Icon(
                             Icons.phone,
-                            color: cwColor1,
+                            color: mainColor,
                           ),
                         ),
                       ),
@@ -96,16 +87,12 @@ class ForgotPassScreen extends StatelessWidget {
                     width: 350,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(38),
-                      color: cwColor1,
+                      color: mainColor,
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'SEND OTP',
-                      style: kTextConfig.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(20),
-                        color: cwColor2,
-                      ),
+                      'GỬI OTP',
+                      style: buttonText
                     ),
                   ),
                   onTap: () {},
