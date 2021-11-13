@@ -1,10 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sathachlaixe/SQLite/quizSQLite.dart';
+import './UI/quizUI.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  Future<List<QuizBaseDB>> getQuizList(List questionIDs) async {
+    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
+    var db = QuizDB();
+    for (int i = 0; i < questionIDs.length; i++) {
+      quizs.add(await db.findQuizById(questionIDs[i]));
+    }
+    return quizs;
+  }
+
+  Widget startQuiz(List quizIds) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    return FutureBuilder(
+      future: getQuizList(quizIds),
+      builder: (c, s) {
+        if (s.connectionState == ConnectionState.done) {
+          var data = s.data! as List<QuizBaseDB>;
+          debugPrint('length = ' + data.length.toString());
+          return QuizPage(
+            title: 'Flutter Demo Home Page',
+            quizlist: data,
+          );
+        }
+
+        return Column(children: const [
+          Center(
+            child: const CircularProgressIndicator(),
+          ),
+        ]);
+      },
+    );
+  }
+
+  Widget test() {
+    QuizDB db = new QuizDB();
+    return FutureBuilder(
+      future: db.ensureDB(),
+      builder: (c, s) {
+        if (s.connectionState == ConnectionState.done) {
+          return startQuiz(List.generate(30, (index) => index + 3));
+        }
+
+        return Column(children: const [
+          Center(
+            child: const CircularProgressIndicator(),
+          ),
+        ]);
+      },
+    );
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -22,7 +75,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: "My Home Page",
+      ),
     );
   }
 }
@@ -46,6 +101,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Future<List<QuizBaseDB>> getQuizList(List questionIDs) async {
+    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
+    var db = QuizDB();
+    for (int i = 0; i < questionIDs.length; i++) {
+      quizs.add(await db.findQuizById(questionIDs[i]));
+    }
+    return quizs;
+  }
+
   int _counter = 0;
 
   void _incrementCounter() {
@@ -104,7 +168,23 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          var db = QuizDB();
+          db.ensureDB().whenComplete(() {
+            getQuizList(List.generate(30, (index) => index + 1)).then((value) {
+              SystemChrome.setEnabledSystemUIOverlays([]);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuizPage(
+                    title: 'Test Quiz',
+                    quizlist: value,
+                  ),
+                ),
+              );
+            });
+          });
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
