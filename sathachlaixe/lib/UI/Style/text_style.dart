@@ -4,29 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const fontFamily = "Roboto";
 
-
 var defaultText20 = TextStyle(
     fontSize: ScreenUtil().setSp(20),
     fontWeight: FontWeight.normal,
     color: Colors.black,
     fontFamily: fontFamily);
 
-var defaultText18 =defaultText20.copyWith(
+var defaultText18 = defaultText20.copyWith(
     fontWeight: FontWeight.bold,
-    fontSize: ScreenUtil().setSp(30),
-    color: splashTextColor
-);
+    fontSize: ScreenUtil().setSp(18),
+    color: splashTextColor);
 
 var titleText40 = defaultText20.copyWith(
-  fontWeight: FontWeight.bold,
-  fontSize: ScreenUtil().setSp(40),
-  color: mainColor
-);
+    fontWeight: FontWeight.bold,
+    fontSize: ScreenUtil().setSp(40),
+    color: mainColor);
 var titleText30 = defaultText20.copyWith(
     fontWeight: FontWeight.bold,
     fontSize: ScreenUtil().setSp(30),
-    color: titleColor
-);
+    color: titleColor);
 
 var textfieldStyle = defaultText20.copyWith(
   fontWeight: FontWeight.w600,
@@ -34,7 +30,7 @@ var textfieldStyle = defaultText20.copyWith(
   color: mainColor,
 );
 var buttonText = defaultText20.copyWith(
-    fontWeight: FontWeight.bold,
-    fontSize: ScreenUtil().setSp(20),
-    color: Colors.white,
+  fontWeight: FontWeight.bold,
+  fontSize: ScreenUtil().setSp(20),
+  color: Colors.white,
 );

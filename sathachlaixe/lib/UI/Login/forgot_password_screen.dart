@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:sathachlaixe/UI/Login/OTP_screen.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/size.dart';
@@ -18,49 +19,42 @@ class ForgotPassScreen extends StatelessWidget {
         child: ListView(
           physics: BouncingScrollPhysics(),
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 35.h,
-                ),
-                ReturnButton(),
-                SizedBox(
-                  height: 32.h,
-                ),
-                Text(
-                  'Quên mật khẩu',
-                  textAlign: TextAlign.center,
-                  style: titleText40,
-                ),
-                Text(
-                  'Nhập email bạn đã đăng ký.',
-                  textAlign: TextAlign.left,
-                  style: defaultText20.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: ScreenUtil().setSp(18),
-                    color: loginSubTextColor,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.h, vertical: 25.w),
+              child: Column(
+                children: <Widget>[
+                  ReturnButton(),
+                  SizedBox(
+                    height: 32.h,
                   ),
-                ),
-                SizedBox(
-                  height: 50.h,
-                ),
-                // Padding(
-                //   padding:
-                //       EdgeInsets.symmetric(horizontal: 36.h, vertical: 5.h),
-                //   child: TextFieldWidget(
-                //     label: 'Email/ Phone number',
-                //   ),
-                // ),
-                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 36.h, vertical: 5.h),
-                  child: Column(
+                  Text(
+                    'Quên mật khẩu',
+                    textAlign: TextAlign.center,
+                    style: titleText40,
+                  ),
+                  Text(
+                    'Nhập email bạn đã đăng ký.',
+                    textAlign: TextAlign.left,
+                    style: defaultText20.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: ScreenUtil().setSp(18),
+                      color: loginSubTextColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                  // Padding(
+                  //   padding:
+                  //       EdgeInsets.symmetric(horizontal: 36.h, vertical: 5.h),
+                  //   child: TextFieldWidget(
+                  //     label: 'Email/ Phone number',
+                  //   ),
+                  // ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Email',
-                        style: textfieldStyle
-                      ),
+                      Text('Email', style: textfieldStyle),
                       SizedBox(
                         height: 11.h,
                       ),
@@ -77,27 +71,28 @@ class ForgotPassScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 55.h,
-                ),
-                GestureDetector(
-                  child: Container(
-                    height: 60,
-                    width: 350,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(38),
-                      color: mainColor,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'GỬI OTP',
-                      style: buttonText
-                    ),
+
+                  SizedBox(
+                    height: 55.h,
                   ),
-                  onTap: () {},
-                ),
-              ],
+                  GestureDetector(
+                    child: Container(
+                      height: 60,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(38),
+                        color: mainColor,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text('GỬI OTP', style: buttonText),
+                    ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => OtpScreen()));
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

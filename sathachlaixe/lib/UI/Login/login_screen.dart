@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Style/size.dart';
+import 'package:sathachlaixe/UI/Home/home_screen.dart';
 import 'Register_Screen.dart';
 
 import 'forgot_password_screen.dart';
@@ -20,21 +21,18 @@ class LoginScreen extends StatelessWidget {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Image.asset('assets/images/login.png'),
-                SizedBox(
-                  height: 26.h,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32.h),
+                  child: Image.asset('assets/images/login.png'),
                 ),
-                Text(
-                  'Đăng nhập',
-                  textAlign: TextAlign.center,
-                  style: titleText40
-                ),
+                Text('Đăng nhập',
+                    textAlign: TextAlign.center, style: titleText40),
                 Text(
                   'Đăng nhập tài khoản của bạn.',
                   textAlign: TextAlign.center,
                   style: defaultText20.copyWith(
                     fontWeight: FontWeight.w400,
-                    fontSize:20,
+                    fontSize: ScreenUtil().setSp(20),
                     color: loginSubTextColor,
                   ),
                 ),
@@ -67,7 +65,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                       hintText: "Mật khẩu",
                       hintStyle: textfieldStyle,
-
                       border: InputBorder.none,
                     ),
                   ),
@@ -100,14 +97,14 @@ class LoginScreen extends StatelessWidget {
                       child: Text(
                         'Quên mật khẩu?',
                         style: textfieldStyle.copyWith(
-                          fontSize: ScreenUtil().setSp(14),
+                          fontSize: ScreenUtil().setSp(18),
                         ),
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 45.h,
+                  height: 30.h,
                 ),
                 GestureDetector(
                   child: Container(
@@ -123,7 +120,10 @@ class LoginScreen extends StatelessWidget {
                       style: buttonText,
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  },
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

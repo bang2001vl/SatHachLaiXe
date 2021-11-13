@@ -67,7 +67,7 @@ class SuccessfulScreen extends StatelessWidget {
                     textAlign: TextAlign.left,
                     style: defaultText20.copyWith(
                       fontWeight: FontWeight.w400,
-                      fontSize: ScreenUtil().setSp(18),
+                      fontSize: ScreenUtil().setSp(20),
                       color: loginSubTextColor,
                     ),
                   ),
@@ -96,7 +96,7 @@ class SuccessfulScreen extends StatelessWidget {
                         style: defaultText20.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: ScreenUtil().setSp(20),
-                          color: mainColor,
+                          color: Colors.white,
                         ),
                       ),
                     ),

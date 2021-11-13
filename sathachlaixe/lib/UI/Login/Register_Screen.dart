@@ -97,9 +97,9 @@ class RegisterScreen extends StatelessWidget {
                     text: TextSpan(
                       text: "Bằng việc đăng ký, bạn đã đồng ý với\n",
                       style: defaultText18.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: ScreenUtil().setSp(14),
-                    ),
+                        fontWeight: FontWeight.w400,
+                        fontSize: ScreenUtil().setSp(14),
+                      ),
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Điều khoản dịch vụ ',
@@ -122,7 +122,8 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         TextSpan(
                           text: '\n của chúng tôi.',
-                          style: textfieldStyle.copyWith(
+                          style: defaultText18.copyWith(
+                            fontWeight: FontWeight.w400,
                             fontSize: ScreenUtil().setSp(14),
                           ),
                         ),
@@ -142,7 +143,7 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'REGISTER',
+                        'ĐĂNG KÝ',
                         style: buttonText,
                       ),
                     ),
@@ -168,7 +169,7 @@ class RegisterScreen extends StatelessWidget {
                                   builder: (context) => LoginScreen()));
                         },
                         child: Text(
-                          'Đăng ký',
+                          'Đăng nhập',
                           style: defaultText20.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: ScreenUtil().setSp(18),
