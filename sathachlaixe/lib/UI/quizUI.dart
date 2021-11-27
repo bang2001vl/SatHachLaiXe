@@ -1,21 +1,30 @@
 import 'dart:async';
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
+import 'package:sathachlaixe/UI/Style/text_style.dart';
 import '../SQLite/quizSQLite.dart';
 
 class QuizPage extends StatefulWidget {
-  QuizPage({Key? key, required this.title, required this.quizlist, this.timeLimit = const Duration(minutes: 30)})
-      : super(key: key){
+  QuizPage(
+      {Key? key,
+      required this.title,
+      required this.quizlist,
+      this.timeLimit = const Duration(minutes: 30)})
+      : super(key: key) {
     timeEnd = DateTime.now().add(timeLimit);
   }
 
   final String title;
   final List<QuizBaseDB> quizlist;
 
-  final double txtSizeQues = 20;
-  final double txtSizeAnswer = 18;
+  final double txtSizeQues = 20.h;
+  final double txtSizeAnswer = 16.h;
 
   final Duration timeLimit;
 
@@ -103,47 +112,42 @@ class _QuizPageState extends State<QuizPage> {
     }
 
     String pathToIcons = 'assets/icons/';
-    return Row(
-      children: [
-        IconButton(
-          onPressed: () {
-            onPressBack(context);
-          },
-          icon: Stack(
-            alignment: Alignment.center,
-            children: [
-              Image.asset('assets/icons/ButtonBack.png'),
-              Image.asset('assets/icons/arrow_back.png'),
-            ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+      child: Row(
+        children: <Widget>[
+          ReturnButton(),
+          SizedBox(
+            width: 95.w,
           ),
-        ),
-        Expanded(
-            child: Center(
-              child: Text(widget.title, style: TextStyle(fontSize: 20)),
-            ))
-      ],
+          Text(
+            widget.title,
+            style: buttonText.copyWith(fontSize: 22.h),
+          ),
+        ],
+      ),
     );
   }
 
   Widget getQuesNavigationIcon(int index) {
-    String path = 'assets/icons/button_quiz_navi_normal.png';
+    String path = 'assets/icons/button_quiz_navi_normal.svg';
     if (_mode == 0) {
       if (selectedAnswer[index] != -1) {
-        path = 'assets/icons/button_quiz_navi_selected.png';
+        path = 'assets/icons/button_quiz_navi_selected.svg';
       }
     } else if (_mode == 1) {
       if (selectedAnswer[index] == getCorrectIndex(index)) {
-        path = 'assets/icons/button_quiz_navi_correct.png';
+        path = 'assets/icons/button_quiz_navi_correct.svg';
       } else {
-        path = 'assets/icons/button_quiz_navi_wrong.png';
+        path = 'assets/icons/button_quiz_navi_wrong.svg';
       }
     }
 
     return IconButton(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-      icon: Image.asset(path),
-      iconSize: 25,
-      constraints: BoxConstraints(minHeight: 16, minWidth: 16),
+      icon: SvgPicture.asset(path),
+      iconSize: 25.h,
+      constraints: BoxConstraints(minHeight: 16.h, minWidth: 16.w),
       onPressed: () => changeCurrentIndex(index),
     );
   }
@@ -167,9 +171,9 @@ class _QuizPageState extends State<QuizPage> {
     }
 
     Row row(List<Widget> icons) => Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: icons,
-    );
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: icons,
+        );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -190,27 +194,36 @@ class _QuizPageState extends State<QuizPage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text('Câu ' + (_currentQuesIndex + 1).toString(),
-                style: TextStyle(fontSize: 18)),
-            Text('/' + widget.quizlist.length.toString()),
+                style: textfieldStyle.copyWith(
+                    fontSize: 24.h, color: Colors.white)),
+            Text('/' + widget.quizlist.length.toString(),
+                style: textfieldStyle.copyWith(
+                    fontSize: 18.h,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400)),
           ],
         ),
         Stack(
           alignment: Alignment.center,
           children: [
-            Image.asset('assets/icons/quiz_clock_bg.png'),
+            SvgPicture.asset('assets/icons/quiz_clock_bg.svg'),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/icons/ic_clock.png'),
+                SvgPicture.asset('assets/icons/ic_clock.svg'),
                 SizedBox(
                   width: 5,
                 ),
                 Text(
-                  _timeLeft.inMinutes.toString().padLeft(2,'0') +
+                  _timeLeft.inMinutes.toString().padLeft(2, '0') +
                       ':' +
-                      _timeLeft.inSeconds.remainder(60).toString().padLeft(2,'0'),
-                  style: TextStyle(fontSize: 16),
+                      _timeLeft.inSeconds
+                          .remainder(60)
+                          .toString()
+                          .padLeft(2, '0'),
+                  style: textfieldStyle.copyWith(
+                      fontSize: 16.h, color: Colors.white),
                 ),
               ],
             ),
@@ -221,37 +234,37 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Widget buildAnswer(String content, int index) {
-    var primecolor = Colors.black;
-    String iconPath = 'assets/icons/quiz_check_unselected.png';
+    var primecolor = defaultAnsColor;
+    String iconPath = 'assets/icons/quiz_check_unselected.svg';
 
     if (_mode == 0) {
       if (_currentSelectedAnswerIndex == index) {
         // Selected
-        primecolor = Colors.blue;
-        iconPath = 'assets/icons/quiz_check_selected.png';
+        primecolor = mainColor;
+        iconPath = 'assets/icons/quiz_check_selected.svg';
       }
     } else if (_mode == 1) {
       if (getCorrectIndex(_currentQuesIndex) == index) {
         // Correct
-        primecolor = Colors.green;
+        primecolor = correctAnsColor;
       }
       if (selectedAnswer[_currentQuesIndex] == index) {
         if (getCorrectIndex(_currentQuesIndex) != index) {
           // Wrong
-          primecolor = Colors.red;
-          iconPath = 'assets/icons/quiz_check_wrong.png';
+          primecolor = wrongAnsColor;
+          iconPath = 'assets/icons/quiz_check_wrong.svg';
         } else {
           // Correct
-          primecolor = Colors.green;
-          iconPath = 'assets/icons/quiz_check_correct.png';
+          primecolor = correctAnsColor;
+          iconPath = 'assets/icons/quiz_check_correct.svg';
         }
       }
     }
 
     return Container(
-      margin: EdgeInsets.only(top: 5),
+      margin: EdgeInsets.only(top: 5.h, left: 10, right: 10, bottom: 5.h),
       padding: EdgeInsets.all(5),
-      constraints: BoxConstraints(minHeight: 50),
+      constraints: BoxConstraints(minHeight: 45),
       decoration: BoxDecoration(
           border: Border.all(
             color: primecolor,
@@ -262,11 +275,11 @@ class _QuizPageState extends State<QuizPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(width: 40, child: Image.asset(iconPath)),
+            SizedBox(width: 40, child: SvgPicture.asset(iconPath)),
             Expanded(
               child: Text(
                 content,
-                style: TextStyle(
+                style: textfieldStyle.copyWith(
                     color: primecolor, fontSize: widget.txtSizeAnswer),
               ),
             ),
@@ -278,12 +291,21 @@ class _QuizPageState extends State<QuizPage> {
 
   Widget buildQuestion(QuizBaseDB quiz) {
     var quiz = widget.quizlist[_currentQuesIndex];
-    var answers = List<Widget>.generate(quiz.answers.length,
-            (index) => buildAnswer(quiz.answers[index], index), growable: true);
-    if(quiz.imageurl != null && quiz.imageurl.length > 1){
-      answers.insert(0, Image.network(quiz.imageurl, errorBuilder: (c, o, s){
-        return Text('Không tìm thấy ảnh', style: TextStyle(color: Colors.red),);
-      },));
+    var answers = List<Widget>.generate(
+        quiz.answers.length, (index) => buildAnswer(quiz.answers[index], index),
+        growable: true);
+    if (quiz.imageurl != null && quiz.imageurl.length > 1) {
+      answers.insert(
+          0,
+          Image.network(
+            quiz.imageurl,
+            errorBuilder: (c, o, s) {
+              return Text(
+                'Không tìm thấy ảnh',
+                style: TextStyle(color: Colors.red),
+              );
+            },
+          ));
     }
     return Container(
       decoration: BoxDecoration(
@@ -297,12 +319,14 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: EdgeInsets.all(7),
+              margin: EdgeInsets.only(
+                  top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
               child: Text(
                 quiz.question,
-                style: TextStyle(
-                    fontSize: widget.txtSizeQues,
-                    fontWeight: FontWeight.bold),
+                style: textfieldStyle.copyWith(
+                  color: Colors.black,
+                  fontSize: 20.h,
+                ),
               ),
             ),
             Expanded(
@@ -322,29 +346,27 @@ class _QuizPageState extends State<QuizPage> {
               children: [
                 IconButton(
                     onPressed: onPressPrevious,
-                    icon: Image.asset(
-                        'assets/icons/quiz_btn_navi_bottom_left.png')),
-                SizedBox(
-                  width: 200,
-                  child: IconButton(
-                    onPressed: onPressSubmit,
-                    icon: Container(
-                      alignment: AlignmentDirectional.center,
-                      constraints: BoxConstraints(minWidth: 160),
+                    iconSize: 50.h,
+                    icon: SvgPicture.asset('assets/icons/previousButton.svg')),
+                GestureDetector(
+                    child: Container(
+                      height: 50.h,
+                      width: 200.w,
                       decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(20))),
-                      child: Text('NỘP BÀI',
-                          style:
-                          TextStyle(color: Colors.white, fontSize: 18)),
+                        borderRadius: BorderRadius.circular(38),
+                        color: mainColor,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'NỘP BÀI',
+                        style: buttonText,
+                      ),
                     ),
-                  ),
-                ),
+                    onTap: onPressSubmit),
                 IconButton(
                     onPressed: onPressNext,
-                    icon: Image.asset(
-                        'assets/icons/quiz_btn_navi_bottom_right.png')),
+                    iconSize: 50.h,
+                    icon: SvgPicture.asset('assets/icons/nextButton.svg')),
               ],
             )
           ],
@@ -355,7 +377,6 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       children: [
         Image.asset('assets/icons/blue_bg.png',
@@ -369,13 +390,13 @@ class _QuizPageState extends State<QuizPage> {
               children: [
                 buildTopBar(),
                 Container(
-                  margin: EdgeInsets.only(left: 25, right: 25),
-                  constraints: BoxConstraints(minHeight: 120),
+                  margin: EdgeInsets.only(left: 25.w, right: 25.w),
+                  constraints: BoxConstraints(minHeight: 120.h),
                   child: buildQuesNavigation(),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 25, right: 15),
-                  constraints: BoxConstraints(minHeight: 50),
+                  margin: EdgeInsets.only(left: 25.w, right: 15.w),
+                  constraints: BoxConstraints(minHeight: 50.h),
                   child: buildQuizTitleBar(),
                 ),
                 Expanded(

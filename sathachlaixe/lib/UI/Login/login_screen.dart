@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 40.h,
+                  height: 30.h,
                 ),
                 TextFieldContainer(
                   child: TextField(
@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                       'Nhớ mật khẩu',
                     ),
                     SizedBox(
-                      width: 110.w,
+                      width: 100.w,
                     ),
                     TextButton(
                       onPressed: () {
@@ -97,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                       child: Text(
                         'Quên mật khẩu?',
                         style: textfieldStyle.copyWith(
-                          fontSize: ScreenUtil().setSp(18),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -108,8 +108,8 @@ class LoginScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   child: Container(
-                    height: 60,
-                    width: 350,
+                    height: 60.h,
+                    width: 340.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(38),
                       color: mainColor,

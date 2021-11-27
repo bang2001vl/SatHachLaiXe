@@ -20,15 +20,15 @@ class OtpScreen extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.h, vertical: 25.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 15.w),
               child: Column(
                 children: [
                   ReturnButton(),
                   SizedBox(
-                    height: 40.h,
+                    height: 30.h,
                   ),
                   Text(
-                    'Verification code',
+                    'Mã xác thực',
                     textAlign: TextAlign.center,
                     style: titleText40,
                   ),
@@ -100,8 +100,8 @@ class OtpScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     child: Container(
-                      height: 60,
-                      width: 350,
+                      height: 60.h,
+                      width: 350.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
                         color: mainColor,

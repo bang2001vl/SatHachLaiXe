@@ -24,14 +24,14 @@ class HomeScreen extends StatelessWidget {
     return quizs;
   }
 
-  void onPressTest(BuildContext context){
+  void onPressTest(BuildContext context) {
     var db = QuizDB();
     db.ensureDB().whenComplete(() {
       getQuizList(List.generate(30, (index) => index + 400)).then((value) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context){
+            builder: (context) {
               return QuizPage(
                 title: 'Test Quiz',
                 quizlist: value,
@@ -45,8 +45,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -55,9 +54,8 @@ class HomeScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               image: DecorationImage(
-                image: AssetImage("assets/images/homebg.png" ),
-                  fit: BoxFit.fill
-              ),
+                  image: AssetImage("assets/images/homebg.png"),
+                  fit: BoxFit.fill),
             ),
           ),
           SafeArea(
@@ -76,11 +74,9 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.white,
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: AssetImage("assets/images/avt.png" ),
-                            fit: BoxFit.fill
+                            image: AssetImage("assets/images/avt.png"),
+                            fit: BoxFit.fill),
                       ),
-                      ),
-
                     ),
                   ),
                   Text('Chào,',
@@ -94,7 +90,6 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white,
                         )),
                   ),
-
                   SearchBar(),
                   Expanded(
                     child: GridView.count(
@@ -104,27 +99,23 @@ class HomeScreen extends StatelessWidget {
                       children: <Widget>[
                         InkWell(
                           child: HomeCategory(
-                          title: "Thi thử",
-                          svgSrc: "assets/icons/ic_quiz.svg",
-                        ),
+                            title: "Thi thử",
+                            svgSrc: "assets/icons/ic_quiz.svg",
+                          ),
                           onTap: () => onPressTest(context),
                         ),
-
-
                         InkWell(
-                          child:  HomeCategory(
+                          child: HomeCategory(
                             title: "Ôn tập lý thuyết",
                             svgSrc: "assets/icons/ic_assignment.svg",
                           ),
                         ),
-
                         InkWell(
                           child: HomeCategory(
                             title: "Ôn tập nhanh",
                             svgSrc: "assets/icons/ic_shuffle.svg",
                           ),
                         ),
-
                         InkWell(
                           child: HomeCategory(
                             title: "Biển báo",
@@ -155,4 +146,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
