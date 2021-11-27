@@ -20,28 +20,25 @@ class ProfileScreen extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 15.w),
+              padding: EdgeInsets.symmetric(horizontal: 32.h, vertical: 25.w),
               child: Column(
                 children: <Widget>[
                   ReturnButton(),
                   SizedBox(
-                    height: 20.h,
+                    height: 28.h,
                   ),
                   Text(
                     'Thông tin cá nhân',
                     textAlign: TextAlign.center,
                     style: titleText40,
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(5.h),
-                    child: Text(
-                      'Vui lòng nhập chính xác thông tin cá nhân',
-                      textAlign: TextAlign.center,
-                      style: defaultText18.copyWith(
-                        fontWeight: FontWeight.w400,
-                        fontSize: ScreenUtil().setSp(18),
-                        color: loginSubTextColor,
-                      ),
+                  Text(
+                    'Vui lòng nhập chính xác thông tin cá nhân',
+                    textAlign: TextAlign.center,
+                    style: defaultText18.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: ScreenUtil().setSp(18),
+                      color: loginSubTextColor,
                     ),
                   ),
                   SizedBox(
@@ -60,17 +57,14 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: 11.h,
                         ),
-                        Container(
-                          height: 55.h,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.person,
-                                color: mainColor,
-                              ),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: mainColor,
                             ),
                           ),
                         ),
@@ -90,21 +84,18 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: 11.h,
                         ),
-                        Container(
-                          height: 55.h,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.cake,
-                                color: mainColor,
-                              ),
-                              suffixIcon: Icon(
-                                Icons.calendar_today_outlined,
-                                color: loginSubTextColor,
-                              ),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.cake,
+                              color: mainColor,
+                            ),
+                            suffixIcon: Icon(
+                              Icons.calendar_today_outlined,
+                              color: loginSubTextColor,
                             ),
                           ),
                         ),
@@ -118,26 +109,23 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Số điện thoại',
+                          'Phone Number',
                           style: textfieldStyle,
                         ),
                         SizedBox(
                           height: 11.h,
                         ),
-                        Container(
-                          height: 55.h,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.phone,
-                                color: mainColor,
-                              ),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.phone,
+                              color: mainColor,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -147,21 +135,21 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Giới tính', style: textfieldStyle),
+                        Text(
+                          'Giới tính',
+                          style: textfieldStyle
+                        ),
                         SizedBox(
                           height: 11.h,
                         ),
-                        Container(
-                          height: 55.h,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.pending_outlined,
-                                color: mainColor,
-                              ),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.pending_outlined,
+                              color: mainColor,
                             ),
                           ),
                         ),
@@ -173,16 +161,19 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     child: Container(
-                      height: 60.h,
-                      width: 350.w,
+                      height: 60,
+                      width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
                         color: mainColor,
                       ),
                       alignment: Alignment.center,
-                      child: Text('HOÀN TẤT', style: buttonText),
+                      child: Text(
+                        'HOÀN TẤT',
+                        style: buttonText
+                        ),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

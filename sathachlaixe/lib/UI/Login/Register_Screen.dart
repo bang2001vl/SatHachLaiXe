@@ -19,7 +19,7 @@ class RegisterScreen extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 15.w),
+              padding: EdgeInsets.symmetric(horizontal: 32.h, vertical: 25.w),
               child: Column(
                 children: <Widget>[
                   ReturnButton(),

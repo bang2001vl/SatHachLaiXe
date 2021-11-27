@@ -20,7 +20,7 @@ class ForgotPassScreen extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 15.w),
+              padding: EdgeInsets.symmetric(horizontal: 32.h, vertical: 25.w),
               child: Column(
                 children: <Widget>[
                   ReturnButton(),
@@ -37,7 +37,7 @@ class ForgotPassScreen extends StatelessWidget {
                     textAlign: TextAlign.left,
                     style: defaultText20.copyWith(
                       fontWeight: FontWeight.w400,
-                      fontSize: ScreenUtil().setSp(20),
+                      fontSize: ScreenUtil().setSp(18),
                       color: loginSubTextColor,
                     ),
                   ),
@@ -58,20 +58,17 @@ class ForgotPassScreen extends StatelessWidget {
                       SizedBox(
                         height: 11.h,
                       ),
-                      Container(
-                        height: 55.h,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            prefixIcon: Icon(
-                              Icons.phone,
-                              color: mainColor,
-                            ),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            color: mainColor,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
 
@@ -80,8 +77,8 @@ class ForgotPassScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     child: Container(
-                      height: 60.h,
-                      width: 340.w,
+                      height: 60,
+                      width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
                         color: mainColor,
