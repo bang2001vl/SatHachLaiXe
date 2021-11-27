@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 final mainColor = Color(0xFF4893D8);
 
 final splashBGColor = Color(0xFFF5F6FA);
@@ -21,3 +20,5 @@ final textBoxBGColor = Color(0xFFEBEDFC);
 final splashTextColor = Color(0xFF757575);
 
 final loginSubTextColor = Color(0xFFB2B2B2);
+
+final defaultAnsColor = Color(0xFF717171);

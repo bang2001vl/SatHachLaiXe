@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/size.dart';
@@ -18,12 +19,12 @@ class SuccessfulScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.h, vertical: 25.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 15.w),
               child: Column(
                 children: [
                   ReturnButton(),
                   SizedBox(
-                    height: 45.h,
+                    height: 20.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -31,8 +32,8 @@ class SuccessfulScreen extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.w, vertical: 15.h)),
-                      Image.asset(
-                        'assets/icons/success.png',
+                      SvgPicture.asset(
+                        'assets/icons/success.svg',
                       ),
                       SizedBox(
                         width: 14.w,
@@ -84,8 +85,8 @@ class SuccessfulScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     child: Container(
-                      height: 60,
-                      width: 350,
+                      height: 60.h,
+                      width: 350.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: mainColor,
