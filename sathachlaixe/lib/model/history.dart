@@ -1,25 +1,25 @@
 import 'package:sathachlaixe/model/timestamp.dart';
 
 class HistoryModel extends TimeStampModel {
-  /**Topic code. Example: topc 1, topic 2,... */
+  /// Topic code. Example: topc 1, topic 2,... */
   int topicID = -1;
-  /** */
+  /// */
   bool isPassed = false;
-  /** List of question's d in topic */
+  /// List of question's d in topic */
   List<String> questionIds = List.empty(growable: true);
   List<String> selectedAns = List.empty(growable: true);
   List<String> correctAns = List.empty(growable: true);
 
   HistoryModel.fromJSON(Map json) {
     this.topicID = json["topicID"];
-    this.isPassed = json["isPassed"];
+    this.isPassed = json["isPassed"] == 0;
     this.rawQuestionIDs = json["rawQuestionIDs"];
     this.rawCorrect = json["rawCorrect"];
     this.rawSelected = json["rawSelected"];
 
     this.id = json["id"] == null ? null : json["id"];
-    this.create_time = json["create_time"] == null ? null : json["create_time"];
-    this.update_time = json["update_time"] == null ? null : json["update_time"];
+    this.create_time = json["create_time"] == null ? null : DateTime.fromMicrosecondsSinceEpoch(json["create_time"], isUtc: true).toLocal();
+    this.sync_time = json["sync_time"] == null ? null : DateTime.fromMicrosecondsSinceEpoch(json["sync_time"], isUtc: true).toLocal();
     this.accountID = json["accountID"] == null ? null : json["accountID"];
   }
 
@@ -33,6 +33,7 @@ class HistoryModel extends TimeStampModel {
 
   HistoryModel({
     required this.topicID,
+    this.isPassed = false,
   }) : super();
 
   String get rawCorrect {
