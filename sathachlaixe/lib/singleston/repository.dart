@@ -1,18 +1,21 @@
 import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/repository/mode/b1.dart';
-import 'package:sathachlaixe/repository/mode/base.dart';
+import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 
 class RepositoryGL {
-  final BaseMode mode;
-  RepositoryGL({required this.mode});
+  RepositoryGL();
 
   Future<List<HistoryModel>> getHistory() {
-    //mode.getHistoryList();
-    // This is for test-only
-    return Future.delayed(
-        Duration(seconds: 1), () => HistoryModel.mockList(20));
+    return AppConfig().mode.getHistoryList();
+  }
+
+  HistoryModel getRandomTopic() {
+    return AppConfig().mode.randomHistory();
+  }
+
+  Future<int> insertHistory(HistoryModel data) {
+    return HistoryController().insertHistory(data);
   }
 }
 
-final RepositoryGL repository = new RepositoryGL(mode: B1Mode());
+final RepositoryGL repository = new RepositoryGL();

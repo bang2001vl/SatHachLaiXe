@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/repository/sqlite/controller.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
 
 class HistoryController {
   final String tableName = 'history';
@@ -9,21 +9,21 @@ class HistoryController {
   HistoryController();
 
   Future<int> insertHistory(HistoryModel data) async {
-    var db = await DBController().openDB();
+    var db = await AppConfig().dbController.openDB();
     var affected = await db.insert(this.tableName, {
       "isPassed": data.isPassed,
       "topicID": data.topicID,
       "rawCorrect": data.rawCorrect,
       "rawQuestionIDs": data.rawQuestionIDs,
       "rawSelected": data.rawSelected,
-      "create_time":DateTime.now().toUtc().microsecondsSinceEpoch
+      "create_time": DateTime.now().toUtc().microsecondsSinceEpoch
     });
 
     return affected;
   }
 
   Future<List<HistoryModel>> getHistoryList() async {
-    var db = await DBController().openDB();
+    var db = await AppConfig().dbController.openDB();
     var sql = "SELECT * FROM history WHERE topicId > 0;";
     var data = await db.rawQuery(sql);
 

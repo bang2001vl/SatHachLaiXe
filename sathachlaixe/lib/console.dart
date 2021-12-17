@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 import 'model/history.dart';
 import 'repository/sqlite/historyController.dart';
@@ -31,16 +32,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _testInsert() async {
-    var a = HistoryController();
-    var temp = new HistoryModel(topicID: 1, isPassed: false);
-    temp.rawCorrect = "1.1.1.1.1.1";
-    temp.rawQuestionIDs = "1.2.3.4.5.6";
-    temp.rawSelected = "1.2.1.2.1.2";
-    var i = await a.insertHistory(temp);
+  void _test() async {
+    var l = await repository.getHistory();
+    log(l.length.toString());
 
-    var data = await a.getHistoryList();
-    log("i = " + i.toString());
+    var r = repository.getRandomTopic();
+    log(r.toString());
   }
 
   @override
@@ -68,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _testInsert,
+        onPressed: _test,
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -9,15 +9,16 @@ class DBController {
     return _instance;
   }
 
-  DBController._internal(){
+  DBController._internal() {
     openDB();
   }
 
+  String dbName = "luyenthib1.db";
   Database? _db;
 
   Future<Database> openDB() async {
     final databasesPath = await getDatabasesPath();
-    String path = PathLib.join(databasesPath, "luyenthi.db");
+    String path = PathLib.join(databasesPath, dbName);
 
     if (_db == null) {
       _db = await openDatabase(path, version: 1, onCreate: _onCreate);
@@ -41,7 +42,14 @@ class DBController {
     db.execute(sql1);
   }
 
-  void closeDB() async {
-    await _db?.close();
+  Future<void> closeDB() async {
+    return _db?.close();
+  }
+
+  void changeMode(String mode) {
+    if (dbName == "luyenthi$mode.db") return;
+
+    dbName = "luyenthi$mode.db";
+    closeDB().then((value) => openDB());
   }
 }

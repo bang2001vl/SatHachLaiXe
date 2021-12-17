@@ -23,6 +23,13 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
+        },
+        {
+            "name": "sathachlaixe-console",
+            "cwd": "sathachlaixe",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/console.dart"
         }
     ]
 }

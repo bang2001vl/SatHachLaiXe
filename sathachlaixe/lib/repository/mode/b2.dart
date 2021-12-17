@@ -5,7 +5,7 @@ import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 
 import 'base.dart';
 
-class B1Mode extends BMode implements BaseMode {
+class B2Mode extends BMode implements BaseMode {
   Map<int, List<String>> _topics = Map.of({
     1: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
         .split("."),
@@ -47,7 +47,7 @@ class B1Mode extends BMode implements BaseMode {
         .split("."),
   });
 
-  B1Mode() : super();
+  B2Mode() : super();
 
   List<String> getRandom() {
     Random ran = Random(DateTime.now().microsecondsSinceEpoch);
@@ -83,7 +83,6 @@ class B1Mode extends BMode implements BaseMode {
       if (history.isEmpty) {
         // Add new empty history if not has history yet
         m[key] = HistoryModel.empty(topicID: key);
-        m[key]?.questionIds = value;
       } else {
         // Get history if already has one
         m[key] = history.first;
@@ -110,7 +109,7 @@ class B1Mode extends BMode implements BaseMode {
   }
 
   @override
-  int get length => 30;
+  int get length => 35;
 
   @override
   Duration get duration => Duration(minutes: 20);
