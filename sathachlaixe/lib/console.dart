@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:sathachlaixe/repository/sqlite/controller.dart';
 
 import 'model/history.dart';
 import 'repository/sqlite/historyController.dart';
@@ -32,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _testInsert() async{
+  void _testInsert() async {
     var a = HistoryController();
     var temp = new HistoryModel(topicID: 1, isPassed: false);
     temp.rawCorrect = "1.1.1.1.1.1";
@@ -76,4 +75,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

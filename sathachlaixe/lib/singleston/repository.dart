@@ -1,17 +1,18 @@
 import 'package:sathachlaixe/model/history.dart';
+import 'package:sathachlaixe/repository/mode/b1.dart';
+import 'package:sathachlaixe/repository/mode/base.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
 
 class RepositoryGL {
-  // RepositoryGL._privateConstructor() {}
-
-  // static final RepositoryGL _instance = RepositoryGL._privateConstructor();
-
-  // static RepositoryGL get instance => _instance;
+  final BaseMode mode;
+  RepositoryGL({required this.mode});
 
   Future<List<HistoryModel>> getHistory() {
+    //mode.getHistoryList();
     // This is for test-only
     return Future.delayed(
         Duration(seconds: 1), () => HistoryModel.mockList(20));
   }
 }
 
-final RepositoryGL repository = new RepositoryGL();
+final RepositoryGL repository = new RepositoryGL(mode: B1Mode());
