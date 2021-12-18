@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
@@ -88,7 +87,27 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void onPressBack(BuildContext context) {
-    Navigator.pop(context);
+    if (_mode == 1) {
+      Navigator.pop(context, 'Cancel');
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Tạm dừng"),
+          content: const Text("Bạn có muốn tạm dừng để tiếp tục lần tới?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Không'),
+            ),
+            TextButton(
+              onPressed: () => onPressPause(context),
+              child: const Text('Có'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   void onPressNext() {
@@ -144,7 +163,7 @@ class _QuizPageState extends State<QuizPage> {
 
   void onPressPause(context) {
     _saveHistory(false);
-    Navigator.pop(context);
+    Navigator.pop(context, 'Pause');
   }
 
   void onPressAnswer(index) {
@@ -352,13 +371,13 @@ class _QuizPageState extends State<QuizPage> {
     var answers = List<Widget>.generate(
         quiz.answers.length, (index) => buildAnswer(quiz.answers[index], index),
         growable: true);
-    if (quiz.imageurl != null && quiz.imageurl.length > 1) {
+    if (quiz.imageurl.length > 1) {
       answers.insert(
           0,
           Image.network(
             quiz.imageurl,
             errorBuilder: (c, o, s) {
-              return Text(
+              return const Text(
                 'Không tìm thấy ảnh',
                 style: TextStyle(color: Colors.red),
               );
