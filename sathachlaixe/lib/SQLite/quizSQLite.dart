@@ -31,11 +31,13 @@ class QuizDB {
   Future<void> copyDBto(String path) async {
     ByteData data = await rootBundle.load("assets/final.db");
     if (data.lengthInBytes > 10) debugPrint("Found in bundle");
-    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    List<int> bytes =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await io.File(path).writeAsBytes(bytes);
   }
 
   Future<Database> openDB() async {
+    await ensureDB();
     final path = await getDBPath();
     return openDatabase(path);
   }

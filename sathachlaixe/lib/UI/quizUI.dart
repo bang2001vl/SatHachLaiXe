@@ -8,20 +8,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/model/history.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 import '../SQLite/quizSQLite.dart';
 import 'Test/result_screen.dart';
 
 class QuizPage extends StatefulWidget {
-  QuizPage(
-      {Key? key,
-      required this.title,
-      required this.quizlist,
-      this.timeLimit = const Duration(minutes: 30)})
-      : super(key: key) {
+  QuizPage({
+    Key? key,
+    required this.title,
+    required this.quizlist,
+    required this.topicId,
+    required this.timeLimit,
+  }) : super(key: key) {
     timeEnd = DateTime.now().add(timeLimit);
   }
 
   final String title;
+  final int topicId;
   final List<QuizBaseDB> quizlist;
 
   final double txtSizeQues = 20.h;
@@ -29,7 +33,7 @@ class QuizPage extends StatefulWidget {
 
   final Duration timeLimit;
 
-  late DateTime timeEnd;
+  late final DateTime timeEnd;
 
   @override
   _QuizPageState createState() {
@@ -38,12 +42,25 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  _QuizPageState() : super() {
+  _QuizPageState() : super() {}
+
+  @override
+  void initState() {
+    super.initState();
+    _reset();
+  }
+
+  void _reset() {
+    _timeLeft = Duration(seconds: widget.timeLimit.inSeconds);
+    _currentQuesIndex = 0;
+    _currentSelectedAnswerIndex = -1;
+    _mode = 0;
+
     _timer = new Timer.periodic(
       const Duration(seconds: 1),
       (Timer timer) {
         setState(() {
-          _timeLeft = widget.timeEnd.difference(DateTime.now());
+          _timeLeft = _timeLeft - const Duration(seconds: 1);
         });
         if (_timeLeft.isNegative) {
           _timer.cancel();
@@ -51,6 +68,7 @@ class _QuizPageState extends State<QuizPage> {
         }
       },
     );
+    selectedAnswer = List.filled(widget.quizlist.length, -1);
   }
 
   int _currentQuesIndex = 0;
@@ -58,16 +76,13 @@ class _QuizPageState extends State<QuizPage> {
   int _mode = 0; // Mode 0 is test, 1 is review
   Duration _timeLeft = Duration(minutes: 30); // 30min
   late Timer _timer;
+  late List selectedAnswer = List.filled(widget.quizlist.length, -1);
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
     _timer.cancel();
     super.dispose();
   }
-
-  late List selectedAnswer = List.filled(widget.quizlist.length, -1);
 
   int getCorrectIndex(int index) {
     return widget.quizlist[index].correct - 1;
@@ -85,23 +100,65 @@ class _QuizPageState extends State<QuizPage> {
     changeCurrentIndex(_currentQuesIndex - 1);
   }
 
-  void onPressSubmit() {
+  HistoryModel _saveHistory(bool isFinished) {
+    var history = HistoryModel(topicID: widget.topicId);
+    history.selectedAns = List.generate(selectedAnswer.length,
+        (index) => (selectedAnswer[index] + 1).toString());
+    history.correctAns = List.generate(widget.quizlist.length,
+        (index) => widget.quizlist[index].correct.toString());
+    history.questionIds = List.generate(widget.quizlist.length,
+        (index) => widget.quizlist[index].id.toString());
+
+    history.timeLeft = _timeLeft;
+    history.isFinished = isFinished;
+    if (history.isFinished) {
+      history.isPassed = repository.checkPassed(history);
+    }
+
+    repository.insertHistory(history);
+
+    //test();
+
+    return history;
+  }
+
+  void test() async {
+    var temp = await repository.getHistory();
+    var temp2 = await repository.getAllFinishedHistory();
+  }
+
+  void changeToReviewMode() {
     setState(() {
       _mode = 1;
-      _timer.cancel();
     });
+  }
+
+  void onPressSubmit() {
+    _timer.cancel();
+    var history = _saveHistory(true);
+    if (history.isPassed) {
+      // Navigate to success view
+    } else {
+      // Navigate to failed view
+    }
+  }
+
+  void onPressPause(context) {
+    _saveHistory(false);
+    Navigator.pop(context);
   }
 
   void onPressAnswer(index) {
     setState(() {
       _currentSelectedAnswerIndex = index;
+      selectedAnswer[_currentQuesIndex] = _currentSelectedAnswerIndex;
     });
   }
 
   void changeCurrentIndex(int index) {
     if (index > -1 && index < widget.quizlist.length) {
       setState(() {
-        selectedAnswer[_currentQuesIndex] = _currentSelectedAnswerIndex;
+        //selectedAnswer[_currentQuesIndex] = _currentSelectedAnswerIndex;
         _currentQuesIndex = index;
         _currentSelectedAnswerIndex = selectedAnswer[_currentQuesIndex];
       });

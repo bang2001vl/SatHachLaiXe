@@ -43,9 +43,9 @@ class HistoryModel extends TimeStampModel {
 
   Map<String, Object?> toJSON_insert() => {
         "topicID": this.topicID,
-        "isPassed": this.isPassed,
-        "isFinished": this.isFinished,
-        "timeLeft": this.timeLeft,
+        "isPassed": this.isPassed ? 1 : 0,
+        "isFinished": this.isFinished ? 1 : 0,
+        "timeLeft": this.timeLeft.inSeconds,
         "rawCorrect": this.rawCorrect,
         "rawQuestionIDs": this.rawQuestionIDs,
         "rawSelected": this.rawSelected,
@@ -81,11 +81,34 @@ class HistoryModel extends TimeStampModel {
   }
 
   /** Count number of question in this topic */
-  get count {
+  int get count {
     return this.questionIds.length;
   }
 
-  countCorrect() {
+  bool get hasStarted {
+    return this.selectedAns.length > 1;
+  }
+
+  List<int> get questionIds_int {
+    return List.generate(
+        questionIds.length, (index) => int.parse(questionIds[index]));
+  }
+
+  List<int> get selectedAns_int {
+    return List.generate(
+        selectedAns.length, (index) => int.parse(selectedAns[index]));
+  }
+
+  List<int> get correctAns_int {
+    return List.generate(
+        correctAns.length, (index) => int.parse(correctAns[index]));
+  }
+
+  bool isRandomTopic() {
+    return topicID == 0;
+  }
+
+  int countCorrect() {
     var c = 0;
     var a = this.correctAns;
     var b = this.selectedAns;
@@ -103,7 +126,7 @@ class HistoryModel extends TimeStampModel {
     return c;
   }
 
-  countWrong() {
+  int countWrong() {
     return this.selectedAns.length - this.countCorrect();
   }
 

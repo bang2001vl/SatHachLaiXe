@@ -29,7 +29,7 @@ class AppConfig {
 
   DBController _dbController = DBController();
   DBController get dbController => _dbController;
-  Future<Database> openDB() => _dbController.openDB();
+  Future<Database> openDB() => dbController.openDB();
 
   AppConfig._privateConstructor() {}
 
