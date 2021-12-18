@@ -7,22 +7,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class TestComponent extends StatelessWidget {
-  final bool isTested;
+  final bool isPassed;
   final String title;
-  final int percentTest;
+  final int totalQues;
   final int trueQues;
-  final Color color;
-  const TestComponent(
-      {Key? key,
-      required this.isTested,
-      required this.title,
-      required this.percentTest,
-      required this.trueQues,
-      required this.color})
-      : super(key: key);
+
+  const TestComponent({
+    Key? key,
+    required this.isPassed,
+    required this.title,
+    required this.totalQues,
+    required this.trueQues,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color color = (isPassed == true ? dtcolor5 : dtcolor4);
+    String result = (isPassed == true ? "Đạt bài thi" : "Không đạt bài thi");
+    int percentTest = (trueQues / totalQues).toInt();
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Container(
@@ -66,7 +68,7 @@ class TestComponent extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                "Không đạt bài thi",
+                result,
                 style: kText20Bold_13.copyWith(color: color),
               ),
             ],

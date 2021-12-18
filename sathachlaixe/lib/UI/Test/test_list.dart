@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ffi';
 
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,11 +12,23 @@ import 'package:sathachlaixe/UI/Component/textbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sathachlaixe/model/history.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 import '../quizUI.dart';
 
 class TestList extends StatelessWidget {
-  Future<List<QuizBaseDB>> getQuizList(List questionIDs) async {
+  List<HistoryModel> getList() {
+    List<HistoryModel> _testList = [];
+    repository.getHistory().then((value) {
+      value.forEach((item) => _testList.add(item));
+      return _testList;
+    });
+    return _testList;
+  }
+
+  Future<List<QuizBaseDB>> getQuizList(List<int> questionIDs) async {
     List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
     var db = QuizDB();
     for (int i = 0; i < questionIDs.length; i++) {
@@ -24,30 +37,29 @@ class TestList extends StatelessWidget {
     return quizs;
   }
 
-  void onPressTest(BuildContext context) {
-    var db = QuizDB();
-    db.ensureDB().whenComplete(() {
-      getQuizList(List.generate(30, (index) => index + 400)).then((value) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return QuizPage(
-                title: 'Test Quiz',
-                quizlist: value,
-                topicId: 1,
-                timeLimit: Duration(minutes: 30),
-              );
-            },
-          ),
-        );
-      });
+  void onPressTest(
+      BuildContext context, String title, HistoryModel lastestHistory) {
+    getQuizList(lastestHistory.questionIds_int).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return QuizPage(
+              title: title,
+              quizlist: value,
+              topicId: lastestHistory.topicID,
+              timeLimit: repository.getTimeLimit(),
+            );
+          },
+        ),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    List<HistoryModel> testList = getList();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -70,7 +82,10 @@ class TestList extends StatelessWidget {
                     ReturnButton(),
                     Text('THI THỬ', style: kText24Bold_13),
                     IconButton(
-                      onPressed: () => onPressTest(context),
+                      onPressed: () {
+                        var topic = repository.getRandomTopic();
+                        onPressTest(context, "Đề ngẫu nhiên", topic);
+                      },
                       iconSize: 35.h,
                       icon: SvgPicture.asset('assets/icons/shuffle.svg'),
                     )
@@ -82,17 +97,19 @@ class TestList extends StatelessWidget {
                   padding:
                       EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
                   child: GridView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) => InkWell(
-                      child: TestComponent(
-                        isTested: true,
-                        title: "ĐỀ SỐ 1 ",
-                        percentTest: 50,
-                        trueQues: 25,
-                        color: dtcolor1,
-                      ),
-                      onTap: () => onPressTest(context),
-                    ),
+                    itemCount: testList.length,
+                    itemBuilder: (context, index) {
+                      var item = testList[index];
+                      return InkWell(
+                        child: TestComponent(
+                          isPassed: item.isPassed,
+                          title: "ĐỀ SỐ " + index.toString(),
+                          totalQues: item.count,
+                          trueQues: item.countCorrect(),
+                        ),
+                        onTap: () {},
+                      );
+                    },
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 15.w,

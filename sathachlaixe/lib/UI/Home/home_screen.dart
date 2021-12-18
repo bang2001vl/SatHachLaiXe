@@ -13,34 +13,6 @@ import '../Test/test_list.dart';
 import 'package:sathachlaixe/UI/Login/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  Future<List<QuizBaseDB>> getQuizList(List<int> questionIDs) async {
-    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
-    var db = QuizDB();
-    for (int i = 0; i < questionIDs.length; i++) {
-      quizs.add(await db.findQuizById(questionIDs[i]));
-    }
-    return quizs;
-  }
-
-  void onPressTest(
-      BuildContext context, String title, HistoryModel lastestHistory) {
-    getQuizList(lastestHistory.questionIds_int).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return QuizPage(
-              title: title,
-              quizlist: value,
-              topicId: lastestHistory.topicID,
-              timeLimit: repository.getTimeLimit(),
-            );
-          },
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
