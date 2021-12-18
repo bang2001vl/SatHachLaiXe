@@ -42,11 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void _test(BuildContext context) async {
     var l = await repository.getHistory();
     var rand = l[0];
-    onPressTest(context, "Random topic", rand);
+    onPressTest(context, rand);
   }
 
-  void onPressTest(
-      BuildContext context, String title, HistoryModel lastestHistory) {
+  void onPressTest(BuildContext context, HistoryModel lastestHistory) {
     if (lastestHistory.isFinished) {
       beginQuiz(context, lastestHistory);
     } else {
