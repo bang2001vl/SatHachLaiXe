@@ -75,14 +75,15 @@ class B2Mode extends BMode implements BaseMode {
 
   @override
   Future<List<HistoryModel>> getHistoryList() async {
-    var data = await HistoryController().getHistoryList();
     Map<int, HistoryModel> m = Map();
-    _topics.forEach((key, value) {
+    for (int i = 0; i < _topics.length; i++) {}
+    _topics.forEach((key, value) async {
       // Search for history of topic
-      var history = data.where((element) => element.topicID == key);
+      var history = await HistoryController().getLastestHistory(key);
       if (history.isEmpty) {
         // Add new empty history if not has history yet
         m[key] = HistoryModel.empty(topicID: key);
+        m[key]?.questionIds = value;
       } else {
         // Get history if already has one
         m[key] = history.first;

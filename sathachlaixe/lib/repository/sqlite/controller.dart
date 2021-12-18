@@ -35,6 +35,8 @@ class DBController {
         "sync_time INTEGER DEFAULT NULL, " +
         "topicID INTEGER DEFAULT -1, " +
         "isPassed INTEGER DEFAULT 0, " +
+        "isFinished INTEGER DEFAULT 0, " +
+        "timeLeft INTEGER DEFAULT 0, " +
         "rawQuestionIDs TEXT DEFAULT '', " +
         "rawCorrect TEXT DEFAULT '', " +
         "rawSelected TEXT DEFAULT '' " +

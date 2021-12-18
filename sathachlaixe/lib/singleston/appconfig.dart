@@ -2,6 +2,7 @@ import 'package:sathachlaixe/repository/mode/b1.dart';
 import 'package:sathachlaixe/repository/mode/b2.dart';
 import 'package:sathachlaixe/repository/mode/base.dart';
 import 'package:sathachlaixe/repository/sqlite/controller.dart';
+import 'package:sqflite/sqflite.dart';
 
 class AppConfig {
   String _topicType = "b1";
@@ -28,6 +29,7 @@ class AppConfig {
 
   DBController _dbController = DBController();
   DBController get dbController => _dbController;
+  Future<Database> openDB() => _dbController.openDB();
 
   AppConfig._privateConstructor() {}
 

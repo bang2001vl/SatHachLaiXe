@@ -7,6 +7,10 @@ class HistoryModel extends TimeStampModel {
   /// */
   bool isPassed = false;
 
+  bool isFinished = false;
+
+  Duration timeLeft = Duration.zero;
+
   /// List of question's d in topic */
   List<String> questionIds = List.empty(growable: true);
   List<String> selectedAns = List.empty(growable: true);
@@ -18,7 +22,9 @@ class HistoryModel extends TimeStampModel {
 
   HistoryModel.fromJSON(Map json) {
     this.topicID = json["topicID"];
-    this.isPassed = json["isPassed"] == 0;
+    this.isPassed = json["isPassed"] == 1;
+    this.isFinished = json["isFinished"] == 1;
+    this.timeLeft = Duration(seconds: json["timeLeft"]);
     this.rawQuestionIDs = json["rawQuestionIDs"];
     this.rawCorrect = json["rawCorrect"];
     this.rawSelected = json["rawSelected"];
@@ -35,9 +41,11 @@ class HistoryModel extends TimeStampModel {
     this.accountID = json["accountID"] == null ? null : json["accountID"];
   }
 
-  Map toJSON() => {
+  Map<String, Object?> toJSON_insert() => {
         "topicID": this.topicID,
         "isPassed": this.isPassed,
+        "isFinished": this.isFinished,
+        "timeLeft": this.timeLeft,
         "rawCorrect": this.rawCorrect,
         "rawQuestionIDs": this.rawQuestionIDs,
         "rawSelected": this.rawSelected,
