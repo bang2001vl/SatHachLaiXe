@@ -6,6 +6,7 @@ const fontFamily = "Roboto";
 
 var kText40Bold_3 = kText30Bold_6.copyWith(
   color: dtcolor3,
+  fontSize: ScreenUtil().setSp(40.sp),
 );
 var kText35Bold_1 = kText40Bold_3.copyWith(
   color: dtcolor1,
