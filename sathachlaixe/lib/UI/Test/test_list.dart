@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
 import 'package:sathachlaixe/UI/Component/test.dart';
+import 'package:sathachlaixe/UI/Component/testUnStarted.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/size.dart';
@@ -152,25 +153,43 @@ class TestList extends StatelessWidget {
                     itemCount: testList.length,
                     itemBuilder: (context, index) {
                       var item = testList[index];
-                      return InkWell(
-                        child: TestComponent(
-                          isPassed: item.isPassed,
-                          title: item.isRandomTopic()
-                              ? "ĐỀ NGẪU NHIÊN"
-                              : "ĐỀ SỐ " + index.toString(),
-                          totalQues: item.count,
-                          trueQues: item.countCorrect(),
-                        ),
-                        onTap: () {
-                          onPressTest(context, item);
-                        },
-                      );
+                      if (item.hasStarted) {
+                        return InkWell(
+                          child: TestStartedComponent(
+                            isFinished: item.isFinished,
+                            isPassed: item.isPassed,
+                            title: item.isRandomTopic()
+                                ? "ĐỀ NGẪU NHIÊN"
+                                : "ĐỀ SỐ " + index.toString(),
+                            totalQues: item.count,
+                            trueQues: item.countCorrect(),
+                            completeQues: item.countSelected(),
+                          ),
+                          onTap: () {
+                            onPressTest(context, item);
+                          },
+                        );
+                      } else {
+                        return InkWell(
+                          child: TestUnstartedComponent(
+                            isCompleted: item.isFinished,
+                            title: item.isRandomTopic()
+                                ? "ĐỀ NGẪU NHIÊN"
+                                : "ĐỀ SỐ " + index.toString(),
+                            totalQues: item.count,
+                            time: item.timeLeft,
+                          ),
+                          onTap: () {
+                            onPressTest(context, item);
+                          },
+                        );
+                      }
                     },
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 15.w,
                       mainAxisSpacing: 15.w,
-                      mainAxisExtent: 220.h,
+                      mainAxisExtent: 225.h,
                     ),
                   ),
                 ),

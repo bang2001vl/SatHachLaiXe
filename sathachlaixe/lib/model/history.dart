@@ -131,6 +131,10 @@ class HistoryModel extends TimeStampModel {
     return this.selectedAns.length - this.countCorrect();
   }
 
+  int countSelected() {
+    return this.selectedAns.length;
+  }
+
   Future<List<QuizBaseDB>> getQuizList() async {
     List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
     var db = QuizDB();

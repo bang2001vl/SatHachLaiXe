@@ -32,11 +32,15 @@ class ResultTest extends StatelessWidget {
     String title = "Chúc mừng!";
     String msg = "Bạn đã đạt bài thi này,\n Chúc bạn có kết quả như mong đợi!";
     String backgroundURL = "assets/images/result_pass_bg.png";
+    Color color1 = Color(0xFF75BEFF);
+    Color color2 = Color(0xFF4893D8);
 
     if (!history.isPassed) {
       title = "Thật tiếc!";
       msg = "Bạn đã trượt bài thi này, cố gắng lên nhé!";
       backgroundURL = "assets/images/result_fail_bg.png";
+      color1 = Color(0xFFFFA553);
+      color2 = Color(0xFFFF4A4A);
     }
 
     String imageURL = "assets/icons/key.png";
@@ -61,13 +65,16 @@ class ResultTest extends StatelessWidget {
               ),
               Stack(alignment: Alignment.center, children: [
                 CustomPaint(
-                    painter: CustomCircularProgress(value: completeValue)),
+                    painter: CustomCircularProgress(
+                        value: completeValue,
+                        startColor: color1,
+                        endColor: color2)),
                 Column(
                   children: [
                     Text(
                       completePercent,
                       style: kText35Bold_1.copyWith(
-                          fontSize: ScreenUtil().setSp(50.sp)),
+                          fontSize: ScreenUtil().setSp(50.sp), color: color2),
                     ),
                     Text(
                       complete,
@@ -164,9 +171,15 @@ class ResultTest extends StatelessWidget {
 }
 
 class CustomCircularProgress extends CustomPainter {
-  final double value;
+  const CustomCircularProgress({
+    required this.value,
+    required this.startColor,
+    required this.endColor,
+  });
 
-  CustomCircularProgress({required this.value});
+  final double value;
+  final Color startColor;
+  final Color endColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -188,14 +201,11 @@ class CustomCircularProgress extends CustomPainter {
       Paint(),
     );
 
-    const Gradient gradient = SweepGradient(
+    final Gradient gradient = SweepGradient(
       startAngle: 1.25 * math.pi / 2,
       endAngle: 5.5 * math.pi / 2,
       tileMode: TileMode.repeated,
-      colors: <Color>[
-        Colors.blueAccent,
-        Colors.lightBlueAccent,
-      ],
+      colors: [startColor, endColor],
     );
     canvas.drawArc(
       Rect.fromCenter(center: center, width: 170, height: 170),
