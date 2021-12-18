@@ -1,3 +1,4 @@
+import 'package:sathachlaixe/SQLite/quizSQLite.dart';
 import 'package:sathachlaixe/model/timestamp.dart';
 
 class HistoryModel extends TimeStampModel {
@@ -128,6 +129,16 @@ class HistoryModel extends TimeStampModel {
 
   int countWrong() {
     return this.selectedAns.length - this.countCorrect();
+  }
+
+  Future<List<QuizBaseDB>> getQuizList() async {
+    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
+    var db = QuizDB();
+    var quizIds = questionIds_int;
+    for (int i = 0; i < quizIds.length; i++) {
+      quizs.add(await db.findQuizById(quizIds[i]));
+    }
+    return quizs;
   }
 
   static List<HistoryModel> mockList(length) {
