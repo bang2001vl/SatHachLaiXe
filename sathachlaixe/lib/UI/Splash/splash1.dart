@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
     // You have to call it on your starting screen
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: splashBGColor,
+      backgroundColor: dtcolor2,
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -26,8 +26,7 @@ class SplashScreen extends StatelessWidget {
                   Text(
                     "Skip",
                     textAlign: TextAlign.right,
-                    style:
-                        textfieldStyle.copyWith(color: mainColor, fontSize: 22),
+                    style: kText22Medium_1,
                   ),
                   Image.asset(
                     'assets/image/splash1.png',
@@ -35,7 +34,7 @@ class SplashScreen extends StatelessWidget {
                     width: 250.w,
                   ),
                   Text("Ôn thi lý thuyết.",
-                      textAlign: TextAlign.left, style: titleText30),
+                      textAlign: TextAlign.left, style: kText30Bold_6),
                   SizedBox(
                     height: 69.h,
                   ),
@@ -51,11 +50,7 @@ class SplashScreen extends StatelessWidget {
                         color: Colors.orange,
                       ),
                       alignment: Alignment.center,
-                      child: Text(
-                        'CONTINUE',
-                        style: defaultText20.copyWith(
-                            color: Colors.white, fontSize: 16),
-                      ),
+                      child: Text('CONTINUE', style: kText16Medium_13),
                     ),
                     onTap: () {
                       Navigator.push(
@@ -80,7 +75,7 @@ class SplashScreen2 extends StatelessWidget {
     // You have to call it on your starting screen
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: splashBGColor,
+      backgroundColor: dtcolor9,
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -88,12 +83,8 @@ class SplashScreen2 extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 94.h),
               child: Column(
                 children: [
-                  Text(
-                    "Take care of health...",
-                    textAlign: TextAlign.left,
-                    style:
-                        titleText30.copyWith(color: Colors.white, fontSize: 24),
-                  ),
+                  Text("Take care of health...",
+                      textAlign: TextAlign.left, style: kText22Bold_13),
                   SizedBox(
                     height: 69.h,
                   ),
@@ -116,7 +107,7 @@ class SplashScreen2 extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'CONTINUE',
-                        style: titleText30.copyWith(
+                        style: kText16Medium_1.copyWith(
                             color: Colors.white, fontSize: 16),
                       ),
                     ),
@@ -136,7 +127,7 @@ class SplashScreen2 extends StatelessWidget {
                     },
                     child: Text(
                       'Skip',
-                      style: defaultText20.copyWith(
+                      style: kText16Medium_1.copyWith(
                           color: Colors.white, fontSize: 14),
                     ),
                   ),
@@ -156,7 +147,7 @@ class SplashScreen3 extends StatelessWidget {
     // You have to call it on your starting screen
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: splashBGColor,
+      backgroundColor: dtcolor9,
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -167,8 +158,8 @@ class SplashScreen3 extends StatelessWidget {
                   Text(
                     "Take care of health...",
                     textAlign: TextAlign.left,
-                    style:
-                        titleText30.copyWith(color: Colors.white, fontSize: 24),
+                    style: kText16Medium_1.copyWith(
+                        color: Colors.white, fontSize: 24),
                   ),
                   SizedBox(
                     height: 69.h,
@@ -192,7 +183,7 @@ class SplashScreen3 extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'CONTINUE',
-                        style: titleText30.copyWith(
+                        style: kText20Bold_13.copyWith(
                             color: Colors.white, fontSize: 16),
                       ),
                     ),
@@ -212,7 +203,7 @@ class SplashScreen3 extends StatelessWidget {
                     },
                     child: Text(
                       'Skip',
-                      style: defaultText20.copyWith(
+                      style: kText16Medium_1.copyWith(
                           color: Colors.white, fontSize: 14),
                     ),
                   ),
@@ -232,7 +223,7 @@ class SplashScreen4 extends StatelessWidget {
     // You have to call it on your starting screen
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: splashBGColor,
+      backgroundColor: dtcolor1,
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -243,8 +234,8 @@ class SplashScreen4 extends StatelessWidget {
                   Text(
                     "Welcome to COWIN",
                     textAlign: TextAlign.center,
-                    style:
-                        titleText30.copyWith(color: Colors.white, fontSize: 30),
+                    style: kText16Medium_1.copyWith(
+                        color: Colors.white, fontSize: 30),
                   ),
                   SizedBox(
                     height: 6.h,
@@ -252,7 +243,7 @@ class SplashScreen4 extends StatelessWidget {
                   Text(
                     "Stay safe and get up to dates announcement city authorities.",
                     textAlign: TextAlign.center,
-                    style: defaultText20.copyWith(
+                    style: kText16Medium_1.copyWith(
                         color: Colors.white, fontSize: 16),
                   ),
                   SizedBox(
@@ -277,7 +268,7 @@ class SplashScreen4 extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'GET START',
-                        style: titleText30.copyWith(
+                        style: kText16Medium_1.copyWith(
                             color: Colors.white, fontSize: 16),
                       ),
                     ),
@@ -291,7 +282,7 @@ class SplashScreen4 extends StatelessWidget {
                       width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: mainColor,
+                        color: dtcolor1,
                         border: Border.all(
                           color: Colors.white,
                         ),

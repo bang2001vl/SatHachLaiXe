@@ -9,6 +9,7 @@ import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import '../SQLite/quizSQLite.dart';
+import 'Test/result_screen.dart';
 
 class QuizPage extends StatefulWidget {
   QuizPage(
@@ -60,7 +61,8 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
     _timer.cancel();
     super.dispose();
   }
@@ -122,7 +124,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
           Text(
             widget.title,
-            style: buttonText.copyWith(fontSize: 22.h),
+            style: kText22Bold_13.copyWith(fontSize: 22.h),
           ),
         ],
       ),
@@ -194,13 +196,10 @@ class _QuizPageState extends State<QuizPage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text('Câu ' + (_currentQuesIndex + 1).toString(),
-                style: textfieldStyle.copyWith(
+                style: kText24Normal_13.copyWith(
                     fontSize: 24.h, color: Colors.white)),
             Text('/' + widget.quizlist.length.toString(),
-                style: textfieldStyle.copyWith(
-                    fontSize: 18.h,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400)),
+                style: kText18Medium_13),
           ],
         ),
         Stack(
@@ -216,15 +215,13 @@ class _QuizPageState extends State<QuizPage> {
                   width: 5,
                 ),
                 Text(
-                  _timeLeft.inMinutes.toString().padLeft(2, '0') +
-                      ':' +
-                      _timeLeft.inSeconds
-                          .remainder(60)
-                          .toString()
-                          .padLeft(2, '0'),
-                  style: textfieldStyle.copyWith(
-                      fontSize: 16.h, color: Colors.white),
-                ),
+                    _timeLeft.inMinutes.toString().padLeft(2, '0') +
+                        ':' +
+                        _timeLeft.inSeconds
+                            .remainder(60)
+                            .toString()
+                            .padLeft(2, '0'),
+                    style: kText16Normal_13),
               ],
             ),
           ],
@@ -234,28 +231,28 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Widget buildAnswer(String content, int index) {
-    var primecolor = defaultAnsColor;
+    var primecolor = dtcolor11;
     String iconPath = 'assets/icons/quiz_check_unselected.svg';
 
     if (_mode == 0) {
       if (_currentSelectedAnswerIndex == index) {
         // Selected
-        primecolor = mainColor;
+        primecolor = dtcolor1;
         iconPath = 'assets/icons/quiz_check_selected.svg';
       }
     } else if (_mode == 1) {
       if (getCorrectIndex(_currentQuesIndex) == index) {
         // Correct
-        primecolor = correctAnsColor;
+        primecolor = dtcolor5;
       }
       if (selectedAnswer[_currentQuesIndex] == index) {
         if (getCorrectIndex(_currentQuesIndex) != index) {
           // Wrong
-          primecolor = wrongAnsColor;
+          primecolor = dtcolor4;
           iconPath = 'assets/icons/quiz_check_wrong.svg';
         } else {
           // Correct
-          primecolor = correctAnsColor;
+          primecolor = dtcolor5;
           iconPath = 'assets/icons/quiz_check_correct.svg';
         }
       }
@@ -279,7 +276,7 @@ class _QuizPageState extends State<QuizPage> {
             Expanded(
               child: Text(
                 content,
-                style: textfieldStyle.copyWith(
+                style: kText16Normal_14.copyWith(
                     color: primecolor, fontSize: widget.txtSizeAnswer),
               ),
             ),
@@ -323,7 +320,7 @@ class _QuizPageState extends State<QuizPage> {
                   top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
               child: Text(
                 quiz.question,
-                style: textfieldStyle.copyWith(
+                style: kText16Normal_13.copyWith(
                   color: Colors.black,
                   fontSize: 20.h,
                 ),
@@ -349,20 +346,24 @@ class _QuizPageState extends State<QuizPage> {
                     iconSize: 50.h,
                     icon: SvgPicture.asset('assets/icons/previousButton.svg')),
                 GestureDetector(
-                    child: Container(
-                      height: 50.h,
-                      width: 200.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(38),
-                        color: mainColor,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'NỘP BÀI',
-                        style: buttonText,
-                      ),
+                  child: Container(
+                    height: 50.h,
+                    width: 200.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(38),
+                      color: dtcolor1,
                     ),
-                    onTap: onPressSubmit),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'NỘP BÀI',
+                      style: kText22Bold_13,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ResultTest()));
+                  },
+                ),
                 IconButton(
                     onPressed: onPressNext,
                     iconSize: 50.h,
@@ -377,7 +378,8 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return SafeArea(
+        child: Stack(
       children: [
         Image.asset('assets/icons/blue_bg.png',
             height: MediaQuery.of(context).size.height,
@@ -407,6 +409,6 @@ class _QuizPageState extends State<QuizPage> {
           ),
         )
       ],
-    );
+    ));
   }
 }

@@ -29,17 +29,10 @@ class RegisterScreen extends StatelessWidget {
                   Text(
                     'Đăng ký',
                     textAlign: TextAlign.center,
-                    style: titleText40,
+                    style: kText40Bold_3,
                   ),
-                  Text(
-                    'Tạo tài khoản của bạn.',
-                    textAlign: TextAlign.center,
-                    style: defaultText20.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: ScreenUtil().setSp(20),
-                      color: loginSubTextColor,
-                    ),
-                  ),
+                  Text('Tạo tài khoản của bạn.',
+                      textAlign: TextAlign.center, style: kText20Medium_10),
                   SizedBox(
                     height: 40.h,
                   ),
@@ -49,10 +42,10 @@ class RegisterScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.person,
-                          color: cwColor5,
+                          color: dtcolor3,
                         ),
                         hintText: "Email",
-                        hintStyle: textfieldStyle,
+                        hintStyle: kText16Medium_1,
                         border: InputBorder.none,
                       ),
                     ),
@@ -65,10 +58,10 @@ class RegisterScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.lock,
-                          color: mainColor,
+                          color: dtcolor1,
                         ),
                         hintText: "Mật khẩu",
-                        hintStyle: textfieldStyle,
+                        hintStyle: kText16Medium_1,
                         border: InputBorder.none,
                       ),
                     ),
@@ -81,10 +74,10 @@ class RegisterScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.lock,
-                          color: cwColor5,
+                          color: dtcolor3,
                         ),
                         hintText: "Nhập lại mật khẩu",
-                        hintStyle: textfieldStyle,
+                        hintStyle: kText16Medium_1,
                         border: InputBorder.none,
                       ),
                     ),
@@ -96,36 +89,24 @@ class RegisterScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: "Bằng việc đăng ký, bạn đã đồng ý với\n",
-                      style: defaultText18.copyWith(
-                        fontWeight: FontWeight.w400,
-                        fontSize: ScreenUtil().setSp(14),
-                      ),
+                      style: kText14Normal_10,
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Điều khoản dịch vụ ',
-                          style: textfieldStyle.copyWith(
+                          style: kText16Medium_1.copyWith(
                             fontSize: ScreenUtil().setSp(14),
                           ),
                         ),
                         TextSpan(
                           text: 'và ',
-                          style: defaultText18.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: ScreenUtil().setSp(14),
-                          ),
+                          style: kText14Normal_10,
                         ),
                         TextSpan(
-                          text: 'Chính sách riêng tư',
-                          style: textfieldStyle.copyWith(
-                            fontSize: ScreenUtil().setSp(14),
-                          ),
-                        ),
+                            text: 'Chính sách riêng tư',
+                            style: kText14Normal_10),
                         TextSpan(
                           text: '\n của chúng tôi.',
-                          style: defaultText18.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: ScreenUtil().setSp(14),
-                          ),
+                          style: kText14Normal_10,
                         ),
                       ],
                     ),
@@ -139,12 +120,12 @@ class RegisterScreen extends StatelessWidget {
                       width: 350,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
-                        color: mainColor,
+                        color: dtcolor1,
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         'ĐĂNG KÝ',
-                        style: buttonText,
+                        style: kText24Bold_13,
                       ),
                     ),
                     onTap: () {
@@ -159,7 +140,7 @@ class RegisterScreen extends StatelessWidget {
                       Text(
                         "Đã có tài khoản?",
                         textAlign: TextAlign.center,
-                        style: defaultText18,
+                        style: kText18Bold_9,
                       ),
                       TextButton(
                         onPressed: () {
@@ -168,14 +149,7 @@ class RegisterScreen extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => LoginScreen()));
                         },
-                        child: Text(
-                          'Đăng nhập',
-                          style: defaultText20.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setSp(18),
-                            color: wrongAnsColor,
-                          ),
-                        ),
+                        child: Text('Đăng nhập', style: kText18Bold_4),
                       ),
                     ],
                   ),

@@ -30,19 +30,14 @@ class ProfileScreen extends StatelessWidget {
                   Text(
                     'Thông tin cá nhân',
                     textAlign: TextAlign.center,
-                    style: titleText40,
+                    style: kText40Bold_3,
                   ),
                   Padding(
                     padding: EdgeInsets.all(5.h),
                     child: Text(
-                      'Vui lòng nhập chính xác thông tin cá nhân',
-                      textAlign: TextAlign.center,
-                      style: defaultText18.copyWith(
-                        fontWeight: FontWeight.w400,
-                        fontSize: ScreenUtil().setSp(18),
-                        color: loginSubTextColor,
-                      ),
-                    ),
+                        'Vui lòng nhập chính xác thông tin cá nhân',
+                        textAlign: TextAlign.center,
+                        style: kText20Medium_10),
                   ),
                   SizedBox(
                     height: 30.h,
@@ -55,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Họ tên',
-                          style: textfieldStyle,
+                          style: kText16Medium_1,
                         ),
                         SizedBox(
                           height: 11.h,
@@ -67,10 +62,7 @@ class ProfileScreen extends StatelessWidget {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              prefixIcon: Icon(
-                                Icons.person,
-                                color: mainColor,
-                              ),
+                              prefixIcon: Icon(Icons.person, color: dtcolor1),
                             ),
                           ),
                         ),
@@ -85,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Ngày sinh',
-                          style: textfieldStyle,
+                          style: kText16Medium_1,
                         ),
                         SizedBox(
                           height: 11.h,
@@ -99,11 +91,11 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               prefixIcon: Icon(
                                 Icons.cake,
-                                color: mainColor,
+                                color: dtcolor1,
                               ),
                               suffixIcon: Icon(
                                 Icons.calendar_today_outlined,
-                                color: loginSubTextColor,
+                                color: dtcolor10,
                               ),
                             ),
                           ),
@@ -119,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Số điện thoại',
-                          style: textfieldStyle,
+                          style: kText16Medium_1,
                         ),
                         SizedBox(
                           height: 11.h,
@@ -133,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               prefixIcon: Icon(
                                 Icons.phone,
-                                color: mainColor,
+                                color: dtcolor1,
                               ),
                             ),
                           ),
@@ -147,7 +139,7 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Giới tính', style: textfieldStyle),
+                        Text('Giới tính', style: kText16Medium_1),
                         SizedBox(
                           height: 11.h,
                         ),
@@ -160,7 +152,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               prefixIcon: Icon(
                                 Icons.pending_outlined,
-                                color: mainColor,
+                                color: dtcolor1,
                               ),
                             ),
                           ),
@@ -177,10 +169,10 @@ class ProfileScreen extends StatelessWidget {
                       width: 350.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
-                        color: mainColor,
+                        color: dtcolor1,
                       ),
                       alignment: Alignment.center,
-                      child: Text('HOÀN TẤT', style: buttonText),
+                      child: Text('HOÀN TẤT', style: kText24Bold_13),
                     ),
                   ),
                 ],
