@@ -12,7 +12,6 @@ import '../quizUI.dart';
 import '../Test/test_list.dart';
 import 'package:sathachlaixe/UI/Login/login_screen.dart';
 
-
 class HomeScreen extends StatelessWidget {
   Future<List<QuizBaseDB>> getQuizList(List<int> questionIDs) async {
     List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
@@ -113,39 +112,11 @@ class HomeScreen extends StatelessWidget {
                                 builder: (context) => TestList()));
                       },
                     ),
-
-                        InkWell(
-                          child: HomeCategory(
-                            title: "Ôn tập lý thuyết",
-                            svgSrc: "assets/icons/ic_assignment.svg",
-                          ),
-                        ),
-                        InkWell(
-                          child: HomeCategory(
-                            title: "Ôn tập nhanh",
-                            svgSrc: "assets/icons/ic_shuffle.svg",
-                          ),
-                        ),
-                        InkWell(
-                          child: HomeCategory(
-                            title: "Biển báo",
-                            svgSrc: "assets/icons/ic_board.svg",
-                          ),
-                        ),
-                        InkWell(
-                          child: HomeCategory(
-                            title: "Câu hay sai",
-                            svgSrc: "assets/icons/ic_fail.svg",
-                          ),
-                        ),
-                        InkWell(
-                          child: HomeCategory(
-                            title: "Mẹo thi",
-                            svgSrc: "assets/icons/ic_tips.svg",
-                          ),
-                        ),
-                      ],
-
+                    InkWell(
+                      child: HomeCategory(
+                        title: "Ôn tập lý thuyết",
+                        svgSrc: "assets/icons/ic_assignment.svg",
+                      ),
                     ),
                     InkWell(
                       child: HomeCategory(
