@@ -26,16 +26,9 @@ class LoginScreen extends StatelessWidget {
                   child: Image.asset('assets/images/login.png'),
                 ),
                 Text('Đăng nhập',
-                    textAlign: TextAlign.center, style: titleText40),
-                Text(
-                  'Đăng nhập tài khoản của bạn.',
-                  textAlign: TextAlign.center,
-                  style: defaultText20.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: ScreenUtil().setSp(20),
-                    color: loginSubTextColor,
-                  ),
-                ),
+                    textAlign: TextAlign.center, style: kText40Bold_3),
+                Text('Đăng nhập tài khoản của bạn.',
+                    textAlign: TextAlign.center, style: kText20Medium_10),
                 SizedBox(
                   height: 30.h,
                 ),
@@ -44,10 +37,10 @@ class LoginScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
-                        color: mainColor,
+                        color: dtcolor1,
                       ),
                       hintText: "Email",
-                      hintStyle: textfieldStyle,
+                      hintStyle: kText16Medium_1,
                       border: InputBorder.none,
                     ),
                   ),
@@ -61,10 +54,10 @@ class LoginScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.lock,
-                        color: mainColor,
+                        color: dtcolor1,
                       ),
                       hintText: "Mật khẩu",
-                      hintStyle: textfieldStyle,
+                      hintStyle: kText16Medium_1,
                       border: InputBorder.none,
                     ),
                   ),
@@ -94,12 +87,7 @@ class LoginScreen extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => ForgotPassScreen()));
                       },
-                      child: Text(
-                        'Quên mật khẩu?',
-                        style: textfieldStyle.copyWith(
-                          fontSize: ScreenUtil().setSp(16),
-                        ),
-                      ),
+                      child: Text('Quên mật khẩu?', style: kText16Medium_1),
                     ),
                   ],
                 ),
@@ -112,12 +100,12 @@ class LoginScreen extends StatelessWidget {
                     width: 340.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(38),
-                      color: mainColor,
+                      color: dtcolor1,
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       'ĐĂNG NHẬP',
-                      style: buttonText,
+                      style: kText22Bold_13,
                     ),
                   ),
                   onTap: () {
@@ -132,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                     Text(
                       "Chưa có tài khoản?",
                       textAlign: TextAlign.center,
-                      style: defaultText18,
+                      style: kText18Bold_9,
                     ),
                     TextButton(
                       onPressed: () {
@@ -141,14 +129,7 @@ class LoginScreen extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => RegisterScreen()));
                       },
-                      child: Text(
-                        'Đăng ký!',
-                        style: defaultText20.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(18),
-                          color: wrongAnsColor,
-                        ),
-                      ),
+                      child: Text('Đăng ký!', style: kText18Bold_4),
                     ),
                   ],
                 ),

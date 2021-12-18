@@ -38,40 +38,21 @@ class SuccessfulScreen extends StatelessWidget {
                       SizedBox(
                         width: 14.w,
                       ),
-                      Text(
-                        'Đăng ký thành công!',
-                        style: defaultText20.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(22),
-                          color: Colors.black,
-                        ),
-                      ),
+                      Text('Đăng ký thành công!', style: kText22Bold_13),
                     ],
                   ),
                   SizedBox(
                     height: 25.h,
                   ),
-                  Text(
-                    'Chào mừng bạn đến \n với E-Drive',
-                    textAlign: TextAlign.left,
-                    style: defaultText20.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(35),
-                      color: mainColor,
-                    ),
-                  ),
+                  Text('Chào mừng bạn đến \n với E-Drive',
+                      textAlign: TextAlign.left, style: kText35Bold_1),
                   SizedBox(
                     height: 12.h,
                   ),
                   Text(
-                    'Cập nhật thông tin cá nhân để có trải\nnghiệm tốt nhất!',
-                    textAlign: TextAlign.left,
-                    style: defaultText20.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: ScreenUtil().setSp(20),
-                      color: loginSubTextColor,
-                    ),
-                  ),
+                      'Cập nhật thông tin cá nhân để có trải\nnghiệm tốt nhất!',
+                      textAlign: TextAlign.left,
+                      style: kText20Medium_10),
                   SizedBox(
                     height: 13.h,
                   ),
@@ -89,17 +70,10 @@ class SuccessfulScreen extends StatelessWidget {
                       width: 350.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: mainColor,
+                        color: dtcolor1,
                       ),
                       alignment: Alignment.center,
-                      child: Text(
-                        'BẮT ĐẦU',
-                        style: defaultText20.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(20),
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: Text('BẮT ĐẦU', style: kText20Bold_13),
                     ),
                     onTap: () {
                       Navigator.push(

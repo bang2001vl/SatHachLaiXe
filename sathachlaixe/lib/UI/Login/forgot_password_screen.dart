@@ -30,17 +30,10 @@ class ForgotPassScreen extends StatelessWidget {
                   Text(
                     'Quên mật khẩu',
                     textAlign: TextAlign.center,
-                    style: titleText40,
+                    style: kText40Bold_3,
                   ),
-                  Text(
-                    'Nhập email bạn đã đăng ký.',
-                    textAlign: TextAlign.left,
-                    style: defaultText20.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: ScreenUtil().setSp(20),
-                      color: loginSubTextColor,
-                    ),
-                  ),
+                  Text('Nhập email bạn đã đăng ký.',
+                      textAlign: TextAlign.left, style: kText20Medium_10),
                   SizedBox(
                     height: 50.h,
                   ),
@@ -54,7 +47,7 @@ class ForgotPassScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Email', style: textfieldStyle),
+                      Text('Email', style: kText16Medium_1),
                       SizedBox(
                         height: 11.h,
                       ),
@@ -67,7 +60,7 @@ class ForgotPassScreen extends StatelessWidget {
                             ),
                             prefixIcon: Icon(
                               Icons.phone,
-                              color: mainColor,
+                              color: dtcolor1,
                             ),
                           ),
                         ),
@@ -84,10 +77,10 @@ class ForgotPassScreen extends StatelessWidget {
                       width: 340.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
-                        color: mainColor,
+                        color: dtcolor1,
                       ),
                       alignment: Alignment.center,
-                      child: Text('GỬI OTP', style: buttonText),
+                      child: Text('GỬI OTP', style: kText22Bold_13),
                     ),
                     onTap: () {
                       Navigator.push(context,
