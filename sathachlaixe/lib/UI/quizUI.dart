@@ -442,9 +442,15 @@ class _QuizPageState extends State<QuizPage> {
           Image.network(
             quiz.imageurl,
             errorBuilder: (c, o, s) {
-              return const Text(
-                'Không tìm thấy ảnh',
-                style: TextStyle(color: Colors.red),
+              return Image.network(
+                "https://i-vnexpress.vnecdn.net/2020/09/01/q@.png"
+                    .replaceAll("@", quiz.id.toString()),
+                errorBuilder: (c, o, s) {
+                  return const Text(
+                    'Không tìm thấy ảnh',
+                    style: TextStyle(color: Colors.red),
+                  );
+                },
               );
             },
           ));
