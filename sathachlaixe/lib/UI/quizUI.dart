@@ -208,14 +208,12 @@ class _QuizPageState extends State<QuizPage> {
           _submit(context);
         }
       });
+    } else {
+      _submit(context);
     }
-
-    _submit(context);
   }
 
-  void _submit(
-    context,
-  ) {
+  void _submit(context) {
     var history = _saveHistory(true);
     QuizState quizState =
         QuizState(historyModel: history, listQuestion: widget.quizlist);
@@ -225,7 +223,7 @@ class _QuizPageState extends State<QuizPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => resultView))
         .then((value) {
       if (value == ResultTest.RESULT_CANCEL) {
-        Navigator.pop(context, "Cancel");
+        Navigator.pop(this.context, "Cancel");
       } else if (value == ResultTest.RESULT_REVIEW) {
         _changeToReviewMode();
       }

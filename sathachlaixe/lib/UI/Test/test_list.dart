@@ -19,47 +19,99 @@ import 'package:sathachlaixe/singleston/repository.dart';
 import '../quizUI.dart';
 
 class TestList extends StatelessWidget {
-  List<HistoryModel> getList() {
-    List<HistoryModel> _testList = [];
-    repository.getHistory().then((value) {
-      value.forEach((item) => _testList.add(item));
-      return _testList;
-    });
-    return _testList;
+  Widget buildWithBloc(BuildContext context) {
+    return FutureBuilder<List<HistoryModel>>(
+        future: repository.getHistory(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            return buildContent(context, snapshot.data!);
+          }
+
+          if (snapshot.hasError) {
+            return buildError(context, snapshot.error!);
+          }
+
+          return buildLoading(context);
+        });
   }
 
-  Future<List<QuizBaseDB>> getQuizList(List<int> questionIDs) async {
-    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
-    var db = QuizDB();
-    for (int i = 0; i < questionIDs.length; i++) {
-      quizs.add(await db.findQuizById(questionIDs[i]));
-    }
-    return quizs;
+  Widget buildError(BuildContext context, Object error) {
+    return Text("Có lỗi xảy ra");
   }
 
-  void onPressTest(
-      BuildContext context, String title, HistoryModel lastestHistory) {
-    getQuizList(lastestHistory.questionIds_int).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return QuizPage(
-              title: title,
-              quizlist: value,
-              topicId: lastestHistory.topicID,
-              timeLimit: repository.getTimeLimit(),
-            );
-          },
+  Widget buildLoading(BuildContext context) {
+    return Text("Đang tải...");
+  }
+
+  void onPressTest(BuildContext context, HistoryModel lastestHistory) {
+    if (lastestHistory.isFinished || !lastestHistory.hasStarted) {
+      beginQuiz(context, lastestHistory);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Chưa hoàn thành"),
+          content: const Text("Bạn có muốn tiếp tục lần thi trước?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 1),
+              child: const Text('Làm lại'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 2),
+              child: const Text('Tiếp tục'),
+            ),
+          ],
         ),
-      );
-    });
+      ).then((value) {
+        if (value == 1) {
+          if (lastestHistory.isRandomTopic()) {
+            beginQuiz(context, repository.getRandomTopic());
+          } else {
+            beginQuiz(context, lastestHistory);
+          }
+        } else if (value == 2) {
+          resumeQuiz(context, lastestHistory);
+        }
+      });
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void resumeQuiz(context, HistoryModel history) async {
+    var quizlist = await history.getQuizList();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return QuizPage.fromHistory(history,
+              title: "Đề " + history.topicID.toString(), quizlist: quizlist);
+        },
+      ),
+    );
+  }
+
+  void beginQuiz(context, HistoryModel history) async {
+    var quizlist = await history.getQuizList();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return QuizPage(
+            title: history.isRandomTopic()
+                ? "Đề ngẫu nhiên"
+                : "Đề " + history.topicID.toString(),
+            quizlist: quizlist,
+            topicId: history.topicID,
+            timeLimit: repository.getTimeLimit(),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildContent(context, List<HistoryModel> testList) {
     var size = MediaQuery.of(context).size;
-    List<HistoryModel> testList = getList();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -84,7 +136,7 @@ class TestList extends StatelessWidget {
                     IconButton(
                       onPressed: () {
                         var topic = repository.getRandomTopic();
-                        onPressTest(context, "Đề ngẫu nhiên", topic);
+                        onPressTest(context, topic);
                       },
                       iconSize: 35.h,
                       icon: SvgPicture.asset('assets/icons/shuffle.svg'),
@@ -103,11 +155,15 @@ class TestList extends StatelessWidget {
                       return InkWell(
                         child: TestComponent(
                           isPassed: item.isPassed,
-                          title: "ĐỀ SỐ " + index.toString(),
+                          title: item.isRandomTopic()
+                              ? "ĐỀ NGẪU NHIÊN"
+                              : "ĐỀ SỐ " + index.toString(),
                           totalQues: item.count,
                           trueQues: item.countCorrect(),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          onPressTest(context, item);
+                        },
                       );
                     },
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -124,5 +180,10 @@ class TestList extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return buildWithBloc(context);
   }
 }
