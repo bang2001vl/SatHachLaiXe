@@ -35,6 +35,8 @@ class TestList extends StatelessWidget {
               return QuizPage(
                 title: 'Test Quiz',
                 quizlist: value,
+                topicId: 1,
+                timeLimit: Duration(minutes: 30),
               );
             },
           ),
