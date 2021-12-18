@@ -30,29 +30,15 @@ class OtpScreen extends StatelessWidget {
                   Text(
                     'Mã xác thực',
                     textAlign: TextAlign.center,
-                    style: titleText40,
+                    style: kText40Bold_3,
                   ),
                   SizedBox(
                     height: 16.h,
                   ),
-                  Text(
-                    'Mã xác thực được gửi đến',
-                    textAlign: TextAlign.center,
-                    style: defaultText20.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: ScreenUtil().setSp(20),
-                      color: loginSubTextColor,
-                    ),
-                  ),
-                  Text(
-                    "******5945",
-                    textAlign: TextAlign.center,
-                    style: defaultText20.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(28),
-                      color: Colors.black,
-                    ),
-                  ),
+                  Text('Mã xác thực được gửi đến',
+                      textAlign: TextAlign.center, style: kText20Medium_10),
+                  Text("******5945",
+                      textAlign: TextAlign.center, style: kText28Bold_14),
                   SizedBox(
                     height: 40.h,
                   ),
@@ -79,19 +65,13 @@ class OtpScreen extends StatelessWidget {
                       Text(
                         "Chưa nhận được mã?",
                         textAlign: TextAlign.center,
-                        style: defaultText18.copyWith(
+                        style: kText18Bold_9.copyWith(
                           fontSize: ScreenUtil().setSp(17),
                         ),
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: Text(
-                          'GỬI LẠI (112)',
-                          style: textfieldStyle.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setSp(18),
-                          ),
-                        ),
+                        child: Text('GỬI LẠI (112)', style: kText18Bold_3),
                       ),
                     ],
                   ),
@@ -104,12 +84,12 @@ class OtpScreen extends StatelessWidget {
                       width: 350.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(38),
-                        color: mainColor,
+                        color: dtcolor1,
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         'XÁC NHẬN',
-                        style: buttonText,
+                        style: kText22Bold_13,
                       ),
                     ),
                     onTap: () {
@@ -142,11 +122,7 @@ class TextFieldOTP extends StatelessWidget {
           textAlign: TextAlign.center,
           showCursor: false,
           readOnly: false,
-          style: defaultText20.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: ScreenUtil().setSp(35),
-            color: mainColor,
-          ),
+          style: kText35Bold_1,
           keyboardType: TextInputType.number,
           maxLength: 1,
           decoration: InputDecoration(
@@ -155,7 +131,7 @@ class TextFieldOTP extends StatelessWidget {
                 borderSide: BorderSide(width: 2, color: Colors.black12),
                 borderRadius: BorderRadius.circular(10)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: cwColor5),
+                borderSide: BorderSide(width: 2, color: dtcolor3),
                 borderRadius: BorderRadius.circular(10)),
           ),
         ),

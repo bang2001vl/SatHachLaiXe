@@ -16,7 +16,7 @@ class TextFieldContainer extends StatelessWidget {
       height: 63.h,
       width: 370.w,
       decoration: BoxDecoration(
-        color: textBoxBGColor,
+        color: dtcolor8,
         borderRadius: BorderRadius.circular(10),
       ),
       child: child,
@@ -37,14 +37,7 @@ class TextFieldWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: defaultText20.copyWith(
-            fontWeight: FontWeight.w600,
-            fontSize: ScreenUtil().setSp(16),
-            color: mainColor,
-          ),
-        ),
+        Text(label, style: kText16Medium_1),
         SizedBox(
           height: 11.h,
         ),
