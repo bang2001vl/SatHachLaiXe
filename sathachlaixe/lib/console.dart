@@ -34,10 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void _test() async {
     var l = await repository.getHistory();
-    log(l.length.toString());
-
-    var r = repository.getRandomTopic();
-    log(r.toString());
+    var la = await repository.getAllFinishedHistory();
   }
 
   @override

@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
-  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
   runApp(MyApp());
 }
 
@@ -21,51 +20,12 @@ class MyApp extends StatelessWidget {
     return quizs;
   }
 
-  Widget startQuiz(List quizIds) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    return FutureBuilder(
-      future: getQuizList(quizIds),
-      builder: (c, s) {
-        if (s.connectionState == ConnectionState.done) {
-          var data = s.data! as List<QuizBaseDB>;
-          debugPrint('length = ' + data.length.toString());
-          return QuizPage(
-            title: 'Flutter Demo Home Page',
-            quizlist: data,
-          );
-        }
-
-        return Column(children: const [
-          Center(
-            child: const CircularProgressIndicator(),
-          ),
-        ]);
-      },
-    );
-  }
-
-  Widget test() {
-    QuizDB db = new QuizDB();
-    return FutureBuilder(
-      future: db.ensureDB(),
-      builder: (c, s) {
-        if (s.connectionState == ConnectionState.done) {
-          return startQuiz(List.generate(30, (index) => index + 3));
-        }
-
-        return Column(children: const [
-          Center(
-            child: const CircularProgressIndicator(),
-          ),
-        ]);
-      },
-    );
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -87,15 +47,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<List<QuizBaseDB>> getQuizList(List questionIDs) async {
-    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
-    var db = QuizDB();
-    for (int i = 0; i < questionIDs.length; i++) {
-      quizs.add(await db.findQuizById(questionIDs[i]));
-    }
-    return quizs;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

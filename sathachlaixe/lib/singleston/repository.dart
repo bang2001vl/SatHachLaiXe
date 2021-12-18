@@ -9,12 +9,24 @@ class RepositoryGL {
     return AppConfig().mode.getHistoryList();
   }
 
+  Future<List<HistoryModel>> getAllFinishedHistory() {
+    return HistoryController().getAllFinishedHistory();
+  }
+
   HistoryModel getRandomTopic() {
     return AppConfig().mode.randomHistory();
   }
 
   Future<int> insertHistory(HistoryModel data) {
     return HistoryController().insertHistory(data);
+  }
+
+  bool checkPassed(HistoryModel data) {
+    return AppConfig().mode.checkResult(data);
+  }
+
+  Duration getTimeLimit() {
+    return AppConfig().mode.duration;
   }
 }
 
