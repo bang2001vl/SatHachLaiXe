@@ -48,27 +48,13 @@ class ModeScreen extends StatelessWidget {
                   ),
                   Container(
                     alignment: Alignment.centerRight,
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     width: 250.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: dtcolor1, width: 2.w),
                     ),
-                    child: DropdownButton<String>(
-                        value: value,
-                        isExpanded: true,
-                        iconSize: 36.h,
-                        items: ["B1", "B2"]
-                            .map((label) => DropdownMenuItem(
-                                  child: Text(
-                                    label,
-                                    style: kText20Medium_1,
-                                  ),
-                                  value: label,
-                                ))
-                            .toList(),
-                        onChanged: (newvalue) {
-                          this.value = newvalue;
-                        }),
+                    child: new MyDropDown(),
                   ),
                   SizedBox(
                     height: 80.h,
@@ -91,6 +77,35 @@ class ModeScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MyDropDown extends StatefulWidget {
+  MyDropDown();
+
+  @override
+  _MyDropDownState createState() => _MyDropDownState();
+}
+
+class _MyDropDownState extends State<MyDropDown> {
+  String? selected;
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<String>(
+      value: selected,
+      items: ["B1", "B2"]
+          .map((label) => DropdownMenuItem(
+                child: Text(
+                  label,
+                  style: kText20Medium_1,
+                ),
+                value: label,
+              ))
+          .toList(),
+      onChanged: (value) {
+        setState(() => selected = value!);
+      },
     );
   }
 }
