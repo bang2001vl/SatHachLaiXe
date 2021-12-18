@@ -41,7 +41,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void _test(BuildContext context) async {
     var l = await repository.getHistory();
-    var la = await repository.getAllFinishedHistory();
     var rand = l[0];
     onPressTest(context, "Random topic", rand);
   }
