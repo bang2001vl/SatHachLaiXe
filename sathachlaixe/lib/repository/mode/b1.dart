@@ -76,6 +76,12 @@ class B1Mode extends BMode implements BaseMode {
   @override
   Future<List<HistoryModel>> getHistoryList() async {
     Map<int, HistoryModel> m = Map();
+
+    var historyRandTopic = await HistoryController().getLastestHistory(0);
+    if (historyRandTopic.isNotEmpty) {
+      m[0] = historyRandTopic.first;
+    }
+
     for (int i = 0; i < _topics.keys.length; i++) {
       var key = _topics.keys.elementAt(i);
       var value = _topics.values.elementAt(i);

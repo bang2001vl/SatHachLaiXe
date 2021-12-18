@@ -3,37 +3,51 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/state/quiz.dart';
 import '../SQLite/quizSQLite.dart';
 import 'Test/result_screen.dart';
 
 class QuizPage extends StatefulWidget {
-  QuizPage({
-    Key? key,
-    required this.title,
-    required this.quizlist,
-    required this.topicId,
-    required this.timeLimit,
-  }) : super(key: key) {
+  QuizPage(
+      {Key? key,
+      required this.title,
+      required this.quizlist,
+      required this.topicId,
+      required this.timeLimit,
+      this.history = null})
+      : super(key: key) {
     timeEnd = DateTime.now().add(timeLimit);
   }
 
-  final String title;
-  final int topicId;
-  final List<QuizBaseDB> quizlist;
+  QuizPage.fromHistory(
+    HistoryModel history, {
+    Key? key,
+    required this.title,
+    required this.quizlist,
+  }) : super(key: key) {
+    topicId = history.topicID;
+    timeLimit = repository.getTimeLimit();
+    timeEnd = DateTime.now().add(timeLimit);
+    this.history = history;
+  }
 
   final double txtSizeQues = 20.h;
   final double txtSizeAnswer = 16.h;
 
-  final Duration timeLimit;
+  final String title;
+  final List<QuizBaseDB> quizlist;
 
+  late final int topicId;
+  late final Duration timeLimit;
   late final DateTime timeEnd;
+
+  late final HistoryModel? history;
 
   @override
   _QuizPageState createState() {
@@ -51,11 +65,35 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _reset() {
+    if (widget.history != null && widget.history!.hasStarted) {
+      _resume(widget.history as HistoryModel);
+      return;
+    }
+
     _timeLeft = Duration(seconds: widget.timeLimit.inSeconds);
     _currentQuesIndex = 0;
-    _currentSelectedAnswerIndex = -1;
+    _currentSelectedAnswerIndex = 0;
     _mode = 0;
+    selectedAnswer = List.filled(widget.quizlist.length, 0);
 
+    _startTimer();
+  }
+
+  void _resume(HistoryModel history) {
+    _timeLeft = history.timeLeft;
+    _currentQuesIndex = 0;
+    selectedAnswer = List.of(history.selectedAns_int);
+    _currentSelectedAnswerIndex = selectedAnswer[0];
+    if (history.isFinished) {
+      _mode = 1;
+    } else {
+      _mode = 0;
+      _startTimer();
+    }
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
     _timer = new Timer.periodic(
       const Duration(seconds: 1),
       (Timer timer) {
@@ -63,47 +101,110 @@ class _QuizPageState extends State<QuizPage> {
           _timeLeft = _timeLeft - const Duration(seconds: 1);
         });
         if (_timeLeft.isNegative) {
-          _timer.cancel();
-          onPressSubmit();
+          _onPressSubmit(this.context);
         }
       },
     );
-    selectedAnswer = List.filled(widget.quizlist.length, -1);
   }
 
   int _currentQuesIndex = 0;
   int _currentSelectedAnswerIndex = -1;
   int _mode = 0; // Mode 0 is test, 1 is review
   Duration _timeLeft = Duration(minutes: 30); // 30min
-  late Timer _timer;
-  late List selectedAnswer = List.filled(widget.quizlist.length, -1);
+  Timer? _timer;
+  late List selectedAnswer;
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 
-  int getCorrectIndex(int index) {
-    return widget.quizlist[index].correct - 1;
+  int _getCorrectIndex(int index) {
+    return widget.quizlist[index].correct;
   }
 
-  void onPressBack(BuildContext context) {
-    Navigator.pop(context);
+  void _onPressBack(BuildContext context) {
+    if (_mode == 1) {
+      Navigator.pop(context, 'Cancel');
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Tạm dừng"),
+          content: const Text("Bạn có muốn tạm dừng để tiếp tục lần tới?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Không'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Ok'),
+              child: const Text('Có'),
+            ),
+          ],
+        ),
+      ).then((value) {
+        if (value == "Ok") {
+          _onPressPause(context);
+        } else if (value == "Cancel") {
+          Navigator.pop(context, 'Cancel');
+        }
+      });
+    }
   }
 
-  void onPressNext() {
-    changeCurrentIndex(_currentQuesIndex + 1);
+  void _onPressPause(context) {
+    _saveHistory(false);
+    Navigator.pop(context, 'Pause');
   }
 
-  void onPressPrevious() {
-    changeCurrentIndex(_currentQuesIndex - 1);
+  void _onPressAnswer(index) {
+    setState(() {
+      _currentSelectedAnswerIndex = index;
+      selectedAnswer[_currentQuesIndex] = _currentSelectedAnswerIndex;
+    });
+  }
+
+  void _onChangeQuizIndex(int index) {
+    if (index > -1 && index < widget.quizlist.length) {
+      setState(() {
+        _currentQuesIndex = index;
+        _currentSelectedAnswerIndex = selectedAnswer[_currentQuesIndex];
+      });
+    }
+  }
+
+  void _onPressNext() {
+    _onChangeQuizIndex(_currentQuesIndex + 1);
+  }
+
+  void _onPressPrevious() {
+    _onChangeQuizIndex(_currentQuesIndex - 1);
+  }
+
+  void _onPressSubmit(BuildContext context) {
+    _timer!.cancel();
+    var history = _saveHistory(true);
+    QuizState quizState =
+        QuizState(historyModel: history, listQuestion: widget.quizlist);
+    var resultView = ResultTest(
+      quizState: quizState,
+    );
+    Navigator.push(context, MaterialPageRoute(builder: (context) => resultView))
+        .then((value) {
+      if (value == ResultTest.RESULT_CANCEL) {
+        _onPressBack(context);
+      } else if (value == ResultTest.RESULT_REVIEW) {
+        _changeToReviewMode();
+      }
+    });
   }
 
   HistoryModel _saveHistory(bool isFinished) {
     var history = HistoryModel(topicID: widget.topicId);
-    history.selectedAns = List.generate(selectedAnswer.length,
-        (index) => (selectedAnswer[index] + 1).toString());
+    history.selectedAns = List.generate(
+        selectedAnswer.length, (index) => (selectedAnswer[index]).toString());
     history.correctAns = List.generate(widget.quizlist.length,
         (index) => widget.quizlist[index].correct.toString());
     history.questionIds = List.generate(widget.quizlist.length,
@@ -117,65 +218,23 @@ class _QuizPageState extends State<QuizPage> {
 
     repository.insertHistory(history);
 
-    //test();
-
     return history;
   }
 
-  void test() async {
-    var temp = await repository.getHistory();
-    var temp2 = await repository.getAllFinishedHistory();
-  }
-
-  void changeToReviewMode() {
+  void _changeToReviewMode() {
     setState(() {
       _mode = 1;
     });
   }
 
-  void onPressSubmit() {
-    _timer.cancel();
-    var history = _saveHistory(true);
-    if (history.isPassed) {
-      // Navigate to success view
-    } else {
-      // Navigate to failed view
-    }
-  }
-
-  void onPressPause(context) {
-    _saveHistory(false);
-    Navigator.pop(context);
-  }
-
-  void onPressAnswer(index) {
-    setState(() {
-      _currentSelectedAnswerIndex = index;
-      selectedAnswer[_currentQuesIndex] = _currentSelectedAnswerIndex;
-    });
-  }
-
-  void changeCurrentIndex(int index) {
-    if (index > -1 && index < widget.quizlist.length) {
-      setState(() {
-        //selectedAnswer[_currentQuesIndex] = _currentSelectedAnswerIndex;
-        _currentQuesIndex = index;
-        _currentSelectedAnswerIndex = selectedAnswer[_currentQuesIndex];
-      });
-    }
-  }
-
   Widget buildTopBar() {
-    String getIconPath(String name) {
-      return 'assets/icons/' + name;
-    }
-
-    String pathToIcons = 'assets/icons/';
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
       child: Row(
         children: <Widget>[
-          ReturnButton(),
+          ReturnButton.withCallback(
+            callback: () => _onPressBack(context),
+          ),
           SizedBox(
             width: 95.w,
           ),
@@ -191,11 +250,11 @@ class _QuizPageState extends State<QuizPage> {
   Widget getQuesNavigationIcon(int index) {
     String path = 'assets/icons/button_quiz_navi_normal.svg';
     if (_mode == 0) {
-      if (selectedAnswer[index] != -1) {
+      if (selectedAnswer[index] > 0) {
         path = 'assets/icons/button_quiz_navi_selected.svg';
       }
     } else if (_mode == 1) {
-      if (selectedAnswer[index] == getCorrectIndex(index)) {
+      if (selectedAnswer[index] == _getCorrectIndex(index)) {
         path = 'assets/icons/button_quiz_navi_correct.svg';
       } else {
         path = 'assets/icons/button_quiz_navi_wrong.svg';
@@ -207,7 +266,7 @@ class _QuizPageState extends State<QuizPage> {
       icon: SvgPicture.asset(path),
       iconSize: 25.h,
       constraints: BoxConstraints(minHeight: 16.h, minWidth: 16.w),
-      onPressed: () => changeCurrentIndex(index),
+      onPressed: () => _onChangeQuizIndex(index),
     );
   }
 
@@ -298,12 +357,12 @@ class _QuizPageState extends State<QuizPage> {
         iconPath = 'assets/icons/quiz_check_selected.svg';
       }
     } else if (_mode == 1) {
-      if (getCorrectIndex(_currentQuesIndex) == index) {
+      if (_getCorrectIndex(_currentQuesIndex) == index) {
         // Correct
         primecolor = dtcolor5;
       }
       if (selectedAnswer[_currentQuesIndex] == index) {
-        if (getCorrectIndex(_currentQuesIndex) != index) {
+        if (_getCorrectIndex(_currentQuesIndex) != index) {
           // Wrong
           primecolor = dtcolor4;
           iconPath = 'assets/icons/quiz_check_wrong.svg';
@@ -325,7 +384,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: InkWell(
-        onTap: () => onPressAnswer(index),
+        onTap: () => _onPressAnswer(index),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -345,16 +404,16 @@ class _QuizPageState extends State<QuizPage> {
 
   Widget buildQuestion(QuizBaseDB quiz) {
     var quiz = widget.quizlist[_currentQuesIndex];
-    var answers = List<Widget>.generate(
-        quiz.answers.length, (index) => buildAnswer(quiz.answers[index], index),
+    var answers = List<Widget>.generate(quiz.answers.length,
+        (index) => buildAnswer(quiz.answers[index], index + 1),
         growable: true);
-    if (quiz.imageurl != null && quiz.imageurl.length > 1) {
+    if (quiz.imageurl.length > 1) {
       answers.insert(
           0,
           Image.network(
             quiz.imageurl,
             errorBuilder: (c, o, s) {
-              return Text(
+              return const Text(
                 'Không tìm thấy ảnh',
                 style: TextStyle(color: Colors.red),
               );
@@ -399,7 +458,7 @@ class _QuizPageState extends State<QuizPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
-                    onPressed: onPressPrevious,
+                    onPressed: _onPressPrevious,
                     iconSize: 50.h,
                     icon: SvgPicture.asset('assets/icons/previousButton.svg')),
                 GestureDetector(
@@ -412,17 +471,18 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'NỘP BÀI',
+                      _mode == 0 ? "Nộp bài" : "Trở về",
                       style: kText22Bold_13,
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ResultTest()));
+                    _mode == 0
+                        ? _onPressSubmit(context)
+                        : _onPressBack(context);
                   },
                 ),
                 IconButton(
-                    onPressed: onPressNext,
+                    onPressed: _onPressNext,
                     iconSize: 50.h,
                     icon: SvgPicture.asset('assets/icons/nextButton.svg')),
               ],
