@@ -33,7 +33,7 @@ class TestStartedComponent extends StatelessWidget {
     if (isFinished) {
       color = (isPassed == true ? dtcolor5 : dtcolor4);
       result = (isPassed == true ? "Đạt bài thi" : "Không đạt bài thi");
-      percentTest = (trueQues / totalQues).toInt();
+      percentTest = ((trueQues / totalQues) * 100).toInt();
       trueText = trueQues.toString() + "/" + totalQues.toString();
     } else {
       color = dtcolor15;
@@ -61,7 +61,7 @@ class TestStartedComponent extends StatelessWidget {
               CircularPercentIndicator(
                 radius: 120.h,
                 lineWidth: 12.h,
-                percent: percentTest / 100,
+                percent: (percentTest / 100),
                 center: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 33.h),

@@ -160,7 +160,7 @@ class TestList extends StatelessWidget {
                             isPassed: item.isPassed,
                             title: item.isRandomTopic()
                                 ? "ĐỀ NGẪU NHIÊN"
-                                : "ĐỀ SỐ " + index.toString(),
+                                : "ĐỀ SỐ " + item.topicID.toString(),
                             totalQues: item.count,
                             trueQues: item.countCorrect(),
                             completeQues: item.countSelected(),
@@ -175,7 +175,7 @@ class TestList extends StatelessWidget {
                             isCompleted: item.isFinished,
                             title: item.isRandomTopic()
                                 ? "ĐỀ NGẪU NHIÊN"
-                                : "ĐỀ SỐ " + index.toString(),
+                                : "ĐỀ SỐ " + item.topicID.toString(),
                             totalQues: item.count,
                             time: item.timeLeft,
                           ),
