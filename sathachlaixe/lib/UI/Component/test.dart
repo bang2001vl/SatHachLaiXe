@@ -6,26 +6,25 @@ import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class TestStartedComponent extends StatelessWidget {
-  final bool isPassed;
-  final bool isFinished;
+class TestComponent extends StatelessWidget {
+  final bool isTested;
   final String title;
-  final int totalQues;
+  final int percentTest;
   final int trueQues;
-  final int completeQues;
-
-  const TestStartedComponent({
-    Key? key,
-    required this.isPassed,
-    required this.isFinished,
-    required this.title,
-    required this.totalQues,
-    required this.trueQues,
-    required this.completeQues,
-  }) : super(key: key);
+  final Color color;
+  const TestComponent(
+      {Key? key,
+      required this.isTested,
+      required this.title,
+      required this.percentTest,
+      required this.trueQues,
+      required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
+=======
     Color color;
     String result;
     String trueText;
@@ -38,9 +37,10 @@ class TestStartedComponent extends StatelessWidget {
     } else {
       color = dtcolor15;
       result = "Đang làm";
-      percentTest = (completeQues / totalQues).toInt();
+      percentTest = ((completeQues / totalQues) * 100).toInt();
       trueText = completeQues.toString() + "/" + totalQues.toString();
     }
+>>>>>>> Stashed changes
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Container(
@@ -61,7 +61,7 @@ class TestStartedComponent extends StatelessWidget {
               CircularPercentIndicator(
                 radius: 120.h,
                 lineWidth: 12.h,
-                percent: (percentTest / 100),
+                percent: percentTest / 100,
                 center: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 33.h),
@@ -73,7 +73,7 @@ class TestStartedComponent extends StatelessWidget {
                           style: kText30Bold_6.copyWith(color: color),
                         ),
                         Text(
-                          trueQues.toString() + "/30",
+                          trueText,
                           style: kText16Normal_6,
                         ),
                       ]),
@@ -81,10 +81,10 @@ class TestStartedComponent extends StatelessWidget {
                 progressColor: color,
               ),
               SizedBox(
-                height: 13.h,
+                height: 10.h,
               ),
               Text(
-                result,
+                "Không đạt bài thi",
                 style: kText20Bold_13.copyWith(color: color),
               ),
             ],

@@ -31,110 +31,85 @@ class ResultTest extends StatelessWidget {
 
     String title = "Chúc mừng!";
     String msg = "Bạn đã đạt bài thi này,\n Chúc bạn có kết quả như mong đợi!";
-    String backgroundURL = "assets/images/result_pass_bg.png";
-    Color color1 = Color(0xFF75BEFF);
-    Color color2 = Color(0xFF4893D8);
+    String imageURL = "assets/icons/key.png";
 
     if (!history.isPassed) {
       title = "Thật tiếc!";
       msg = "Bạn đã trượt bài thi này, cố gắng lên nhé!";
-      backgroundURL = "assets/images/result_fail_bg.png";
-      color1 = Color(0xFFFFA553);
-      color2 = Color(0xFFFF4A4A);
     }
 
-    String imageURL = "assets/icons/key.png";
-
-    var size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          height: size.height,
-          width: size.width,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            image: DecorationImage(
-                image: AssetImage(backgroundURL), fit: BoxFit.fill),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 100.h,
-              ),
-              Stack(alignment: Alignment.center, children: [
-                CustomPaint(
-                    painter: CustomCircularProgress(
-                        value: completeValue,
-                        startColor: color1,
-                        endColor: color2)),
-                Column(
-                  children: [
-                    Text(
-                      completePercent,
-                      style: kText35Bold_1.copyWith(
-                          fontSize: ScreenUtil().setSp(50.sp), color: color2),
-                    ),
-                    Text(
-                      complete,
-                      style: kText20Medium_10,
-                    ),
-                  ],
-                )
-              ]),
-              SizedBox(
-                height: 30.h,
-              ),
-              Image.asset(imageURL),
-              SizedBox(
-                height: 20.h,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          height: 100.h,
+        ),
+        Stack(alignment: Alignment.center, children: [
+          CustomPaint(painter: CustomCircularProgress(value: completeValue)),
+          Column(
+            children: [
+              Text(
+                completePercent,
+                style:
+                    kText35Bold_1.copyWith(fontSize: ScreenUtil().setSp(50.sp)),
               ),
               Text(
-                title,
-                style: kText35Bold_14,
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Text(
-                msg,
-                textAlign: TextAlign.center,
+                complete,
                 style: kText20Medium_10,
               ),
-              SizedBox(
-                height: 60.h,
-              ),
-              GestureDetector(
-                child: Container(
-                  height: 60.h,
-                  width: 250.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(38),
-                    color: dtcolor1,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Xem chi tiết',
-                    style: kText22Bold_13,
-                  ),
-                ),
-                onTap: () => Navigator.pop(context, RESULT_REVIEW),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              GestureDetector(
-                child: Text(
-                  "Trở về trang chủ",
-                  style: kText18Bold_3,
-                ),
-                onTap: () => Navigator.pop(context, RESULT_CANCEL),
-              ),
             ],
-          ),
+          )
+        ]),
+        SizedBox(
+          height: 30.h,
         ),
-      ),
+        Image.asset(imageURL),
+        SizedBox(
+          height: 20.h,
+        ),
+        Text(
+          title,
+          style: kText35Bold_14,
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Text(
+          msg,
+          textAlign: TextAlign.center,
+          style: kText20Medium_10,
+        ),
+        SizedBox(
+          height: 60.h,
+        ),
+        GestureDetector(
+          child: Container(
+            height: 60.h,
+            width: 250.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(38),
+              color: dtcolor1,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              'Xem chi tiết',
+              style: kText22Bold_13,
+            ),
+          ),
+          onTap: () => Navigator.pop(context, RESULT_REVIEW),
+        ),
+        SizedBox(
+          height: 15.h,
+        ),
+        GestureDetector(
+          child: Text(
+            "Trở về trang chủ",
+            style: kText18Bold_3,
+          ),
+          onTap: () => Navigator.pop(context, RESULT_CANCEL),
+        ),
+      ],
     );
   }
 
@@ -166,20 +141,29 @@ class ResultTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return buildContent(context, quizState);
+    var size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+                image: AssetImage("assets/images/result_pass_bg.png"),
+                fit: BoxFit.fill),
+          ),
+          child: buildContent(context, quizState),
+        ),
+      ),
+    );
   }
 }
 
 class CustomCircularProgress extends CustomPainter {
-  const CustomCircularProgress({
-    required this.value,
-    required this.startColor,
-    required this.endColor,
-  });
-
   final double value;
-  final Color startColor;
-  final Color endColor;
+
+  CustomCircularProgress({required this.value});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -201,11 +185,14 @@ class CustomCircularProgress extends CustomPainter {
       Paint(),
     );
 
-    final Gradient gradient = SweepGradient(
+    const Gradient gradient = SweepGradient(
       startAngle: 1.25 * math.pi / 2,
       endAngle: 5.5 * math.pi / 2,
       tileMode: TileMode.repeated,
-      colors: [startColor, endColor],
+      colors: <Color>[
+        Colors.blueAccent,
+        Colors.lightBlueAccent,
+      ],
     );
     canvas.drawArc(
       Rect.fromCenter(center: center, width: 170, height: 170),
