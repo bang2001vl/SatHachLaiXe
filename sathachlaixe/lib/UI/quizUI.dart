@@ -112,7 +112,7 @@ class _QuizPageState extends State<QuizPage> {
   int _mode = 0; // Mode 0 is test, 1 is review
   Duration _timeLeft = Duration(minutes: 30); // 30min
   Timer? _timer;
-  late List<int> selectedAnswer;
+  late List selectedAnswer;
 
   @override
   void dispose() {
@@ -126,7 +126,7 @@ class _QuizPageState extends State<QuizPage> {
 
   void _onPressBack(BuildContext context) {
     if (_mode == 1) {
-      Navigator.pop(context, 'Cancel');
+      Navigator.pop(context, 'Review');
     } else {
       showDialog(
         context: context,
@@ -185,35 +185,6 @@ class _QuizPageState extends State<QuizPage> {
 
   void _onPressSubmit(BuildContext context) {
     _timer!.cancel();
-    if (selectedAnswer.contains(0)) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text("Chưa hoàn tất"),
-          content:
-              const Text("Vẫn còn câu để trống. Bạn chắc chắn muốn nộp bài?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Ok'),
-              child: const Text('Có'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Không'),
-            ),
-          ],
-        ),
-      ).then((value) {
-        if (value == "Ok") {
-          _submit(context);
-        }
-      });
-    } else {
-      _submit(context);
-    }
-  }
-
-  void _submit(context) {
     var history = _saveHistory(true);
     QuizState quizState =
         QuizState(historyModel: history, listQuestion: widget.quizlist);
@@ -223,7 +194,11 @@ class _QuizPageState extends State<QuizPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => resultView))
         .then((value) {
       if (value == ResultTest.RESULT_CANCEL) {
-        Navigator.pop(this.context, "Cancel");
+<<<<<<< Updated upstream
+        _onPressBack(context);
+=======
+        Navigator.pop(this.context, "Result");
+>>>>>>> Stashed changes
       } else if (value == ResultTest.RESULT_REVIEW) {
         _changeToReviewMode();
       }
@@ -442,15 +417,9 @@ class _QuizPageState extends State<QuizPage> {
           Image.network(
             quiz.imageurl,
             errorBuilder: (c, o, s) {
-              return Image.network(
-                "https://i-vnexpress.vnecdn.net/2020/09/01/q@.png"
-                    .replaceAll("@", quiz.id.toString()),
-                errorBuilder: (c, o, s) {
-                  return const Text(
-                    'Không tìm thấy ảnh',
-                    style: TextStyle(color: Colors.red),
-                  );
-                },
+              return const Text(
+                'Không tìm thấy ảnh',
+                style: TextStyle(color: Colors.red),
               );
             },
           ));

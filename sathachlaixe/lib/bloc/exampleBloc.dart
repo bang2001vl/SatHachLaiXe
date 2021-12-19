@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sathachlaixe/model/base.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,13 +9,14 @@ class HistoryEvent extends BlocBaseEvent {}
 
 class LoadHistory extends HistoryEvent {}
 
-class HistoryBloc extends Bloc<BlocBaseEvent, Future<List<HistoryModel>>> {
-  HistoryBloc({id}) : super(empty) {
-    on<LoadHistory>(_loadHistory);
+class HistoryBloc extends Cubit<List<HistoryModel>> {
+  HistoryBloc(List<HistoryModel> initState) : super(initState) {
+    reload();
   }
-
-  void _loadHistory(HistoryEvent event, Emitter emit) {
-    emit(repository.getHistory());
+  void reload() async {
+    log("Call reload bloc");
+    var a = await repository.getHistory();
+    emit(a);
   }
 
   static final empty = Future.delayed(Duration.zero,

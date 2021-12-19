@@ -30,16 +30,7 @@ class HistoryModel extends TimeStampModel {
     this.rawCorrect = json["rawCorrect"];
     this.rawSelected = json["rawSelected"];
 
-    this.id = json["id"] == null ? null : json["id"];
-    this.create_time = json["create_time"] == null
-        ? null
-        : DateTime.fromMicrosecondsSinceEpoch(json["create_time"], isUtc: true)
-            .toLocal();
-    this.sync_time = json["sync_time"] == null
-        ? null
-        : DateTime.fromMicrosecondsSinceEpoch(json["sync_time"], isUtc: true)
-            .toLocal();
-    this.accountID = json["accountID"] == null ? null : json["accountID"];
+    getTimeStamp(json);
   }
 
   Map<String, Object?> toJSON_insert() => {
@@ -131,10 +122,13 @@ class HistoryModel extends TimeStampModel {
     return this.selectedAns.length - this.countCorrect();
   }
 
+<<<<<<< Updated upstream
+=======
   int countSelected() {
-    return this.selectedAns.length;
+    return this.selectedAns.where((element) => element != 0.toString()).length;
   }
 
+>>>>>>> Stashed changes
   Future<List<QuizBaseDB>> getQuizList() async {
     List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
     var db = QuizDB();
