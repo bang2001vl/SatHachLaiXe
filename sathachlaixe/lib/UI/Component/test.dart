@@ -38,7 +38,7 @@ class TestStartedComponent extends StatelessWidget {
     } else {
       color = dtcolor15;
       result = "Đang làm";
-      percentTest = (completeQues / totalQues).toInt();
+      percentTest = ((completeQues / totalQues) * 100).toInt();
       trueText = completeQues.toString() + "/" + totalQues.toString();
     }
     return ClipRRect(
@@ -73,7 +73,7 @@ class TestStartedComponent extends StatelessWidget {
                           style: kText30Bold_6.copyWith(color: color),
                         ),
                         Text(
-                          trueQues.toString() + "/30",
+                          trueText,
                           style: kText16Normal_6,
                         ),
                       ]),

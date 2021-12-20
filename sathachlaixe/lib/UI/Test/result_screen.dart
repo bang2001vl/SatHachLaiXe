@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/bloc/historyBloc.dart';
+import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/state/quiz.dart';
 import 'package:vector_math/vector_math.dart' as vmath;
 import 'dart:math' as math;
@@ -19,11 +20,11 @@ import '../quizUI.dart';
 class ResultTest extends StatelessWidget {
   static int RESULT_REVIEW = 0x200;
   static int RESULT_CANCEL = 0x201;
-  QuizState quizState;
-  ResultTest({Key? key, required this.quizState}) : super(key: key);
+  HistoryModel history;
+  ResultTest({Key? key, required this.history}) : super(key: key);
 
-  Widget buildContent(BuildContext context, QuizState state) {
-    var history = state.historyModel;
+  Widget buildContent(BuildContext context, HistoryModel state) {
+    var history = state;
     double completeValue = history.countCorrect().toDouble() / history.count;
     String completePercent = (completeValue * 100).toInt().toString() + "%";
     String complete =
@@ -166,7 +167,7 @@ class ResultTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return buildContent(context, quizState);
+    return buildContent(context, history);
   }
 }
 

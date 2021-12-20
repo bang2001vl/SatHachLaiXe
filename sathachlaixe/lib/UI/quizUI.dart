@@ -13,8 +13,8 @@ import 'package:sathachlaixe/state/quiz.dart';
 import '../SQLite/quizSQLite.dart';
 import 'Test/result_screen.dart';
 
-class QuizPage extends StatefulWidget {
-  QuizPage(
+class QuizPageOld extends StatefulWidget {
+  QuizPageOld(
       {Key? key,
       required this.title,
       required this.quizlist,
@@ -25,7 +25,7 @@ class QuizPage extends StatefulWidget {
     timeEnd = DateTime.now().add(timeLimit);
   }
 
-  QuizPage.fromHistory(
+  QuizPageOld.fromHistory(
     HistoryModel history, {
     Key? key,
     required this.title,
@@ -55,7 +55,7 @@ class QuizPage extends StatefulWidget {
   }
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizPageState extends State<QuizPageOld> {
   _QuizPageState() : super() {}
 
   @override
@@ -215,10 +215,8 @@ class _QuizPageState extends State<QuizPage> {
 
   void _submit(context) {
     var history = _saveHistory(true);
-    QuizState quizState =
-        QuizState(historyModel: history, listQuestion: widget.quizlist);
     var resultView = ResultTest(
-      quizState: quizState,
+      history: history,
     );
     Navigator.push(context, MaterialPageRoute(builder: (context) => resultView))
         .then((value) {

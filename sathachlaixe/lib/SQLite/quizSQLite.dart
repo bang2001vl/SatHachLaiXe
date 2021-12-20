@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sathachlaixe/model/question.dart';
 import 'package:sqflite/sqflite.dart';
 
 class QuizDB {
@@ -50,6 +51,34 @@ class QuizDB {
     var result = await db.rawQuery(sql, [id]);
     await db.close();
     return QuizBaseDB.fromMap(result.first);
+  }
+
+  Future<QuestionModel?> getQuestion(int id) async {
+    //debugPrint("Db size  = " + (await io.File(await getDBPath()).length()).toString());
+    debugPrint("Get quiz no." + id.toString());
+
+    var db = await openDB();
+    var sql = "SELECT * FROM [question] WHERE id = ?;";
+    var result = await db.rawQuery(sql, [id]);
+    await db.close();
+
+    if (result.isEmpty) {
+      return null;
+    } else {
+      return QuestionModel.fromMap(result.first);
+    }
+  }
+
+  Future<List<QuestionModel>> getQuestionList(List<int> idList) async {
+    var db = await openDB();
+    var argsPlaceholder = idList.map((e) => "?").join(",");
+    var sql = "SELECT * FROM [question] WHERE id IN ($argsPlaceholder);";
+    var result = await db.rawQuery(sql, idList);
+    await db.close();
+
+    var rs = List.generate(
+        result.length, (index) => QuestionModel.fromMap(result[index]));
+    return rs;
   }
 }
 

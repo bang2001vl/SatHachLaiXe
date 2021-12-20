@@ -1,5 +1,7 @@
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
 import 'package:sathachlaixe/model/timestamp.dart';
+import 'package:sathachlaixe/model/topic.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class HistoryModel extends TimeStampModel {
   /// Topic code. Example: topc 1, topic 2,... */
@@ -17,6 +19,16 @@ class HistoryModel extends TimeStampModel {
   List<String> selectedAns = List.empty(growable: true);
   List<String> correctAns = List.empty(growable: true);
 
+  HistoryModel.fromTopic(TopicModel topic) {
+    this.topicID = topic.topicId;
+    this.questionIds = List.castFrom(topic.questionIDs);
+    this.selectedAns =
+        List.generate(topic.questionIDs.length, (index) => index.toString());
+    this.isPassed = false;
+    this.isFinished = false;
+    this.timeLeft = repository.getTimeLimit();
+  }
+
   HistoryModel.empty({required this.topicID}) {
     this.isPassed = false;
   }
@@ -30,16 +42,7 @@ class HistoryModel extends TimeStampModel {
     this.rawCorrect = json["rawCorrect"];
     this.rawSelected = json["rawSelected"];
 
-    this.id = json["id"] == null ? null : json["id"];
-    this.create_time = json["create_time"] == null
-        ? null
-        : DateTime.fromMicrosecondsSinceEpoch(json["create_time"], isUtc: true)
-            .toLocal();
-    this.sync_time = json["sync_time"] == null
-        ? null
-        : DateTime.fromMicrosecondsSinceEpoch(json["sync_time"], isUtc: true)
-            .toLocal();
-    this.accountID = json["accountID"] == null ? null : json["accountID"];
+    getTimeStamp(json);
   }
 
   Map<String, Object?> toJSON_insert() => {
@@ -87,7 +90,7 @@ class HistoryModel extends TimeStampModel {
   }
 
   bool get hasStarted {
-    return this.selectedAns.length > 1;
+    return this.create_time != null;
   }
 
   List<int> get questionIds_int {
@@ -132,7 +135,7 @@ class HistoryModel extends TimeStampModel {
   }
 
   int countSelected() {
-    return this.selectedAns.length;
+    return this.selectedAns.where((element) => element != 0.toString()).length;
   }
 
   Future<List<QuizBaseDB>> getQuizList() async {

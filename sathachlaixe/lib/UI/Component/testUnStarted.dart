@@ -7,14 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class TestUnstartedComponent extends StatelessWidget {
-  final bool isCompleted;
   final String title;
   final int totalQues;
   final Duration time;
 
   const TestUnstartedComponent({
     Key? key,
-    required this.isCompleted,
     required this.title,
     required this.totalQues,
     required this.time,
