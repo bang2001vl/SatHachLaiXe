@@ -1,66 +1,84 @@
 import 'dart:math';
 
 import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/model/topic.dart';
-import 'package:sathachlaixe/repository/mode/b.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 
 import 'base.dart';
 
 class B2Mode extends BMode implements BaseMode {
-  late List<TopicModel> _topics;
+  Map<int, List<String>> _topics = Map.of({
+    1: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    2: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    3: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    4: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    5: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    6: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    7: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    8: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    9: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    10: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    12: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    13: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    14: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    15: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    16: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    17: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    18: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    19: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+    20: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+        .split("."),
+  });
 
-  B2Mode() : super() {
-    _initDemoTopic();
-  }
+  B2Mode() : super();
 
-  @override
-  int get length => 35;
-
-  @override
-  Duration get duration => Duration(minutes: 20);
-
-  @override
-  List<TopicModel> get topicDemoList => _topics;
-
-  @override
-  List<String> getRandomQuesIds() {
+  List<String> getRandom() {
     Random ran = Random(DateTime.now().microsecondsSinceEpoch);
-    var cateList = questionCategoryList;
 
     var specs = List.generate(2,
         (i) => int.parse(criticalQues[ran.nextInt(criticalQues.length - 1)]));
 
-    var c1 = getRandomIdFromCategory(ran, cateList[1], 8, specs);
-    c1.addAll(getRandomIdFromCategory(ran, cateList[3], 1, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[4], 2, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[5], 1, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[6], 9, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[7], 9, specs));
+    var c1 = getRandFromRange(ran, topicsList[1]!, 8, specs);
+    c1.addAll(getRandFromRange(ran, topicsList[3]!, 1, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[4]!, 2, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[5]!, 1, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[6]!, 9, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[7]!, 9, specs));
 
     c1.sort();
     return List.from(c1.map((e) => e.toString()));
   }
 
   @override
-  HistoryModel randomTopic() {
+  HistoryModel randomHistory() {
     var history = HistoryModel.empty(topicID: 0);
-    history.questionIds = getRandomQuesIds();
+    history.questionIds = getRandom();
     return history;
   }
 
   @override
   Future<List<HistoryModel>> getHistoryList() async {
     Map<int, HistoryModel> m = Map();
-
-    var historyRandTopic = await HistoryController().getLastestHistory(0);
-    if (historyRandTopic.isNotEmpty) {
-      m[0] = historyRandTopic.first;
-    }
-
-    for (int i = 0; i < _topics.length; i++) {
-      var key = _topics.elementAt(i).id;
-      var value = _topics.elementAt(i).questionIDs;
+    for (int i = 0; i < _topics.length; i++) {}
+    _topics.forEach((key, value) async {
+      // Search for history of topic
       var history = await HistoryController().getLastestHistory(key);
       if (history.isEmpty) {
         // Add new empty history if not has history yet
@@ -70,7 +88,7 @@ class B2Mode extends BMode implements BaseMode {
         // Get history if already has one
         m[key] = history.first;
       }
-    }
+    });
 
     return m.values.toList();
   }
@@ -88,20 +106,12 @@ class B2Mode extends BMode implements BaseMode {
     }
 
     int countCorrect = data.countCorrect();
-    return countCorrect >= 32;
+    return countCorrect >= 27;
   }
 
-  void _initDemoTopic() {
-    _topics = List.empty(growable: true);
-    _topics.add(TopicModel(
-        id: 1,
-        questionIDs:
-            "1.21.41.45.61.81.102.118.137.161.193.200.228.247.266.287.308.309.328.348.368.380.388.408.428.448.468.487.507.523.530.543.560.583.599"
-                .split(".")));
-    _topics.add(TopicModel(
-        id: 2,
-        questionIDs:
-            "2.22.42.62.70.82.101.122.138.162.163.210.229.249.267.270.288.309.329.349.352.369.389.409.425.449.469.488.508.524.544.550.564.584.600"
-                .split(".")));
-  }
+  @override
+  int get length => 35;
+
+  @override
+  Duration get duration => Duration(minutes: 20);
 }

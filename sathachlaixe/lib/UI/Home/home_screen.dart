@@ -1,10 +1,12 @@
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
+import 'package:sathachlaixe/UI/Login/profile_screen.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/home_category.dart';
 import 'package:sathachlaixe/UI/Component/searchbar.dart';
+import 'package:sathachlaixe/UI/profile/profile_screen.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import '../quizUI.dart';
@@ -13,34 +15,6 @@ import '../Test/test_list.dart';
 import 'package:sathachlaixe/UI/Login/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  Future<List<QuizBaseDB>> getQuizList(List<int> questionIDs) async {
-    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
-    var db = QuizDB();
-    for (int i = 0; i < questionIDs.length; i++) {
-      quizs.add(await db.findQuizById(questionIDs[i]));
-    }
-    return quizs;
-  }
-
-  void onPressTest(
-      BuildContext context, String title, HistoryModel lastestHistory) {
-    getQuizList(lastestHistory.questionIds_int).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return QuizPage(
-              title: title,
-              quizlist: value,
-              topicId: lastestHistory.topicID,
-              timeLimit: repository.getTimeLimit(),
-            );
-          },
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -58,33 +32,57 @@ class HomeScreen extends StatelessWidget {
               ),
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 52.h,
-                          width: 52.h,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/avt.png"),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                      ),
-                      Text('Chào,',
-                          style: kText30Bold_14.copyWith(
-                            color: Colors.white,
-                          )),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 3.h),
-                        child: Text('Cùng luyện thi bằng lái nào!',
-                            style: kText18Medium_13),
+                        padding: EdgeInsets.only(top: 40.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Chào,',
+                                    style: kText30Bold_14.copyWith(
+                                      color: Colors.white,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 3.h),
+                                  child: Text(
+                                      'Cùng luyện thi bằng lái nào!',
+                                      style: kText18Medium_13),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 20.h),
+                              child: InkWell(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 52.h,
+                                  width: 52.h,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image:
+                                            AssetImage("assets/images/avt.png"),
+                                        fit: BoxFit.fill),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PersonalScreen()));
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SearchBar(),
                     ],

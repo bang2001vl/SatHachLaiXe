@@ -1,30 +1,27 @@
 import 'dart:math';
 
 import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/model/topic.dart';
-import 'package:sathachlaixe/repository/mode/b.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 
 import 'base.dart';
 
 class B1Mode extends BMode implements BaseMode {
-<<<<<<< Updated upstream
   Map<int, List<String>> _topics = Map.of({
     1: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
         .split("."),
-    2: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+    2: "2.22.42.62.82.101.122.138.162.210.229.249.267.288.309.329.349.369.389.409.425.449.469.488.508.524.544.564.584.600"
         .split("."),
     3: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
         .split("."),
-    4: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+    4: "2.22.42.62.82.101.122.138.162.210.229.249.267.288.309.329.349.369.389.409.425.449.469.488.508.524.544.564.584.600"
         .split("."),
     5: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
         .split("."),
-    6: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+    6: "2.22.42.62.82.101.122.138.162.210.229.249.267.288.309.329.349.369.389.409.425.449.469.488.508.524.544.564.584.600"
         .split("."),
     7: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
         .split("."),
-    8: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
+    8: "2.22.42.62.82.101.122.138.162.210.229.249.267.288.309.329.349.369.389.409.425.449.469.488.508.524.544.564.584.600"
         .split("."),
     9: "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
         .split("."),
@@ -53,38 +50,26 @@ class B1Mode extends BMode implements BaseMode {
   B1Mode() : super();
 
   List<String> getRandom() {
-=======
-  late List<TopicModel> _topics;
-  List<TopicModel> get topicDemoList => _topics;
-
-  B1Mode() : super() {
-    _initDemoTopic();
-  }
-
-  @override
-  List<String> getRandomQuesIds() {
->>>>>>> Stashed changes
     Random ran = Random(DateTime.now().microsecondsSinceEpoch);
-    var cateList = questionCategoryList;
 
     var specs = List.generate(2,
         (i) => int.parse(criticalQues[ran.nextInt(criticalQues.length - 1)]));
 
-    var c1 = getRandomIdFromCategory(ran, cateList[1], 8, specs);
-    c1.addAll(getRandomIdFromCategory(ran, cateList[3], 1, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[4], 2, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[5], 1, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[6], 9, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[7], 9, specs));
+    var c1 = getRandFromRange(ran, topicsList[1]!, 8, specs);
+    c1.addAll(getRandFromRange(ran, topicsList[3]!, 1, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[4]!, 2, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[5]!, 1, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[6]!, 9, specs));
+    c1.addAll(getRandFromRange(ran, topicsList[7]!, 9, specs));
 
     c1.sort();
     return List.from(c1.map((e) => e.toString()));
   }
 
   @override
-  HistoryModel randomTopic() {
+  HistoryModel randomHistory() {
     var history = HistoryModel.empty(topicID: 0);
-    history.questionIds = getRandomQuesIds();
+    history.questionIds = getRandom();
     return history;
   }
 
@@ -97,9 +82,9 @@ class B1Mode extends BMode implements BaseMode {
       m[0] = historyRandTopic.first;
     }
 
-    for (int i = 0; i < _topics.length; i++) {
-      var key = _topics.elementAt(i).id;
-      var value = _topics.elementAt(i).questionIDs;
+    for (int i = 0; i < _topics.keys.length; i++) {
+      var key = _topics.keys.elementAt(i);
+      var value = _topics.values.elementAt(i);
       var history = await HistoryController().getLastestHistory(key);
       if (history.isEmpty) {
         // Add new empty history if not has history yet
@@ -135,18 +120,4 @@ class B1Mode extends BMode implements BaseMode {
 
   @override
   Duration get duration => Duration(minutes: 20);
-
-  void _initDemoTopic() {
-    _topics = List.empty(growable: true);
-    _topics.add(TopicModel(
-        id: 1,
-        questionIDs:
-            "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
-                .split(".")));
-    _topics.add(TopicModel(
-        id: 2,
-        questionIDs:
-            "2.22.42.62.82.101.122.138.162.210.229.249.267.288.309.329.349.369.389.409.425.449.469.488.508.524.544.564.584.600"
-                .split(".")));
-  }
 }

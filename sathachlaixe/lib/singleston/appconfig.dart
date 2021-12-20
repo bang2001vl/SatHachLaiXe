@@ -13,14 +13,13 @@ class AppConfig {
     switch (AppConfig().topicType) {
       case "b1":
         _mode = B1Mode();
-        _dbController = B1Database();
         break;
       case "b2":
         _mode = B2Mode();
-        _dbController = B2Database();
         break;
       default:
-        throw UnimplementedError();
+        _mode = B1Mode();
+        break;
     }
     _dbController.changeMode(_topicType);
   }

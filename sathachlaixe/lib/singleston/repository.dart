@@ -14,7 +14,7 @@ class RepositoryGL {
   }
 
   HistoryModel getRandomTopic() {
-    return AppConfig().mode.randomTopic();
+    return AppConfig().mode.randomHistory();
   }
 
   Future<int> insertHistory(HistoryModel data) {

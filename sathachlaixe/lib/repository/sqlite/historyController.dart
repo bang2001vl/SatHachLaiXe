@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/repository/sqlite/questionStatistic.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 
 class HistoryController {
@@ -10,16 +9,16 @@ class HistoryController {
   HistoryController();
 
   Future<int> insertHistory(HistoryModel data) async {
-    var db = await AppConfig().openDB();
+    var db = await AppConfig().dbController.openDB();
     var values = data.toJSON_insert();
-    values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
+    values["create_time"] = DateTime.now().toUtc().microsecondsSinceEpoch;
     var affected = await db.insert(this.tableName, values);
 
     return affected;
   }
 
   Future<List<HistoryModel>> getHistoryList() async {
-    var db = await AppConfig().openDB();
+    var db = await AppConfig().dbController.openDB();
     var sql = "SELECT * FROM history WHERE topicId > 0;";
     var data = await db.rawQuery(sql);
 
@@ -62,32 +61,6 @@ class HistoryController {
       log(element.toString());
     });
 
-    return rs;
-  }
-
-  Future<Map<String, QuestionStatistic>> statisticQuestions() async {
-    var histories = await getAllFinishedHistory();
-    var rs = Map<String, QuestionStatistic>();
-    histories.forEach((h) {
-      for (int i = 0; i < h.questionIds.length; i++) {
-        var quesId = h.questionIds[i];
-        if (h.selectedAns[i] == h.correctAns[i]) {
-          if (rs[quesId] == null) {
-            rs[quesId] = QuestionStatistic(
-                questionId: quesId, countCorrect: 1, countWrong: 0);
-          } else {
-            rs[quesId]?.countCorrect += 1;
-          }
-        } else {
-          if (rs[quesId] == null) {
-            rs[quesId] = QuestionStatistic(
-                questionId: quesId, countCorrect: 0, countWrong: 1);
-          } else {
-            rs[quesId]?.countWrong += 1;
-          }
-        }
-      }
-    });
     return rs;
   }
 }
