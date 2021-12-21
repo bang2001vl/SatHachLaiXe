@@ -259,8 +259,8 @@ class QuizPage extends StatelessWidget {
                     builder: (context, state) => buildQuestion(context, state),
                   ),
                 ),
-                SizedBox(
-                  height: 55.h,
+                Container(
+                  height: 70.h,
                   child: BlocBuilder<QuizBloc, QuizState>(
                     buildWhen: (previous, current) =>
                         current.mode != previous.mode,

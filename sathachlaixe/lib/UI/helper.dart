@@ -5,5 +5,5 @@ Widget buildError(BuildContext context, Object? error) {
 }
 
 Widget buildLoading(BuildContext context) {
-  return Center(child: Text("Đang tải..."));
+  return Center(child: CircularProgressIndicator());
 }

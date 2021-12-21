@@ -10,7 +10,7 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 30.h),
+      margin: EdgeInsets.only(top: 30.h),
       padding: EdgeInsets.symmetric(horizontal: 25.h, vertical: 5.h),
       decoration: BoxDecoration(
         color: Colors.white,

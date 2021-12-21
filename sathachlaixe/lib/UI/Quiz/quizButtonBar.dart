@@ -20,37 +20,40 @@ class QuizButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        IconButton(
-            onPressed: () => onPressPrevious?.call(),
-            iconSize: 50.h,
-            icon: SvgPicture.asset('assets/icons/previousButton.svg')),
-        GestureDetector(
-          child: Container(
-            height: 50.h,
-            width: 200.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(38),
-              color: dtcolor1,
+    return Container(
+      color: dtcolor13,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+              onPressed: () => onPressPrevious?.call(),
+              iconSize: 50.h,
+              icon: SvgPicture.asset('assets/icons/previousButton.svg')),
+          GestureDetector(
+            child: Container(
+              height: 50.h,
+              width: 200.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(38),
+                color: dtcolor1,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                this.submitText,
+                style: kText22Bold_13,
+              ),
             ),
-            alignment: Alignment.center,
-            child: Text(
-              this.submitText,
-              style: kText22Bold_13,
-            ),
+            onTap: () {
+              onPressSubmit?.call();
+            },
           ),
-          onTap: () {
-            onPressSubmit?.call();
-          },
-        ),
-        IconButton(
-            onPressed: () => onPressNext?.call(),
-            iconSize: 50.h,
-            icon: SvgPicture.asset('assets/icons/nextButton.svg')),
-      ],
+          IconButton(
+              onPressed: () => onPressNext?.call(),
+              iconSize: 50.h,
+              icon: SvgPicture.asset('assets/icons/nextButton.svg')),
+        ],
+      ),
     );
   }
 }
