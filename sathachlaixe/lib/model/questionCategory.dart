@@ -7,6 +7,8 @@ class QuestionCategoryModel {
   String? assetURL;
   String? imageURL;
 
+  int get length => this.questionIDs.length;
+
   QuestionCategoryModel(
       {required this.name,
       required this.detail,

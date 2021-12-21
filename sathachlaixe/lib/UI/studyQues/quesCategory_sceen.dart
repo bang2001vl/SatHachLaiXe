@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Component/ques_category.dart';
 import 'package:sathachlaixe/UI/Component/test.dart';
@@ -8,11 +9,42 @@ import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/UI/studyQues/studyQuiz_screen.dart';
+import 'package:sathachlaixe/bloc/categoteryBloc.dart';
 import 'package:sathachlaixe/model/history.dart';
+import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 
+class QuesCategoryScreenWithBloc extends StatelessWidget {
+  _onClickedItem(BuildContext context, QuestionCategoryModel item) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => QuizStudyScreen()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => CategoteryBloc(repository.getQuestionCategory()),
+      child: BlocBuilder<CategoteryBloc, List<QuestionCategoryModel>>(
+        builder: (context, listCate) => QuesCategoryScreen(
+          listCate,
+          onClickItem: (item) => _onClickedItem(context, item),
+        ),
+      ),
+    );
+  }
+}
+
 class QuesCategoryScreen extends StatelessWidget {
+  final List<QuestionCategoryModel> catagories;
+  final Function(QuestionCategoryModel item)? onClickItem;
+  QuesCategoryScreen(
+    this.catagories, {
+    this.onClickItem,
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(context) {
     var size = MediaQuery.of(context).size;
@@ -48,23 +80,10 @@ class QuesCategoryScreen extends StatelessWidget {
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          child: QuesCategoryItem(
-                              imageSrc: "assets/images/quescate2.png",
-                              name: "Câu hỏi điểm liệt",
-                              subtitle: 'Tổng hợp 60 câu hỏi điểm liệt',
-                              totalQues: 60,
-                              correctQues: 2),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => QuizStudyScreen()));
-                          },
-                        ),
-                      ],
+                    child: ListView.builder(
+                      itemCount: this.catagories.length,
+                      itemBuilder: (context, index) =>
+                          buildItem(context, this.catagories[index]),
                     ),
                   ),
                 ),
@@ -74,5 +93,31 @@ class QuesCategoryScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget buildItem(BuildContext context, QuestionCategoryModel categoryModel) {
+    return FutureBuilder<int>(
+        future: categoryModel.countHasComplete(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            var countComplete = snapshot.data as int;
+            return InkWell(
+              child: QuesCategoryItem(
+                  imageSrc: categoryModel.assetURL!,
+                  name: categoryModel.name,
+                  subtitle: categoryModel.detail,
+                  totalQues: categoryModel.length,
+                  correctQues: countComplete),
+              onTap: () => this.onClickItem?.call(categoryModel),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return buildError(context, snapshot.error);
+          }
+
+          return buildLoading(context);
+        });
   }
 }

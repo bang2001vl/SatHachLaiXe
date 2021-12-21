@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget buildError(BuildContext context, Object error) {
+Widget buildError(BuildContext context, Object? error) {
   return Center(child: Text("Có lỗi xảy ra"));
 }
 
