@@ -7,6 +7,7 @@ import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Test/result_screen.dart';
+import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/bloc/quizBloc.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/question.dart';
@@ -38,12 +39,10 @@ class QuizPageWithBloc extends StatelessWidget {
   Widget build(BuildContext context) {
     log("Build at QuizPageWithBloc");
     var state;
-    String title = "Title";
+    String title =
+        topic.isRandom ? "Đề ngẫu nhiên" : "Đề số " + topic.topicId.toString();
     if (mode == 0) {
       state = QuizState.fromTopic(topic);
-      title = topic.isRandom
-          ? "Đề ngẫu nhiên"
-          : "Đề số " + topic.topicId.toString();
     } else if (mode == 1) {
       state = QuizState.fromHistory(topic, history as HistoryModel);
     } else if (mode == 2) {
@@ -105,7 +104,7 @@ class QuizPage extends StatelessWidget {
     BlocProvider.of<QuizBloc>(context).selectAnswer(select, correct);
   }
 
-  void _onChangeNaigation(BuildContext context, int index) {
+  void _onChangeNavigation(BuildContext context, int index) {
     log("navigation to " + index.toString());
     BlocProvider.of<QuizBloc>(context).selectQuestion(index);
   }
@@ -156,7 +155,7 @@ class QuizPage extends StatelessWidget {
     Navigator.push(context, MaterialPageRoute(builder: (_) => resultView))
         .then((value) {
       if (value == ResultTest.RESULT_CANCEL) {
-        Navigator.pop(context, "Cancel");
+        Navigator.pop(context, "Review");
       } else if (value == ResultTest.RESULT_REVIEW) {
         _changeToReviewMode(context);
       }
@@ -182,7 +181,7 @@ class QuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("Build QuizPage");
-    BlocProvider.of<QuizBloc>(context).startTimer();
+    BlocProvider.of<QuizBloc>(context).begin();
     return SafeArea(
         child: Stack(
       children: [
@@ -206,20 +205,20 @@ class QuizPage extends StatelessWidget {
                   constraints: BoxConstraints(minHeight: 120.h),
                   child: BlocBuilder<QuizBloc, QuizState>(
                     buildWhen: (previous, current) =>
-                        current.history.selectedAns !=
-                            previous.history.selectedAns ||
+                        current.selectedAnswer != previous.selectedAnswer ||
+                        current.currentIndex != previous.currentIndex ||
                         current.mode != previous.mode,
                     builder: (context, state) {
-                      if (state.mode == 0 || state.mode == 2) {
-                        return QuizNavigationWidget.modeStart(
-                          state.history.selectedAns_int,
-                          onSelect: (i) => _onChangeNaigation(context, i),
-                        );
-                      } else {
+                      if (state.mode == 1) {
                         return QuizNavigationWidget.modeReview(
                           state.history.selectedAns_int,
                           state.history.correctAns_int,
-                          onSelect: (i) => _onChangeNaigation(context, i),
+                          onSelect: (i) => _onChangeNavigation(context, i),
+                        );
+                      } else {
+                        return QuizNavigationWidget.modeStart(
+                          state.history.selectedAns_int,
+                          onSelect: (i) => _onChangeNavigation(context, i),
                         );
                       }
                     },
@@ -252,29 +251,18 @@ class QuizPage extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<QuizBloc, QuizState>(
                     buildWhen: (previous, current) =>
-                        current.mode != previous.mode ||
                         current.currentIndex != previous.currentIndex,
-                    builder: (context, state) {
-                      if (state.mode == 0 || state.mode == 2) {
-                        return QuestionWidget.modeStart(
-                          int.parse(
-                              state.topic.questionIDs[state.currentIndex]),
-                          state.history.selectedAns_int[state.currentIndex],
-                          onSelectAnswer: (select, correct) =>
-                              _onSelectAnswer(context, select, correct),
-                        );
-                      } else {
-                        return QuestionWidget.modeReview(
-                          int.parse(
-                              state.topic.questionIDs[state.currentIndex]),
-                          state.history.selectedAns_int[state.currentIndex],
-                          onSelectAnswer: (select, correct) =>
-                              _onSelectAnswer(context, select, correct),
-                        );
-                      }
-                    },
+                    builder: (context, state) => buildQuestion(context, state),
                   ),
                 ),
+                SizedBox(
+                  height: 55.h,
+                  child: BlocBuilder<QuizBloc, QuizState>(
+                    buildWhen: (previous, current) =>
+                        current.mode != previous.mode,
+                    builder: (context, state) => buildButtonBar(context, state),
+                  ),
+                )
               ],
             ),
           ),
@@ -303,6 +291,46 @@ class QuizPage extends StatelessWidget {
     );
   }
 
+  Widget buildQuestion(BuildContext context, QuizState state) {
+    return FutureBuilder<QuestionModel?>(
+        future: repository.getQuestion(state.currentQuestionId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            // Load OK
+            var quesData = snapshot.data!;
+            return BlocBuilder<QuizBloc, QuizState>(
+              buildWhen: (prev, curr) =>
+                  prev.selectedAnswer != curr.selectedAnswer ||
+                  prev.mode != curr.mode,
+              builder: (context, state) {
+                if (state.mode == 0 || state.mode == 2) {
+                  return QuestionWidget.modeStart(
+                    quesData,
+                    state.history.selectedAns_int[state.currentIndex],
+                    onSelectAnswer: (select, correct) =>
+                        _onSelectAnswer(context, select, correct),
+                  );
+                } else {
+                  return QuestionWidget.modeReview(
+                    quesData,
+                    state.history.selectedAns_int[state.currentIndex],
+                    onSelectAnswer: (select, correct) =>
+                        _onSelectAnswer(context, select, correct),
+                  );
+                }
+              },
+            );
+          }
+          // Load error or data is null
+          if (snapshot.hasError) {
+            return buildError(context, snapshot.error!);
+          }
+          // Loading
+          return buildLoading(context);
+        });
+  }
+
   Widget buildButtonBar(BuildContext context, QuizState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -322,15 +350,15 @@ class QuizPage extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Text(
-              state.mode == 0 ? "Nộp bài" : "Trở về",
+              state.mode == 1 ? "XONG" : "NỘP BÀI",
               style: kText22Bold_13,
             ),
           ),
           onTap: () {
-            if (state.mode == 0) {
-              _onPressSubmit(context, state);
+            if (state.mode == 1) {
+              Navigator.pop(context, "Review");
             } else {
-              _onPressBack(context, state);
+              _onPressSubmit(context, state);
             }
           },
         ),
@@ -406,57 +434,26 @@ class QuestionWidgetState {
 }
 
 class QuestionWidget extends StatelessWidget {
-  late final QuestionModel model;
-  final int _questionId;
+  final QuestionModel questionData;
   final int _selectedAnswer;
   final int mode;
   final Function(int select, int correct)? onSelectAnswer;
-  int get _correctAnswer => model.correct;
-  QuestionWidget(this._questionId, this._selectedAnswer, this.mode,
+  int get _correctAnswer => questionData.correct;
+  QuestionWidget(this.questionData, this._selectedAnswer, this.mode,
       {Key? key, this.onSelectAnswer})
       : super(key: key);
 
-  QuestionWidget.modeStart(this._questionId, this._selectedAnswer,
+  QuestionWidget.modeStart(this.questionData, this._selectedAnswer,
       {Key? key, this.onSelectAnswer, this.mode = 0})
       : super(key: key);
 
-  QuestionWidget.modeReview(this._questionId, this._selectedAnswer,
+  QuestionWidget.modeReview(this.questionData, this._selectedAnswer,
       {Key? key, this.onSelectAnswer, this.mode = 1})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return buildWithFuture(context);
-  }
-
-  Widget buildWithFuture(BuildContext context) {
-    return FutureBuilder<QuestionModel?>(
-        future: repository.getQuestion(_questionId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            this.model = snapshot.data!;
-            return BlocBuilder<QuizBloc, QuizState>(
-              buildWhen: (prev, curr) =>
-                  prev.selectedAnswer != curr.selectedAnswer,
-              builder: (context, state) => buildContent(context, this.model),
-            );
-          }
-
-          if (snapshot.hasError) {
-            return buildError(context, snapshot.error!);
-          }
-
-          return buildLoading(context);
-        });
-  }
-
-  Widget buildError(BuildContext context, Object error) {
-    return Center(child: Text("Có lỗi xảy ra"));
-  }
-
-  Widget buildLoading(BuildContext context) {
-    return Center(child: Text("Đang tải..."));
+    return buildContent(context, this.questionData);
   }
 
   Widget buildContent(BuildContext context, QuestionModel quiz) {
@@ -592,11 +589,14 @@ class QuizNavigationWidgetState {
 
 class QuizNavigationWidget extends StatelessWidget {
   final List<int> selected;
-  late final List<int> correct;
   final int mode;
   final Function(int index)? onSelect;
+
+  late final List<int> correct;
+
   int get maximum => selected.length;
-  int _getCorrectIndex(int index) => selected.elementAt(index);
+  int _getCorrectIndex(int index) => correct.elementAt(index);
+
   QuizNavigationWidget(this.selected, this.correct, this.mode,
       {Key? key, this.onSelect})
       : super(key: key);

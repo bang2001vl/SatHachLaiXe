@@ -8,7 +8,6 @@ class QuizState {
   /** Zero is start (or restart) quiz. One review quiz. Two is resume quiz*/
   int mode;
   int currentIndex;
-  int selectedAnswer;
 
   late HistoryModel history;
   late TopicModel topic;
@@ -16,6 +15,8 @@ class QuizState {
   bool get isUpdate => mode == 2;
   int get length => topic.questionIDs.length;
   Duration get timeLeft => history.timeLeft;
+  int get currentQuestionId => int.parse(topic.questionIDs[currentIndex]);
+  int selectedAnswer;
 
   QuizState({
     required this.mode,
@@ -43,6 +44,7 @@ class QuizState {
   }
 
   void selectAnswer(int select, int correct) {
+    this.selectedAnswer = select;
     history.selectedAns[currentIndex] = select.toString();
     history.correctAns[currentIndex] = correct.toString();
   }

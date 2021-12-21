@@ -9,6 +9,7 @@ import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/UI/testUI.dart';
 import 'package:sathachlaixe/bloc/exampleBloc.dart';
 import 'package:sathachlaixe/bloc/topicBloc.dart';
@@ -33,7 +34,9 @@ class TestList extends StatelessWidget {
           ),
           child: BlocProvider<TopicBloc>(
             create: (_) => TopicBloc(repository.getTopoicDemos()),
-            child: TestListPage(),
+            child: BlocBuilder<TopicBloc, List<TopicModel>>(
+              builder: (context, topics) => TestListPage(topics),
+            ),
           ),
         ),
       ),
@@ -42,18 +45,41 @@ class TestList extends StatelessWidget {
 }
 
 class TestListPage extends StatelessWidget {
-  TestListPage({Key? key}) : super(key: key);
+  final List<TopicModel> topics;
+  TestListPage(this.topics, {Key? key}) : super(key: key);
 
   void onPressTest(
       BuildContext context, TopicModel topic, HistoryModel lastestHistory) {
-    if (lastestHistory.isFinished || !lastestHistory.hasStarted) {
+    if (!lastestHistory.hasStarted) {
       beginQuiz(context, topic);
+    } else if (lastestHistory.isFinished) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Chọn hành động"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 1),
+              child: const Text('Làm lại'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 2),
+              child: const Text('Xem kết quả'),
+            ),
+          ],
+        ),
+      ).then((value) {
+        if (value == 1) {
+          beginQuiz(context, topic);
+        } else if (value == 2) {
+          reviewQuiz(context, topic, lastestHistory);
+        }
+      });
     } else {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text("Chưa hoàn thành"),
-          content: const Text("Bạn có muốn tiếp tục lần thi trước?"),
+          title: const Text("Chọn hành động"),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 1),
@@ -86,10 +112,14 @@ class TestListPage extends StatelessWidget {
   }
 
   void onPressRandomTest(BuildContext context) {
-    log("Clicked rendom quiz");
     var quizPage = QuizPageWithBloc.modeStart(
       topic: repository.getRandomTopic(),
     );
+    openQuizPage(context, quizPage);
+  }
+
+  void reviewQuiz(context, TopicModel topic, HistoryModel history) {
+    var quizPage = QuizPageWithBloc.modeReview(topic: topic, history: history);
     openQuizPage(context, quizPage);
   }
 
@@ -109,33 +139,31 @@ class TestListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TopicBloc, List<TopicModel>>(
-      builder: (context, topics) => Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-                left: 20.w, right: 20.w, top: 15.h, bottom: 5.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                ReturnButton(),
-                Text('THI THỬ', style: kText24Bold_13),
-                IconButton(
-                  onPressed: () => onPressRandomTest(context),
-                  iconSize: 35.h,
-                  icon: SvgPicture.asset('assets/icons/shuffle.svg'),
-                )
-              ],
-            ),
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding:
+              EdgeInsets.only(left: 20.w, right: 20.w, top: 15.h, bottom: 5.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              ReturnButton(),
+              Text('THI THỬ', style: kText24Bold_13),
+              IconButton(
+                onPressed: () => onPressRandomTest(context),
+                iconSize: 35.h,
+                icon: SvgPicture.asset('assets/icons/shuffle.svg'),
+              )
+            ],
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
-              child: buildWithFuture(context, topics),
-            ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
+            child: buildWithFuture(context, topics),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -156,14 +184,6 @@ class TestListPage extends StatelessWidget {
 
           return buildLoading(context);
         });
-  }
-
-  Widget buildError(BuildContext context, Object error) {
-    return Text("Có lỗi xảy ra");
-  }
-
-  Widget buildLoading(BuildContext context) {
-    return Text("Đang tải...");
   }
 
   Widget buildContent(

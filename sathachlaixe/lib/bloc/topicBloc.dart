@@ -4,6 +4,6 @@ import 'package:sathachlaixe/model/topic.dart';
 class TopicBloc extends Cubit<List<TopicModel>> {
   TopicBloc(List<TopicModel> initState) : super(initState);
   void reload() {
-    emit(state);
+    emit(List.from(state));
   }
 }

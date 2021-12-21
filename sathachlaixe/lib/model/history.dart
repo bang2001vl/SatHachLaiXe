@@ -21,9 +21,11 @@ class HistoryModel extends TimeStampModel {
 
   HistoryModel.fromTopic(TopicModel topic) {
     this.topicID = topic.topicId;
-    this.questionIds = List.castFrom(topic.questionIDs);
+    this.questionIds = List.from(topic.questionIDs);
     this.selectedAns =
-        List.generate(topic.questionIDs.length, (index) => index.toString());
+        List.generate(topic.questionIDs.length, (index) => 0.toString());
+    this.correctAns =
+        List.generate(topic.questionIDs.length, (index) => (-1).toString());
     this.isPassed = false;
     this.isFinished = false;
     this.timeLeft = repository.getTimeLimit();
@@ -31,6 +33,17 @@ class HistoryModel extends TimeStampModel {
 
   HistoryModel.empty({required this.topicID}) {
     this.isPassed = false;
+  }
+
+  HistoryModel.copyFrom(HistoryModel other) {
+    // It not [yet] copy the timestamp
+    this.topicID = other.topicID;
+    this.isPassed = other.isPassed;
+    this.isFinished = other.isFinished;
+    this.timeLeft = other.timeLeft;
+    this.questionIds = other.questionIds;
+    this.selectedAns = other.selectedAns;
+    this.correctAns = other.correctAns;
   }
 
   HistoryModel.fromJSON(Map json) {

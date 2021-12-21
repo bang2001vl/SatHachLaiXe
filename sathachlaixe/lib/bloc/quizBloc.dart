@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sathachlaixe/model/base.dart';
+import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/state/quiz.dart';
 
 class SelectedIndexEvent extends BlocBaseEvent {
@@ -11,17 +12,17 @@ class SelectedIndexEvent extends BlocBaseEvent {
 
 class QuizBloc extends Cubit<QuizState> {
   QuizBloc(QuizState initState) : super(initState);
-
   Timer? _timer;
 
   void selectAnswer(int select, int correct) {
-    state.selectAnswer(select, correct);
-    emit(QuizState(
+    var newState = QuizState(
       mode: state.mode,
-      history: state.history,
+      history: HistoryModel.copyFrom(state.history),
       topic: state.topic,
-      selectedAnswer: select,
-    ));
+      currentIndex: state.currentIndex,
+    );
+    newState.selectAnswer(select, correct);
+    emit(newState);
   }
 
   void selectQuestion(int index) {
@@ -42,21 +43,28 @@ class QuizBloc extends Cubit<QuizState> {
 
   void changeMode(int mode) {
     emit(QuizState(
-        mode: mode,
-        history: state.history,
-        topic: state.topic,
-        currentIndex: state.currentIndex));
+      mode: mode,
+      history: state.history,
+      topic: state.topic,
+      currentIndex: state.currentIndex,
+    ));
   }
 
-  void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      state.history.timeLeft -= Duration(seconds: 1);
-      emit(QuizState(
+  void begin() {
+    if (state.mode == 1) {
+      // Do nothing
+    } else {
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        var his = HistoryModel.copyFrom(state.history);
+        his.timeLeft -= Duration(seconds: 1);
+        emit(QuizState(
           mode: state.mode,
-          history: state.history,
+          history: his,
           topic: state.topic,
-          currentIndex: state.currentIndex));
-    });
+          currentIndex: state.currentIndex,
+        ));
+      });
+    }
   }
 
   void stopTimer() {
