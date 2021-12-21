@@ -64,7 +64,7 @@ var kText20Bold_6 = kText30Bold_6.copyWith(fontSize: ScreenUtil().setSp(20.sp));
 
 var kText20Medium_1 = kText16Normal_14.copyWith(
   fontWeight: FontWeight.w600,
-  fontSize: ScreenUtil().setSp(20),
+  fontSize: ScreenUtil().setSp(20.sp),
   color: dtcolor1,
 );
 var kText20Medium_10 = kText20Medium_1.copyWith(
