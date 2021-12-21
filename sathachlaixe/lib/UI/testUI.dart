@@ -2,13 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
 import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
 import 'package:sathachlaixe/UI/Quiz/quizClock.dart';
 import 'package:sathachlaixe/UI/Quiz/quizNavigation.dart';
-import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Test/result_screen.dart';
 import 'package:sathachlaixe/UI/helper.dart';
@@ -46,14 +44,22 @@ class QuizPageWithBloc extends StatelessWidget {
     String title =
         topic.isRandom ? "Đề ngẫu nhiên" : "Đề số " + topic.topicId.toString();
     if (mode == 0) {
-      state = QuizState.fromTopic(topic);
+      state = QuizState.fromTopic(
+        title: title,
+        topic: topic,
+      );
     } else if (mode == 1) {
-      state = QuizState.fromHistory(topic, history as HistoryModel);
+      state = QuizState.fromHistory(
+        title: title,
+        topic: topic,
+        history: history as HistoryModel,
+      );
     } else if (mode == 2) {
-      state = QuizState(
+      state = QuizState.fromHistory(
+        title: title,
+        topic: topic,
+        history: history as HistoryModel,
         mode: 2,
-        topic: this.topic,
-        history: this.history as HistoryModel,
       );
     }
     return BlocProvider(
@@ -69,39 +75,12 @@ class QuizPage extends StatelessWidget {
   final String title;
   QuizPage({Key? key, this.title = ""}) : super(key: key);
 
-  void _onPressBack(BuildContext context, QuizState state) {
-    if (state.mode == 1 || state.history.isFinished) {
-      Navigator.pop(context, 'Cancel');
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text("Tạm dừng"),
-          content: const Text("Bạn có muốn tạm dừng để tiếp tục lần tới?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Không'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Ok'),
-              child: const Text('Có'),
-            ),
-          ],
-        ),
-      ).then((value) {
-        if (value == "Ok") {
-          _onPressPause(context, state);
-        } else if (value == "Cancel") {
-          Navigator.pop(context, 'Cancel');
-        }
-      });
-    }
+  void _onPressBack(BuildContext context) {
+    BlocProvider.of<QuizBloc>(context).onPressBack(context);
   }
 
-  void _onPressPause(BuildContext context, QuizState state) {
-    _saveHistory(false, state);
-    Navigator.pop(context, 'Pause');
+  void _onPressPause(BuildContext context) {
+    BlocProvider.of<QuizBloc>(context).onPressPause(context);
   }
 
   void _onSelectAnswer(BuildContext context, int select, int correct) {
@@ -121,71 +100,20 @@ class QuizPage extends StatelessWidget {
     BlocProvider.of<QuizBloc>(context).selectQuestionPrevious();
   }
 
-  void _onPressSubmit(BuildContext context, QuizState state) {
-    BlocProvider.of<QuizBloc>(context).stopTimer();
-    if (state.history.selectedAns.contains("0")) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text("Chưa hoàn tất"),
-          content:
-              const Text("Vẫn còn câu để trống. Bạn chắc chắn muốn nộp bài?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Ok'),
-              child: const Text('Có'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Không'),
-            ),
-          ],
-        ),
-      ).then((value) {
-        if (value == "Ok") {
-          _submit(context, state);
-        }
-      });
-    } else {
-      _submit(context, state);
-    }
+  void _onPressSubmit(BuildContext context) {
+    BlocProvider.of<QuizBloc>(context).onPressSubmit(context);
   }
 
-  void _submit(BuildContext context, QuizState state) {
-    var history = _saveHistory(true, state);
-    var resultView = ResultTest(
-      history: history,
-    );
-    Navigator.push(context, MaterialPageRoute(builder: (_) => resultView))
-        .then((value) {
-      if (value == ResultTest.RESULT_CANCEL) {
-        Navigator.pop(context, "Review");
-      } else if (value == ResultTest.RESULT_REVIEW) {
-        _changeToReviewMode(context);
-      }
-    });
-  }
-
-  HistoryModel _saveHistory(bool isFinished, QuizState state) {
-    var history = state.history;
-    history.isFinished = isFinished;
-    if (history.isFinished) {
-      history.isPassed = repository.checkPassed(history);
-    }
-
-    repository.insertHistory(history);
-
-    return history;
-  }
-
-  void _changeToReviewMode(BuildContext context) {
-    BlocProvider.of<QuizBloc>(context).changeMode(1);
+  bool checkChanged(QuizState previous, QuizState current) {
+    return current.selectedAnswer != previous.selectedAnswer ||
+        current.currentIndex != previous.currentIndex ||
+        current.mode != previous.mode;
   }
 
   @override
   Widget build(BuildContext context) {
     log("Build QuizPage");
-    BlocProvider.of<QuizBloc>(context).begin();
+    BlocProvider.of<QuizBloc>(context).startTimer();
     return SafeArea(
         child: Stack(
       children: [
@@ -198,9 +126,7 @@ class QuizPage extends StatelessWidget {
           body: Center(
             child: Column(
               children: [
-                BlocBuilder<QuizBloc, QuizState>(
-                  builder: buildTopBar,
-                ),
+                buildTopBar(context),
                 Container(
                   margin: EdgeInsets.only(
                     left: 25.w,
@@ -209,19 +135,17 @@ class QuizPage extends StatelessWidget {
                   constraints: BoxConstraints(minHeight: 120.h),
                   child: BlocBuilder<QuizBloc, QuizState>(
                     buildWhen: (previous, current) =>
-                        current.selectedAnswer != previous.selectedAnswer ||
-                        current.currentIndex != previous.currentIndex ||
-                        current.mode != previous.mode,
+                        checkChanged(previous, current),
                     builder: (context, state) {
                       if (state.mode == 1) {
                         return QuizNavigationWidget.modeReview(
-                          state.history.selectedAns_int,
-                          state.history.correctAns_int,
+                          state.getSelectedListInt(),
+                          state.getCorrectListInt(),
                           onSelect: (i) => _onChangeNavigation(context, i),
                         );
                       } else {
                         return QuizNavigationWidget.modeStart(
-                          state.history.selectedAns_int,
+                          state.getSelectedListInt(),
                           onSelect: (i) => _onChangeNavigation(context, i),
                         );
                       }
@@ -263,8 +187,9 @@ class QuizPage extends StatelessWidget {
                   height: 70.h,
                   child: BlocBuilder<QuizBloc, QuizState>(
                     buildWhen: (previous, current) =>
-                        current.mode != previous.mode,
-                    builder: (context, state) => buildButtonBar(context, state),
+                        previous.mode != current.mode,
+                    builder: (context, state) =>
+                        buildButtonBar(context, state.mode),
                   ),
                 )
               ],
@@ -275,13 +200,13 @@ class QuizPage extends StatelessWidget {
     ));
   }
 
-  Widget buildTopBar(BuildContext context, QuizState state) {
+  Widget buildTopBar(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
       child: Row(
         children: <Widget>[
           ReturnButton.withCallback(
-            callback: () => _onPressBack(context, state),
+            callback: () => _onPressBack(context),
           ),
           SizedBox(
             width: 95.w,
@@ -311,14 +236,14 @@ class QuizPage extends StatelessWidget {
                 if (state.mode == 0 || state.mode == 2) {
                   return QuestionWidget.modeStart(
                     quesData,
-                    state.history.selectedAns_int[state.currentIndex],
+                    state.selectedAnswer,
                     onSelectAnswer: (select, correct) =>
                         _onSelectAnswer(context, select, correct),
                   );
                 } else {
                   return QuestionWidget.modeReview(
                     quesData,
-                    state.history.selectedAns_int[state.currentIndex],
+                    state.selectedAnswer,
                     onSelectAnswer: (select, correct) =>
                         _onSelectAnswer(context, select, correct),
                   );
@@ -335,18 +260,18 @@ class QuizPage extends StatelessWidget {
         });
   }
 
-  Widget buildButtonBar(BuildContext context, QuizState state) {
-    String text = state.mode == 1 ? "XONG" : "NỘP BÀI";
+  Widget buildButtonBar(BuildContext context, int mode) {
+    String text = mode == 1 ? "XONG" : "NỘP BÀI";
 
     return QuizButtonBar(
       submitText: text,
       onPressNext: () => _onPressNext(context),
       onPressPrevious: () => _onPressPrevious(context),
       onPressSubmit: () {
-        if (state.mode == 1) {
+        if (mode == 1) {
           Navigator.pop(context, "Review");
         } else {
-          _onPressSubmit(context, state);
+          _onPressSubmit(context);
         }
       },
     );

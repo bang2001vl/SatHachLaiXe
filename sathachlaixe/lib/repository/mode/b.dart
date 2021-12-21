@@ -21,6 +21,10 @@ class BMode {
     });
   }
 
+  bool checkCritical(int questionId) {
+    return criticalQues.contains(questionId.toString());
+  }
+
   List<String> getRandomQuesIds() {
     throw UnimplementedError();
   }
@@ -41,7 +45,7 @@ class BMode {
     var rs = List<HistoryModel>.of([]);
     for (int i = 0; i < ids.length; i++) {
       var h = await getLastestHistory(ids[i]);
-      if (!h.isEmpty) {
+      if (h.isNotEmpty) {
         rs.add(h.first);
       }
     }

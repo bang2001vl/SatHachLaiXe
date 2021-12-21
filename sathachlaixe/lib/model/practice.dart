@@ -1,18 +1,16 @@
 import 'package:sathachlaixe/model/timestamp.dart';
 
 class PracticeModel extends TimeStampModel {
-  int topicID = -1;
   int questionID = -1;
   int selectedAnswer = 0;
   int correctAnswer = 0;
   int countWrong = 0;
   int countCorrect = 0;
 
-  PracticeModel(this.topicID, this.questionID, this.selectedAnswer,
-      this.correctAnswer, this.countWrong, this.countCorrect);
+  PracticeModel(this.questionID, this.selectedAnswer, this.correctAnswer,
+      this.countWrong, this.countCorrect);
 
   PracticeModel.create({
-    this.topicID = -1,
     this.questionID = -1,
     this.selectedAnswer = 0,
     this.correctAnswer = 0,
@@ -21,7 +19,6 @@ class PracticeModel extends TimeStampModel {
   });
 
   PracticeModel.fromJSON(Map json) {
-    this.topicID = json["topicID"];
     this.questionID = json["questionID"];
     this.selectedAnswer = json["selectedAnswer"];
     this.correctAnswer = json["correctAnswer"];
@@ -31,9 +28,8 @@ class PracticeModel extends TimeStampModel {
     getTimeStamp(json);
   }
 
-  Map<String, Object> toJSON_insert() {
+  Map<String, Object> toJSONinsert() {
     return {
-      "topicID": this.topicID,
       "questionID": this.questionID,
       "selectedAnswer": this.selectedAnswer,
       "correctAnswer": this.correctAnswer,
