@@ -1,4 +1,5 @@
 import 'package:sathachlaixe/model/history.dart';
+import 'package:sathachlaixe/model/practice.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/topic.dart';
@@ -13,20 +14,32 @@ class RepositoryGL {
     return HistoryController().getAllFinishedHistory();
   }
 
-  TopicModel getRandomTopic() {
-    return AppConfig().mode.createRandomTopic();
-  }
-
   Future<int> insertHistory(HistoryModel data) {
     return HistoryController().insertHistory(data);
+  }
+
+  TopicModel getRandomTopic() {
+    return AppConfig().mode.createRandomTopic();
   }
 
   bool checkPassed(HistoryModel data) {
     return AppConfig().mode.checkResult(data);
   }
 
+  Future<List<HistoryModel>> getLastestHistory(int topicId, {int count = 1}) {
+    return HistoryController().getLastestHistory(topicId, count: count);
+  }
+
+  Future<List<HistoryModel?>> getLastestHistoryList(List<int> idList) {
+    return HistoryController().getLastestHistoryList(idList);
+  }
+
   Duration getTimeLimit() {
     return AppConfig().mode.duration;
+  }
+
+  bool checkCritical(int questionId) {
+    return AppConfig().mode.checkCritical(questionId);
   }
 
   Future<QuestionModel?> getQuestion(int id) {
@@ -45,12 +58,16 @@ class RepositoryGL {
     return PracticeController().countHasPraticed(questionIds);
   }
 
-  Future<List<HistoryModel>> getLastestHistory(int topicId, {int count = 1}) {
-    return HistoryController().getLastestHistory(topicId, count: count);
+  Future<List<PracticeModel>> getPractice(int questionId) {
+    return PracticeController().getPratice(questionId);
   }
 
-  Future<List<HistoryModel?>> getLastestHistoryList(List<int> idList) {
-    return HistoryController().getLastestHistoryList(idList);
+  Future<int> insertPractice(PracticeModel data) {
+    return PracticeController().insert(data);
+  }
+
+  Future<int> updatePractice(PracticeModel data) {
+    return PracticeController().update(data);
   }
 
   List<TopicModel> getTopoicDemos() {

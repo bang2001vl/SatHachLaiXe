@@ -36,22 +36,10 @@ class QuestionWidget extends StatelessWidget {
 
     if (quiz.imageurl.length > 1) {
       answers.insert(
-          0,
-          Image.network(
-            quiz.imageurl,
-            errorBuilder: (c, o, s) {
-              return Image.network(
-                "https://i-vnexpress.vnecdn.net/2020/09/01/q@.png"
-                    .replaceAll("@", quiz.id.toString()),
-                errorBuilder: (c, o, s) {
-                  return const Text(
-                    'Không tìm thấy ảnh',
-                    style: TextStyle(color: Colors.red),
-                  );
-                },
-              );
-            },
-          ));
+        0,
+        Image.asset("assets/images/question/p@.png"
+            .replaceAll("@", quiz.id.toString())),
+      );
     }
     return Container(
       decoration: BoxDecoration(

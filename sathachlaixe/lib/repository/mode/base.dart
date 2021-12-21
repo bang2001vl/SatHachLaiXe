@@ -10,6 +10,8 @@ abstract class BaseMode {
   List<TopicModel> get topicDemoList;
   TopicModel createRandomTopic();
 
+  bool checkCritical(int questionId);
+
   bool checkResult(HistoryModel data);
 
   List<QuestionCategoryModel> get questionCategoryList;
