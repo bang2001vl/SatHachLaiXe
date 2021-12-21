@@ -113,10 +113,10 @@ Widget buildButtonBar(BuildContext context, int count, int index) {
             children: [
               TextFormField(
                 style: kText22Bold_13,
-                decoration: const InputDecoration(labelText: "/${count}"),
+                decoration: const InputDecoration(labelText: "/"),
               ),
               Text(
-                "/${count}",
+                "/$count",
                 style: kText22Bold_13,
               ),
             ],

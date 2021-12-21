@@ -120,7 +120,8 @@ class HomeScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => QuesCategoryScreen()));
+                                builder: (context) =>
+                                    QuesCategoryScreenWithBloc()));
                       },
                     ),
                     InkWell(
