@@ -18,9 +18,9 @@ class DBController {
     return _db as Database;
   }
 
-  void _onCreate(Database db, int version) {
+  Future<void> _onCreate(Database db, int version) async {
     log("Create new database");
-    String sql1 = "CREATE TABLE history (" +
+    String sql1 = "CREATE TABLE history(" +
         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
@@ -33,7 +33,7 @@ class DBController {
         "rawCorrect TEXT DEFAULT '', " +
         "rawSelected TEXT DEFAULT '' " +
         ")";
-    String sql2 = "CREATE TABLE practice (" +
+    String sql2 = "CREATE TABLE practice(" +
         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
@@ -43,9 +43,10 @@ class DBController {
         "selectedAnswer INTEGER DEFAULT 0, " +
         "correctAnswer INTEGER DEFAULT 0, " +
         "countWrong INTEGER DEFAULT 0, " +
-        "countcorrect INTEGER DEFAULT 0, " +
+        "countcorrect INTEGER DEFAULT 0 " +
         ")";
-    db.execute(sql1);
+    await db.execute(sql1).then((value) => log("CREATE history: [OK]"));
+    await db.execute(sql2).then((value) => log("CREATE practice: [OK]"));
   }
 
   Future<void> closeDB() async {
