@@ -1,5 +1,6 @@
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
 import 'package:sathachlaixe/UI/Login/profile_screen.dart';
+import 'package:sathachlaixe/UI/QuickTest/selectQuesCategory.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: size.height * .31,
+              height: 270.h,
               decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
@@ -129,6 +130,13 @@ class HomeScreen extends StatelessWidget {
                         title: "Ôn tập nhanh",
                         svgSrc: "assets/icons/ic_shuffle.svg",
                       ),
+                       onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    QuickTestScreen()));
+                      },
                     ),
                     InkWell(
                       child: HomeCategory(
