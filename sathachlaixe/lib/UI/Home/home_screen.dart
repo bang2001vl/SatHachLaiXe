@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/home_category.dart';
 import 'package:sathachlaixe/UI/Component/searchbar.dart';
 import 'package:sathachlaixe/UI/profile/profile_screen.dart';
+import 'package:sathachlaixe/UI/studyQues/quesCategory_sceen.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import '../quizUI.dart';
@@ -115,6 +116,12 @@ class HomeScreen extends StatelessWidget {
                         title: "Ôn tập lý thuyết",
                         svgSrc: "assets/icons/ic_assignment.svg",
                       ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QuesCategoryScreen()));
+                      },
                     ),
                     InkWell(
                       child: HomeCategory(
