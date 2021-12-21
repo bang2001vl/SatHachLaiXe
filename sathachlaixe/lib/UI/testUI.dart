@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
+import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
+import 'package:sathachlaixe/UI/Quiz/quizClock.dart';
+import 'package:sathachlaixe/UI/Quiz/quizNavigation.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Test/result_screen.dart';
@@ -332,41 +336,19 @@ class QuizPage extends StatelessWidget {
   }
 
   Widget buildButtonBar(BuildContext context, QuizState state) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        IconButton(
-            onPressed: () => _onPressPrevious(context),
-            iconSize: 50.h,
-            icon: SvgPicture.asset('assets/icons/previousButton.svg')),
-        GestureDetector(
-          child: Container(
-            height: 50.h,
-            width: 200.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(38),
-              color: dtcolor1,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              state.mode == 1 ? "XONG" : "NỘP BÀI",
-              style: kText22Bold_13,
-            ),
-          ),
-          onTap: () {
-            if (state.mode == 1) {
-              Navigator.pop(context, "Review");
-            } else {
-              _onPressSubmit(context, state);
-            }
-          },
-        ),
-        IconButton(
-            onPressed: () => _onPressNext(context),
-            iconSize: 50.h,
-            icon: SvgPicture.asset('assets/icons/nextButton.svg')),
-      ],
+    String text = state.mode == 1 ? "XONG" : "NỘP BÀI";
+
+    return QuizButtonBar(
+      submitText: text,
+      onPressNext: () => _onPressNext(context),
+      onPressPrevious: () => _onPressPrevious(context),
+      onPressSubmit: () {
+        if (state.mode == 1) {
+          Navigator.pop(context, "Review");
+        } else {
+          _onPressSubmit(context, state);
+        }
+      },
     );
   }
 }
@@ -388,281 +370,6 @@ class QuizTitle extends StatelessWidget {
                 kText24Normal_13.copyWith(fontSize: 24.h, color: Colors.white)),
         Text('/' + count.toString(), style: kText18Medium_13),
       ],
-    );
-  }
-}
-
-class QuizClock extends StatelessWidget {
-  final Duration timeLeft;
-  QuizClock(this.timeLeft, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SvgPicture.asset('assets/icons/quiz_clock_bg.svg'),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset('assets/icons/ic_clock.svg'),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-                timeLeft.inMinutes.toString().padLeft(2, '0') +
-                    ':' +
-                    timeLeft.inSeconds.remainder(60).toString().padLeft(2, '0'),
-                style: kText16Normal_13),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class QuestionWidgetState {
-  int questionId;
-  int selectedAnswer;
-  int mode;
-  QuestionWidgetState({
-    required this.questionId,
-    required this.selectedAnswer,
-    required this.mode,
-  });
-}
-
-class QuestionWidget extends StatelessWidget {
-  final QuestionModel questionData;
-  final int _selectedAnswer;
-  final int mode;
-  final Function(int select, int correct)? onSelectAnswer;
-  int get _correctAnswer => questionData.correct;
-  QuestionWidget(this.questionData, this._selectedAnswer, this.mode,
-      {Key? key, this.onSelectAnswer})
-      : super(key: key);
-
-  QuestionWidget.modeStart(this.questionData, this._selectedAnswer,
-      {Key? key, this.onSelectAnswer, this.mode = 0})
-      : super(key: key);
-
-  QuestionWidget.modeReview(this.questionData, this._selectedAnswer,
-      {Key? key, this.onSelectAnswer, this.mode = 1})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return buildContent(context, this.questionData);
-  }
-
-  Widget buildContent(BuildContext context, QuestionModel quiz) {
-    var answers = List<Widget>.generate(quiz.answers.length,
-        (index) => buildAnswer(quiz.answers[index], index + 1),
-        growable: true);
-
-    if (quiz.imageurl.length > 1) {
-      answers.insert(
-          0,
-          Image.network(
-            quiz.imageurl,
-            errorBuilder: (c, o, s) {
-              return Image.network(
-                "https://i-vnexpress.vnecdn.net/2020/09/01/q@.png"
-                    .replaceAll("@", quiz.id.toString()),
-                errorBuilder: (c, o, s) {
-                  return const Text(
-                    'Không tìm thấy ảnh',
-                    style: TextStyle(color: Colors.red),
-                  );
-                },
-              );
-            },
-          ));
-    }
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      child: Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                  top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
-              child: Text(
-                quiz.question,
-                style: kText16Normal_13.copyWith(
-                  color: Colors.black,
-                  fontSize: 20.h,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: answers,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildAnswer(String content, int index) {
-    var primecolor = dtcolor11;
-    String iconPath = 'assets/icons/quiz_check_unselected.svg';
-
-    if (mode == 0) {
-      if (_selectedAnswer == index) {
-        // Selected
-        primecolor = dtcolor1;
-        iconPath = 'assets/icons/quiz_check_selected.svg';
-      }
-    } else if (mode == 1) {
-      if (_correctAnswer == index) {
-        // Correct
-        primecolor = dtcolor5;
-      }
-      if (_selectedAnswer == index) {
-        if (_correctAnswer != index) {
-          // Selected wrong
-          primecolor = dtcolor4;
-          iconPath = 'assets/icons/quiz_check_wrong.svg';
-        } else {
-          // Selected correct
-          primecolor = dtcolor5;
-          iconPath = 'assets/icons/quiz_check_correct.svg';
-        }
-      }
-    }
-
-    return Container(
-      margin: EdgeInsets.only(top: 5.h, left: 10, right: 10, bottom: 5.h),
-      padding: EdgeInsets.all(5),
-      constraints: BoxConstraints(minHeight: 45),
-      decoration: BoxDecoration(
-          border: Border.all(
-            color: primecolor,
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: InkWell(
-        onTap: () => onSelectAnswer?.call(index, _correctAnswer),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: 40, child: SvgPicture.asset(iconPath)),
-            Expanded(
-              child: Text(
-                content,
-                style: kText16Normal_14.copyWith(
-                    color: primecolor, fontSize: 16.h),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class QuizNavigationWidgetState {
-  List<int> selected;
-  List<int> correct;
-  int mode;
-  QuizNavigationWidgetState({
-    required this.mode,
-    required this.selected,
-    required this.correct,
-  });
-}
-
-class QuizNavigationWidget extends StatelessWidget {
-  final List<int> selected;
-  final int mode;
-  final Function(int index)? onSelect;
-
-  late final List<int> correct;
-
-  int get maximum => selected.length;
-  int _getCorrectIndex(int index) => correct.elementAt(index);
-
-  QuizNavigationWidget(this.selected, this.correct, this.mode,
-      {Key? key, this.onSelect})
-      : super(key: key);
-  QuizNavigationWidget.modeStart(this.selected,
-      {this.mode = 0, Key? key, this.onSelect})
-      : super(key: key);
-  QuizNavigationWidget.modeReview(this.selected, this.correct,
-      {this.mode = 1, Key? key, this.onSelect})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var firstLine = new List<Widget>.empty(growable: true);
-    for (int i = 0; i < maximum && i < 10; i++) {
-      firstLine.add(getQuesNavigationIcon(i));
-    }
-    var secondLine = new List<Widget>.empty(growable: true);
-    for (int i = 10; i < maximum && i < 20; i++) {
-      secondLine.add(getQuesNavigationIcon(i));
-    }
-    var thirdLine = new List<Widget>.empty(growable: true);
-    for (int i = 20; i < maximum && i < 30; i++) {
-      thirdLine.add(getQuesNavigationIcon(i));
-    }
-    var fourLine = new List<Widget>.empty(growable: true);
-    for (int i = 30; i < maximum && i < 40; i++) {
-      fourLine.add(getQuesNavigationIcon(i));
-    }
-
-    Row row(List<Widget> icons) => Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: icons,
-        );
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        row(firstLine),
-        row(secondLine),
-        row(thirdLine),
-        row(fourLine),
-      ],
-    );
-  }
-
-  Widget getQuesNavigationIcon(int index) {
-    String path = 'assets/icons/button_quiz_navi_normal.svg';
-    if (mode == 0) {
-      if (selected[index] > 0) {
-        // Selected
-        path = 'assets/icons/button_quiz_navi_selected.svg';
-      }
-    } else if (mode == 1) {
-      if (selected[index] == _getCorrectIndex(index)) {
-        path = 'assets/icons/button_quiz_navi_correct.svg';
-      } else {
-        path = 'assets/icons/button_quiz_navi_wrong.svg';
-      }
-    }
-
-    return IconButton(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-      icon: SvgPicture.asset(path),
-      iconSize: 25.h,
-      constraints: BoxConstraints(minHeight: 16.h, minWidth: 16.w),
-      onPressed: () => onSelect?.call(index),
     );
   }
 }

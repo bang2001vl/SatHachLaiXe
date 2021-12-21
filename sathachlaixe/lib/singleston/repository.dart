@@ -1,7 +1,9 @@
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/question.dart';
+import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
+import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 
 class RepositoryGL {
@@ -33,6 +35,14 @@ class RepositoryGL {
 
   Future<List<QuestionModel>> getQuestions(List<int> ids) {
     return AppConfig().mode.getQuestions(ids);
+  }
+
+  List<QuestionCategoryModel> getQuestionCategory() {
+    return AppConfig().mode.questionCategoryList;
+  }
+
+  Future<int> countPracticeComplete(List<int> questionIds) {
+    return PracticeController().countHasPraticed(questionIds);
   }
 
   Future<List<HistoryModel>> getLastestHistory(int topicId, {int count = 1}) {

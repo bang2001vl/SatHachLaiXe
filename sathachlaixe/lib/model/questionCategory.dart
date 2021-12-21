@@ -1,3 +1,5 @@
+import 'package:sathachlaixe/singleston/repository.dart';
+
 class QuestionCategoryModel {
   String name;
   String detail;
@@ -12,7 +14,11 @@ class QuestionCategoryModel {
       this.assetURL,
       this.imageURL});
 
-  Iterable<int> getQuestionIds_int() {
-    return questionIDs.map((e) => int.parse(e));
+  List<int> getQuestionIds_int() {
+    return questionIDs.map((e) => int.parse(e)).toList();
+  }
+
+  Future<int> countHasComplete() {
+    return repository.countPracticeComplete(this.getQuestionIds_int());
   }
 }

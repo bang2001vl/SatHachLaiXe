@@ -82,41 +82,49 @@ class BMode {
         name: "Toàn bộ câu hỏi",
         detail: "Tất cả câu hỏi trong bộ đề",
         questionIDs: List.generate(600, (index) => (index + 1).toString()),
+        assetURL: "assets/images/question_categotery_all.png",
       ),
       QuestionCategoryModel(
         name: "Khái niệm và quy tắc",
         detail: "Từ câu 1-166 (45 câu điểm liệt)",
         questionIDs: List.generate(166 - 0, (index) => (index + 1).toString()),
+        assetURL: "assets/images/question_categotery_1.png",
       ),
       QuestionCategoryModel(
         name: "Nghiệp vụ và vận tải",
         detail: "Từ câu 167-192",
         questionIDs: List.generate(26, (index) => (index + 167).toString()),
+        assetURL: "assets/images/question_categotery_2.png",
       ),
       QuestionCategoryModel(
         name: "Văn hóa và đạo đức",
         detail: "Từ câu 193-213 (4 câu điểm liệt)",
         questionIDs: List.generate(21, (index) => (index + 193).toString()),
+        assetURL: "assets/images/question_categotery_3.png",
       ),
       QuestionCategoryModel(
         name: "Kỹ thuật lái xe",
         detail: "Từ câu 214-269 (11 câu điểm liệt)",
         questionIDs: List.generate(56, (index) => (index + 214).toString()),
+        assetURL: "assets/images/question_categotery_4.png",
       ),
       QuestionCategoryModel(
         name: "Cấu tạo và sửa chữa",
         detail: "Từ câu 270-304",
         questionIDs: List.generate(35, (index) => (index + 270).toString()),
+        assetURL: "assets/images/question_categotery_5.png",
       ),
       QuestionCategoryModel(
         name: "Biển báo đường bộ",
         detail: "Từ câu 305-486",
         questionIDs: List.generate(182, (index) => (index + 305).toString()),
+        assetURL: "assets/images/question_categotery_6.png",
       ),
       QuestionCategoryModel(
         name: "Sa hình",
         detail: "Từ câu 487-600",
         questionIDs: List.generate(114, (index) => (index + 487).toString()),
+        assetURL: "assets/images/question_categotery_7.png",
       ),
       QuestionCategoryModel(
         name: "Câu hỏi điểm liệt",
@@ -124,6 +132,7 @@ class BMode {
         questionIDs:
             "17 18 19 20 21 22 23 24 25 26 27 28 29 30 33 35 36 37 40 43 45 46 47 48 49 50 51 52 53 84 91 99 101 109 112 114 118 119 143 145 147 150 152 153 160 199 209 210 211 214 221 227 231 242 245 248 258 260 261 262"
                 .split(" "),
+        assetURL: "assets/images/question_categotery_spec.png",
       ),
     ], growable: false);
   }
