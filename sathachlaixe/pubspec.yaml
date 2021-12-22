@@ -64,6 +64,7 @@ flutter:
     - assets/icons/
     - assets/final.db
     - assets/images/
+    - assets/images/question/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

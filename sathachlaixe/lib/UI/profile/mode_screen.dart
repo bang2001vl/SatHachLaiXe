@@ -9,10 +9,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/main.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class ModeScreen extends StatelessWidget {
-  final items = ['B1', 'B2'];
+  static final int RESULT_OK = 0x301;
+  static final int RESULT_CANCEL = 0x302;
   String? value;
+
+  void onClickSave(BuildContext context) {
+    var rs = RESULT_CANCEL;
+    if (value != null) {
+      repository.updateMode(value!);
+      rs = RESULT_OK;
+    }
+
+    Navigator.pop(context, rs);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +67,12 @@ class ModeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: dtcolor1, width: 2.w),
                     ),
-                    child: new MyDropDown(),
+                    child: new MyDropDown(
+                      defaultSelected: repository.getCurrentMode(),
+                      onSelectItem: (item) {
+                        this.value = item;
+                      },
+                    ),
                   ),
                   SizedBox(
                     height: 80.h,
@@ -70,6 +88,7 @@ class ModeScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text('XÁC NHẬN', style: kText20Bold_13),
                     ),
+                    onTap: () => onClickSave(context),
                   ),
                 ],
               ),
@@ -82,19 +101,26 @@ class ModeScreen extends StatelessWidget {
 }
 
 class MyDropDown extends StatefulWidget {
-  MyDropDown();
+  final String defaultSelected;
+  final Function(String? item)? onSelectItem;
+  MyDropDown({
+    required this.defaultSelected,
+    this.onSelectItem,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _MyDropDownState createState() => _MyDropDownState();
+  _MyDropDownState createState() => _MyDropDownState(selected: defaultSelected);
 }
 
 class _MyDropDownState extends State<MyDropDown> {
-  String? selected;
+  _MyDropDownState({required this.selected});
+  String selected;
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       value: selected,
-      items: ["B1", "B2"]
+      items: ["b1", "b2"]
           .map((label) => DropdownMenuItem(
                 child: Text(
                   label,
@@ -104,6 +130,7 @@ class _MyDropDownState extends State<MyDropDown> {
               ))
           .toList(),
       onChanged: (value) {
+        widget.onSelectItem?.call(value);
         setState(() => selected = value!);
       },
     );

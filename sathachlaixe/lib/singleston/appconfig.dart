@@ -1,14 +1,21 @@
 import 'package:sathachlaixe/repository/mode/b1.dart';
 import 'package:sathachlaixe/repository/mode/b2.dart';
 import 'package:sathachlaixe/repository/mode/base.dart';
+import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/repository/sqlite/controller.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppConfig {
   String _topicType = "b1";
 
   String get topicType => _topicType;
-  set topicType(value) {
+  Future<int> notifyModeChange() async {
+    var value = await AppController().getMode();
+    if (value == _topicType) {
+      return 0;
+    }
+
     _topicType = value;
     switch (AppConfig().topicType) {
       case "b1":
@@ -23,6 +30,7 @@ class AppConfig {
         throw UnimplementedError();
     }
     _dbController.changeMode(_topicType);
+    return 1;
   }
 
   BaseMode _mode = B1Mode();
@@ -32,7 +40,12 @@ class AppConfig {
   DBController get dbController => _dbController;
   Future<Database> openDB() => dbController.openDB();
 
-  AppConfig._privateConstructor() {}
+  AppConfig._privateConstructor();
+
+  Future<void> init() async {
+    await notifyModeChange();
+    return;
+  }
 
   static final AppConfig _instance = AppConfig._privateConstructor();
 

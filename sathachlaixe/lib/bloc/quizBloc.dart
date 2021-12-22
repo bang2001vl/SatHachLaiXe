@@ -45,10 +45,13 @@ class QuizBloc extends Cubit<QuizState> {
   }
 
   void startTimer() {
-    if (state.mode == 1) {
+    if (state.mode == 1 || _timer != null) {
       // Do nothing
     } else {
-      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+        // if (await this.isClosed) {
+        //   return;
+        // }
         var newState = QuizState.fromInstance(state);
         newState.timeLeft -= Duration(seconds: 1);
         emit(newState);
@@ -155,5 +158,11 @@ class QuizBloc extends Cubit<QuizState> {
     repository.insertHistory(history);
 
     return history;
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
   }
 }

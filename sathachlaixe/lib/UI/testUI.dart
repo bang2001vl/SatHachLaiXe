@@ -127,29 +127,32 @@ class QuizPage extends StatelessWidget {
             child: Column(
               children: [
                 buildTopBar(context),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 25.w,
-                    right: 25.w,
-                  ),
-                  constraints: BoxConstraints(minHeight: 120.h),
-                  child: BlocBuilder<QuizBloc, QuizState>(
-                    buildWhen: (previous, current) =>
-                        checkChanged(previous, current),
-                    builder: (context, state) {
-                      if (state.mode == 1) {
-                        return QuizNavigationWidget.modeReview(
-                          state.getSelectedListInt(),
-                          state.getCorrectListInt(),
-                          onSelect: (i) => _onChangeNavigation(context, i),
-                        );
-                      } else {
-                        return QuizNavigationWidget.modeStart(
-                          state.getSelectedListInt(),
-                          onSelect: (i) => _onChangeNavigation(context, i),
-                        );
-                      }
-                    },
+                SizedBox(
+                  height:
+                      repository.getTopoicDemos().first.questionIDs.length > 30
+                          ? 160.h
+                          : 120.h,
+                  width: 320.w,
+                  child: Container(
+                    constraints: BoxConstraints(minHeight: 120.h),
+                    child: BlocBuilder<QuizBloc, QuizState>(
+                      buildWhen: (previous, current) =>
+                          checkChanged(previous, current),
+                      builder: (context, state) {
+                        if (state.mode == 1) {
+                          return QuizNavigationWidget.modeReview(
+                            state.getSelectedListInt(),
+                            state.getCorrectListInt(),
+                            onSelect: (i) => _onChangeNavigation(context, i),
+                          );
+                        } else {
+                          return QuizNavigationWidget.modeStart(
+                            state.getSelectedListInt(),
+                            onSelect: (i) => _onChangeNavigation(context, i),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
                 Container(
@@ -202,7 +205,7 @@ class QuizPage extends StatelessWidget {
 
   Widget buildTopBar(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
       child: Row(
         children: <Widget>[
           ReturnButton.withCallback(
