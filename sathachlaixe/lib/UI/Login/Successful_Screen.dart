@@ -38,21 +38,21 @@ class SuccessfulScreen extends StatelessWidget {
                       SizedBox(
                         width: 14.w,
                       ),
-                      Text('Đăng ký thành công!', style: kText22Bold_13),
+                      Text('Đăng ký thành công!', style: kText18Bold_13),
                     ],
                   ),
                   SizedBox(
                     height: 25.h,
                   ),
                   Text('Chào mừng bạn đến \n với E-Drive',
-                      textAlign: TextAlign.left, style: kText35Bold_1),
+                      textAlign: TextAlign.left, style: kText30Bold_1),
                   SizedBox(
                     height: 12.h,
                   ),
                   Text(
                       'Cập nhật thông tin cá nhân để có trải\nnghiệm tốt nhất!',
                       textAlign: TextAlign.left,
-                      style: kText20Medium_10),
+                      style: kText16Medium_10),
                   SizedBox(
                     height: 13.h,
                   ),

@@ -25,7 +25,7 @@ class QuizClock extends StatelessWidget {
                 timeLeft.inMinutes.toString().padLeft(2, '0') +
                     ':' +
                     timeLeft.inSeconds.remainder(60).toString().padLeft(2, '0'),
-                style: kText16Normal_13),
+                style: kText12Normal_13),
           ],
         ),
       ],

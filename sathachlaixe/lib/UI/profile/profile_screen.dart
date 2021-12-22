@@ -54,7 +54,7 @@ class PersonalScreen extends StatelessWidget {
                         'Thủy Tiên',
                         style: kText16Medium_1.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(25),
+                          fontSize: ScreenUtil().setSp(20.sp),
                           color: Colors.white,
                         ),
                       ),
@@ -65,7 +65,7 @@ class PersonalScreen extends StatelessWidget {
                         '0946375458',
                         style: kText16Medium_1.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: ScreenUtil().setSp(15),
+                          fontSize: ScreenUtil().setSp(12.sp),
                           color: Colors.white,
                         ),
                       ),
@@ -92,7 +92,7 @@ class PersonalScreen extends StatelessWidget {
                       'Cài đặt',
                       style: kText16Medium_1.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(25),
+                        fontSize: ScreenUtil().setSp(20.sp),
                         color: Colors.black,
                       ),
                     ),
@@ -138,7 +138,7 @@ class PersonalScreen extends StatelessWidget {
                       'Quy định và chính sách',
                       style: kText16Medium_1.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(25),
+                        fontSize: ScreenUtil().setSp(20.sp),
                         color: Colors.black,
                       ),
                     ),

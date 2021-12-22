@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
+import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
@@ -13,11 +14,21 @@ class BMode {
   late List<QuestionCategoryModel> _questionCategories;
   List<QuestionCategoryModel> get questionCategoryList => _questionCategories;
 
+  List<String> get criticalBoard => boardCategoryList.last.boardIDs;
+
+  late List<BoardCategoryModel> _boardCategories;
+  List<BoardCategoryModel> get boardCategoryList => _boardCategories;
+
   BMode() {
     _initQuestionCategogies();
 
     questionCategoryList.forEach((it) {
       it.questionIDs.removeWhere((element) => criticalQues.contains(element));
+    });
+    _initBoardCategogies();
+
+    boardCategoryList.forEach((it) {
+      it.boardIDs.removeWhere((element) => criticalBoard.contains(element));
     });
   }
 
@@ -137,6 +148,44 @@ class BMode {
             "17 18 19 20 21 22 23 24 25 26 27 28 29 30 33 35 36 37 40 43 45 46 47 48 49 50 51 52 53 84 91 99 101 109 112 114 118 119 143 145 147 150 152 153 160 199 209 210 211 214 221 227 231 242 245 248 258 260 261 262"
                 .split(" "),
         assetURL: "assets/images/question_categotery_spec.png",
+      ),
+    ], growable: false);
+  }
+
+  void _initBoardCategogies() {
+    _boardCategories = List.of([
+      BoardCategoryModel(
+        name: "Biển báo cấm",
+        detail: "Biển cấm hình tròn, nền trắng, viền đỏ, hình vẽ màu đen.",
+        boardIDs: List.generate(600, (index) => (index + 1).toString()),
+        assetURL: "assets/images/question_categotery_all.png",
+      ),
+      BoardCategoryModel(
+        name: "Biển hiệu lệnh",
+        detail: "Có dạng hình tròn, nền xanh, hình vẽ màu trắng.",
+        boardIDs: List.generate(166 - 0, (index) => (index + 1).toString()),
+        assetURL: "assets/images/question_categotery_1.png",
+      ),
+      BoardCategoryModel(
+        name: "Biển chỉ dẫn",
+        detail:
+            "Có dạng hình vuông hoặc hình chữ nhật, nền xanh, hình vẽ màu trắng.",
+        boardIDs: List.generate(26, (index) => (index + 167).toString()),
+        assetURL: "assets/images/question_categotery_2.png",
+      ),
+      BoardCategoryModel(
+        name: "Biển báo nguy hiểm và cảnh báo",
+        detail:
+            "Có dạng hình tam giác đều, viền đỏ, nền vàng, hình vẽ màu đen.",
+        boardIDs: List.generate(21, (index) => (index + 193).toString()),
+        assetURL: "assets/images/question_categotery_3.png",
+      ),
+      BoardCategoryModel(
+        name: "Biển phụ",
+        detail:
+            "Có hình chữ nhật đứng hoặc ngang, nền trắng, viền đen, hình vẽ màu đen, thường đặt dưới biển báo chính.",
+        boardIDs: List.generate(56, (index) => (index + 214).toString()),
+        assetURL: "assets/images/question_categotery_4.png",
       ),
     ], growable: false);
   }

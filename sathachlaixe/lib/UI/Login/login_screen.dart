@@ -26,9 +26,9 @@ class LoginScreen extends StatelessWidget {
                   child: Image.asset('assets/images/login.png'),
                 ),
                 Text('Đăng nhập',
-                    textAlign: TextAlign.center, style: kText40Bold_3),
+                    textAlign: TextAlign.center, style: kText36Bold_3),
                 Text('Đăng nhập tài khoản của bạn.',
-                    textAlign: TextAlign.center, style: kText20Medium_10),
+                    textAlign: TextAlign.center, style: kText16Medium_10),
                 SizedBox(
                   height: 30.h,
                 ),
@@ -105,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       'ĐĂNG NHẬP',
-                      style: kText22Bold_13,
+                      style: kText18Bold_13,
                     ),
                   ),
                   onTap: () {
@@ -120,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                     Text(
                       "Chưa có tài khoản?",
                       textAlign: TextAlign.center,
-                      style: kText18Bold_9,
+                      style: kText14Bold_9,
                     ),
                     TextButton(
                       onPressed: () {
@@ -129,7 +129,7 @@ class LoginScreen extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => RegisterScreen()));
                       },
-                      child: Text('Đăng ký!', style: kText18Bold_4),
+                      child: Text('Đăng ký!', style: kText14Bold_4),
                     ),
                   ],
                 ),

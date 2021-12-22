@@ -267,7 +267,7 @@ class _QuizPageState extends State<QuizPageOld> {
           ),
           Text(
             widget.title,
-            style: kText22Bold_13.copyWith(fontSize: 22.h),
+            style: kText18Bold_13.copyWith(fontSize: 22.h),
           ),
         ],
       ),
@@ -338,11 +338,12 @@ class _QuizPageState extends State<QuizPageOld> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text('Câu ' + (_currentQuesIndex + 1).toString(),
-                style: kText24Normal_13.copyWith(
-                    fontSize: 24.h, color: Colors.white)),
+            Text(
+              'Câu ' + (_currentQuesIndex + 1).toString(),
+              style: kText20Normal_13,
+            ),
             Text('/' + widget.quizlist.length.toString(),
-                style: kText18Medium_13),
+                style: kText14Medium_13),
           ],
         ),
         Stack(
@@ -364,7 +365,7 @@ class _QuizPageState extends State<QuizPageOld> {
                             .remainder(60)
                             .toString()
                             .padLeft(2, '0'),
-                    style: kText16Normal_13),
+                    style: kText12Normal_13),
               ],
             ),
           ],
@@ -419,7 +420,7 @@ class _QuizPageState extends State<QuizPageOld> {
             Expanded(
               child: Text(
                 content,
-                style: kText16Normal_14.copyWith(
+                style: kText12Normal_14.copyWith(
                     color: primecolor, fontSize: widget.txtSizeAnswer),
               ),
             ),
@@ -469,7 +470,7 @@ class _QuizPageState extends State<QuizPageOld> {
                   top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
               child: Text(
                 quiz.question,
-                style: kText16Normal_13.copyWith(
+                style: kText12Normal_13.copyWith(
                   color: Colors.black,
                   fontSize: 20.h,
                 ),
@@ -505,7 +506,7 @@ class _QuizPageState extends State<QuizPageOld> {
                     alignment: Alignment.center,
                     child: Text(
                       _mode == 0 ? "Nộp bài" : "Trở về",
-                      style: kText22Bold_13,
+                      style: kText18Bold_13,
                     ),
                   ),
                   onTap: () {

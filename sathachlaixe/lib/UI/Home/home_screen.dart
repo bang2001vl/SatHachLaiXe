@@ -1,4 +1,5 @@
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
+import 'package:sathachlaixe/UI/Board/boardCategoryList.dart';
 import 'package:sathachlaixe/UI/Login/profile_screen.dart';
 import 'package:sathachlaixe/UI/QuickTest/selectQuesCategory.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
@@ -9,6 +10,7 @@ import 'package:sathachlaixe/UI/Component/home_category.dart';
 import 'package:sathachlaixe/UI/Component/searchbar.dart';
 import 'package:sathachlaixe/UI/profile/profile_screen.dart';
 import 'package:sathachlaixe/UI/studyQues/quesCategory_sceen.dart';
+import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import '../quizUI.dart';
@@ -27,7 +29,6 @@ class HomeScreen extends StatelessWidget {
             Container(
               height: 270.h,
               decoration: BoxDecoration(
-                color: Colors.white,
                 image: DecorationImage(
                     image: AssetImage("assets/images/homebg.png"),
                     fit: BoxFit.fill),
@@ -54,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(vertical: 3.h),
                                   child: Text(
                                       'Cùng luyện thi bằng lái nào!',
-                                      style: kText18Medium_13),
+                                      style: kText14Medium_13),
                                 ),
                               ],
                             ),
@@ -130,12 +131,11 @@ class HomeScreen extends StatelessWidget {
                         title: "Ôn tập nhanh",
                         svgSrc: "assets/icons/ic_shuffle.svg",
                       ),
-                       onTap: () {
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    QuickTestScreen()));
+                                builder: (context) => QuickTestScreen()));
                       },
                     ),
                     InkWell(
@@ -143,6 +143,13 @@ class HomeScreen extends StatelessWidget {
                         title: "Biển báo",
                         svgSrc: "assets/icons/ic_board.svg",
                       ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    BoardCategoryScreenWithBloc()));
+                      },
                     ),
                     InkWell(
                       child: HomeCategory(

@@ -53,7 +53,7 @@ class TestStartedComponent extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.left,
-                style: kText20Bold_6,
+                style: kText16Bold_6,
               ),
               SizedBox(
                 height: 10.h,
@@ -70,11 +70,11 @@ class TestStartedComponent extends StatelessWidget {
                       children: [
                         Text(
                           percentTest.toString() + "%",
-                          style: kText30Bold_6.copyWith(color: color),
+                          style: kText26Bold_6.copyWith(color: color),
                         ),
                         Text(
                           trueText,
-                          style: kText16Normal_6,
+                          style: kText14Normal_6,
                         ),
                       ]),
                 ),
@@ -85,7 +85,7 @@ class TestStartedComponent extends StatelessWidget {
               ),
               Text(
                 result,
-                style: kText20Bold_13.copyWith(color: color),
+                style: kText16Bold_13.copyWith(color: color),
               ),
             ],
           ),
