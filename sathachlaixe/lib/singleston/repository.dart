@@ -66,6 +66,12 @@ class RepositoryGL {
     return PracticeController().insert(data);
   }
 
+  Future<int> insertOrUpdatePractice(
+      int questionId, int selectedAnswer, int correctAnswer) {
+    return PracticeController()
+        .insertOrUpdate(questionId, selectedAnswer, correctAnswer);
+  }
+
   Future<int> updatePractice(PracticeModel data) {
     return PracticeController().update(data);
   }
