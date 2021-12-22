@@ -1,3 +1,4 @@
+import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/practice.dart';
 import 'package:sathachlaixe/model/question.dart';
@@ -78,6 +79,10 @@ class RepositoryGL {
 
   List<TopicModel> getTopoicDemos() {
     return AppConfig().mode.topicDemoList;
+  }
+
+  List<BoardCategoryModel> getBoardCategory() {
+    return AppConfig().mode.boardCategoryList;
   }
 }
 

@@ -213,7 +213,7 @@ class QuizPage extends StatelessWidget {
           ),
           Text(
             title,
-            style: kText22Bold_13.copyWith(fontSize: 22.h),
+            style: kText18Bold_13.copyWith(fontSize: 22.h),
           ),
         ],
       ),
@@ -290,10 +290,8 @@ class QuizTitle extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text('Câu ' + (questionIndex + 1).toString(),
-            style:
-                kText24Normal_13.copyWith(fontSize: 24.h, color: Colors.white)),
-        Text('/' + count.toString(), style: kText18Medium_13),
+        Text('Câu ' + (questionIndex + 1).toString(), style: kText20Normal_13),
+        Text('/' + count.toString(), style: kText14Medium_13),
       ],
     );
   }

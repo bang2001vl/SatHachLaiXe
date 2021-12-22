@@ -32,12 +32,12 @@ class ModeScreen extends StatelessWidget {
                   Text(
                     'Chọn loại bằng lái',
                     textAlign: TextAlign.center,
-                    style: kText40Bold_3,
+                    style: kText36Bold_3,
                   ),
                   Padding(
                     padding: EdgeInsets.all(5.h),
                     child: Text('Vui lòng chọn loại bằng lái bạn muốn ôn thi!',
-                        textAlign: TextAlign.center, style: kText20Medium_10),
+                        textAlign: TextAlign.center, style: kText16Medium_10),
                   ),
                   SizedBox(
                     height: 30.h,
@@ -68,7 +68,7 @@ class ModeScreen extends StatelessWidget {
                         color: dtcolor1,
                       ),
                       alignment: Alignment.center,
-                      child: Text('XÁC NHẬN', style: kText24Bold_13),
+                      child: Text('XÁC NHẬN', style: kText20Bold_13),
                     ),
                   ),
                 ],
@@ -98,7 +98,7 @@ class _MyDropDownState extends State<MyDropDown> {
           .map((label) => DropdownMenuItem(
                 child: Text(
                   label,
-                  style: kText20Medium_1,
+                  style: kText16Medium_1,
                 ),
                 value: label,
               ))

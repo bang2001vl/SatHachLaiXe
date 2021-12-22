@@ -69,7 +69,7 @@ class QuesCategoryScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ReturnButton(),
-                    Text('ÔN TẬP LÝ THUYẾT', style: kText24Bold_14),
+                    Text('ÔN TẬP LÝ THUYẾT', style: kText20Bold_14),
                     IconButton(
                       onPressed: () {},
                       iconSize: 35.h,

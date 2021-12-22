@@ -30,10 +30,10 @@ class ForgotPassScreen extends StatelessWidget {
                   Text(
                     'Quên mật khẩu',
                     textAlign: TextAlign.center,
-                    style: kText40Bold_3,
+                    style: kText36Bold_3,
                   ),
                   Text('Nhập email bạn đã đăng ký.',
-                      textAlign: TextAlign.left, style: kText20Medium_10),
+                      textAlign: TextAlign.left, style: kText16Medium_10),
                   SizedBox(
                     height: 50.h,
                   ),
@@ -80,7 +80,7 @@ class ForgotPassScreen extends StatelessWidget {
                         color: dtcolor1,
                       ),
                       alignment: Alignment.center,
-                      child: Text('GỬI OTP', style: kText22Bold_13),
+                      child: Text('GỬI OTP', style: kText18Bold_13),
                     ),
                     onTap: () {
                       Navigator.push(context,

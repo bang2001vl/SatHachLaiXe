@@ -36,12 +36,14 @@ class ProfileMenuItem extends StatelessWidget {
               child: SvgPicture.asset(iconSrc),
             ),
             SizedBox(width: 11.w),
-            Text(
-              title,
-              style: kText16Medium_1.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: ScreenUtil().setSp(20.sp),
-                color: Colors.black,
+            SizedBox(
+              child: Text(
+                title,
+                style: kText16Medium_1.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: ScreenUtil().setSp(20),
+                  color: Colors.black,
+                ),
               ),
             ),
             Spacer(),

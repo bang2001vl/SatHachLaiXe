@@ -39,7 +39,7 @@ class QuickTestScreen extends StatelessWidget {
                     height: 10.h,
                   ),
                   Text('Vui lòng chọn loại câu hỏi',
-                      textAlign: TextAlign.center, style: kText20Medium_10),
+                      textAlign: TextAlign.center, style: kText16Medium_10),
                   SizedBox(
                     height: 30.h,
                   ),
@@ -65,7 +65,7 @@ class QuickTestScreen extends StatelessWidget {
                         color: dtcolor1,
                       ),
                       alignment: Alignment.center,
-                      child: Text('BẮT ĐẦU', style: kText24Bold_13),
+                      child: Text('BẮT ĐẦU', style: kText20Bold_13),
                     ),
                   ),
                 ],
@@ -98,7 +98,7 @@ class _MyDropDownState extends State<MyDropDown> {
           .map((label) => DropdownMenuItem(
                 child: Text(
                   label,
-                  style: kText20Medium_1,
+                  style: kText16Medium_1,
                 ),
                 value: label,
               ))

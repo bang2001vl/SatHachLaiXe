@@ -41,11 +41,11 @@ class HomeCategory extends StatelessWidget {
                 Spacer(),
                 SvgPicture.asset(svgSrc),
                 Spacer(),
-                Text(title,
-                    textAlign: TextAlign.left,
-                    style: kText20Medium_1.copyWith(
-                      fontSize: ScreenUtil().setSp(20),
-                    )),
+                Text(
+                  title,
+                  textAlign: TextAlign.left,
+                  style: kText18Medium_1,
+                ),
               ],
             ),
           ),

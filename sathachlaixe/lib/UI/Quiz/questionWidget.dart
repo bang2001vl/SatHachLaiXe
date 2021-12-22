@@ -57,7 +57,7 @@ class QuestionWidget extends StatelessWidget {
                   top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
               child: Text(
                 quiz.question,
-                style: kText16Normal_13.copyWith(
+                style: kText12Normal_13.copyWith(
                   color: Colors.black,
                   fontSize: 20.h,
                 ),
@@ -126,7 +126,7 @@ class QuestionWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 content,
-                style: kText16Normal_14.copyWith(
+                style: kText12Normal_14.copyWith(
                     color: primecolor, fontSize: 16.h),
               ),
             ),

@@ -24,7 +24,7 @@ class QuesCategoryItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10.h),
       child: SafeArea(
         child: Container(
-          height: 120.h,
+          height: 130.h,
           width: double.infinity,
           decoration: BoxDecoration(
             color: dtcolor13,
@@ -53,16 +53,12 @@ class QuesCategoryItem extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: kText16Medium_1.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: ScreenUtil().setSp(22.sp),
-                            color: Colors.black,
-                          ),
+                          style: kText18Medium_14,
                         ),
                         SizedBox(
                           height: 5.h,
                         ),
-                        Text(subtitle, style: kText16Normal_11),
+                        Text(subtitle, style: kText14Normal_11),
                         SizedBox(
                           height: 25.h,
                         ),
@@ -91,7 +87,7 @@ class QuesCategoryItem extends StatelessWidget {
                         ),
                         child: Text(
                           '${correctQues}/ ${totalQues}',
-                          style: kText20Bold_13,
+                          style: kText16Bold_13,
                         ),
                       ),
                     ),

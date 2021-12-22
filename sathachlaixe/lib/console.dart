@@ -22,9 +22,6 @@ class MyApp extends StatelessWidget {
         builder: () {
           return MaterialApp(
             title: 'Flutter Demo',
-            theme: new ThemeData(
-              primarySwatch: Colors.blue,
-            ),
             home: new MyHomePage(title: 'Flutter Hello World'),
           );
         });
@@ -70,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             new Text(
               '0',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           ],
         ),
