@@ -1,22 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Component/board_category.dart';
-import 'package:sathachlaixe/UI/Component/ques_category.dart';
-import 'package:sathachlaixe/UI/Component/test.dart';
-import 'package:sathachlaixe/UI/Component/testUnStarted.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sathachlaixe/UI/helper.dart';
-import 'package:sathachlaixe/UI/studyQues/studyQuiz_screen.dart';
 import 'package:sathachlaixe/bloc/boadCategoryBloc.dart';
-import 'package:sathachlaixe/bloc/categoteryBloc.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
-import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 
 class BoardCategoryScreenWithBloc extends StatelessWidget {
@@ -62,7 +54,7 @@ class BoardCategoryScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ReturnButton(),
-                    Text('CÁC LOẠI BIỂN BÁO', style: kText24Bold_14),
+                    Text('CÁC LOẠI BIỂN BÁO', style: kText20Bold_14),
                     IconButton(
                       onPressed: () {},
                       iconSize: 35.h,

@@ -57,10 +57,7 @@ class QuestionWidget extends StatelessWidget {
                   top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
               child: Text(
                 quiz.question,
-                style: kText12Normal_13.copyWith(
-                  color: Colors.black,
-                  fontSize: 20.h,
-                ),
+                style: kText16Medium_14,
               ),
             ),
             Expanded(
@@ -109,8 +106,8 @@ class QuestionWidget extends StatelessWidget {
     }
 
     return Container(
-      margin: EdgeInsets.only(top: 5.h, left: 10, right: 10, bottom: 5.h),
-      padding: EdgeInsets.all(5),
+      margin: EdgeInsets.only(top: 7.h, left: 10.w, right: 10.w, bottom: 7.h),
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
       constraints: BoxConstraints(minHeight: 45),
       decoration: BoxDecoration(
           border: Border.all(
@@ -126,8 +123,9 @@ class QuestionWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 content,
-                style: kText12Normal_14.copyWith(
-                    color: primecolor, fontSize: 16.h),
+                style: kText14Normal_6.copyWith(
+                  color: primecolor,
+                ),
               ),
             ),
           ],

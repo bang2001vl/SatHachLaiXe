@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 
@@ -22,10 +23,11 @@ class QuizClock extends StatelessWidget {
               width: 5,
             ),
             Text(
-                timeLeft.inMinutes.toString().padLeft(2, '0') +
-                    ':' +
-                    timeLeft.inSeconds.remainder(60).toString().padLeft(2, '0'),
-                style: kText12Normal_13),
+              timeLeft.inMinutes.toString().padLeft(2, '0') +
+                  ':' +
+                  timeLeft.inSeconds.remainder(60).toString().padLeft(2, '0'),
+              style: kText14Medium_13,
+            ),
           ],
         ),
       ],

@@ -7,6 +7,7 @@ import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
 import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
 import 'package:sathachlaixe/UI/Quiz/quizClock.dart';
 import 'package:sathachlaixe/UI/Quiz/quizNavigation.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Test/result_screen.dart';
 import 'package:sathachlaixe/UI/helper.dart';
@@ -156,7 +157,8 @@ class QuizPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 25.w, right: 15.w),
+                  margin: EdgeInsets.only(
+                      left: 25.w, right: 15.w, top: 10.h, bottom: 5.h),
                   constraints: BoxConstraints(minHeight: 50.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,21 +182,38 @@ class QuizPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: BlocBuilder<QuizBloc, QuizState>(
-                    buildWhen: (previous, current) =>
-                        current.currentIndex != previous.currentIndex,
-                    builder: (context, state) => buildQuestion(context, state),
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: BlocBuilder<QuizBloc, QuizState>(
+                            buildWhen: (previous, current) =>
+                                current.currentIndex != previous.currentIndex,
+                            builder: (context, state) =>
+                                buildQuestion(context, state),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(bottom: 20.h),
+                          child: BlocBuilder<QuizBloc, QuizState>(
+                            buildWhen: (previous, current) =>
+                                previous.mode != current.mode,
+                            builder: (context, state) =>
+                                buildButtonBar(context, state.mode),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  height: 70.h,
-                  child: BlocBuilder<QuizBloc, QuizState>(
-                    buildWhen: (previous, current) =>
-                        previous.mode != current.mode,
-                    builder: (context, state) =>
-                        buildButtonBar(context, state.mode),
-                  ),
-                )
               ],
             ),
           ),
@@ -205,7 +224,7 @@ class QuizPage extends StatelessWidget {
 
   Widget buildTopBar(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
       child: Row(
         children: <Widget>[
           ReturnButton.withCallback(
@@ -216,7 +235,7 @@ class QuizPage extends StatelessWidget {
           ),
           Text(
             title,
-            style: kText18Bold_13.copyWith(fontSize: 22.h),
+            style: kText20Bold_13,
           ),
         ],
       ),

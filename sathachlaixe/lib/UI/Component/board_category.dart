@@ -50,16 +50,12 @@ class BoardCategoryItem extends StatelessWidget {
                         children: [
                           Text(
                             name,
-                            style: kText16Medium_1.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: ScreenUtil().setSp(20.sp),
-                              color: Colors.black,
-                            ),
+                            style: kText18Medium_14,
                           ),
                           SizedBox(
-                            height: 5.h,
+                            height: 7.h,
                           ),
-                          Text(subtitle, style: kText12Normal_11),
+                          Text(subtitle, style: kText14Normal_11),
                         ],
                       ),
                     ],
