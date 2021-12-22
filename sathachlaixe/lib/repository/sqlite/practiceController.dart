@@ -21,6 +21,11 @@ class PracticeController {
     var db = await AppConfig().openDB();
     String sql = "SELECT * FROM $tableName WHERE questionId = ?";
     var data = await db.rawQuery(sql, [questionId]);
+
+    data.forEach((element) {
+      log(element.toString());
+    });
+
     return data.map((row) => PracticeModel.fromJSON(row)).toList();
   }
 
@@ -29,6 +34,20 @@ class PracticeController {
     var values = data.toJSONinsert();
     values["update_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
     return db.update(tableName, values, where: "id = ?", whereArgs: [data.id]);
+  }
+
+  Future<int> insertOrUpdate(
+      int questionId, int selectedAnswer, int correctAnswer) async {
+    var old = await getPratice(questionId);
+    if (old.isEmpty) {
+      var data = PracticeModel(questionId, selectedAnswer, correctAnswer, 0, 0);
+      return insert(data);
+    } else {
+      var data = old.first;
+      data.selectedAnswer = selectedAnswer;
+      data.correctAnswer = correctAnswer;
+      return update(data);
+    }
   }
 
   /// Count how many question has been practice in input list*/

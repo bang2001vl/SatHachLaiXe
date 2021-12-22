@@ -11,7 +11,7 @@ import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/UI/testUI.dart';
-import 'package:sathachlaixe/bloc/quizBloc.dart';
+import 'package:sathachlaixe/bloc/practiceBloc.dart';
 import 'package:sathachlaixe/model/practice.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
@@ -27,51 +27,32 @@ class QuizStudyScreen extends StatelessWidget {
   QuizStudyScreen.modeStudy({required this.cate, this.mode = 0, Key? key})
       : super(key: key);
 
-  void _onPressBack(BuildContext context, QuizState state) {}
-
-  void _onSelectAnswer(BuildContext context, int select, int correct) {
-    BlocProvider.of<QuizBloc>(context).selectAnswer(select, correct);
+  void _onPressBack(BuildContext context) {
+    BlocProvider.of<PracticeBloc>(context).onPressBack(context);
   }
 
-  void _onChangeNavigation(BuildContext context, int index) {
-    log("navigation to " + index.toString());
-    BlocProvider.of<QuizBloc>(context).selectQuestion(index);
+  void _onSelectAnswer(
+      BuildContext context, int select, int correct, QuestionModel quesData) {
+    repository.insertOrUpdatePractice(quesData.id, select, correct).then((_) =>
+        BlocProvider.of<PracticeBloc>(context).selectAnswer(select, correct));
   }
 
   void _onPressNext(BuildContext context) {
-    _onChangeNavigation(
-        context, BlocProvider.of<QuizBloc>(context).state.currentIndex + 1);
+    BlocProvider.of<PracticeBloc>(context).selectQuestionNext();
   }
 
   void _onPressPrevious(BuildContext context) {
-    _onChangeNavigation(
-        context, BlocProvider.of<QuizBloc>(context).state.currentIndex - 1);
+    BlocProvider.of<PracticeBloc>(context).selectQuestionPrevious();
   }
 
-  void _onPressSubmit(BuildContext context, QuizState state) {
-    BlocProvider.of<QuizBloc>(context).stopTimer();
-    if (state.selectedList.contains("0")) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text("Chưa hoàn tất"),
-          content:
-              const Text("Vẫn còn câu để trống. Bạn chắc chắn muốn nộp bài?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Ok'),
-              child: const Text('Có'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Không'),
-            ),
-          ],
-        ),
-      ).then((value) {
-        if (value == "Ok") {}
-      });
-    } else {}
+  void _onPressSubmit(BuildContext context) {
+    BlocProvider.of<PracticeBloc>(context).onPressSubmit(context);
+  }
+
+  bool checkChanged(QuizState previous, QuizState current) {
+    return current.selectedAnswer != previous.selectedAnswer ||
+        current.currentIndex != previous.currentIndex ||
+        current.mode != previous.mode;
   }
 
   @override
@@ -81,7 +62,7 @@ class QuizStudyScreen extends StatelessWidget {
     var state = QuizState.fromCategory(cate: cate, title: cate.name);
 
     return BlocProvider(
-      create: (_) => QuizBloc(state),
+      create: (_) => PracticeBloc(state),
       child: SafeArea(
           child: Stack(
         children: [
@@ -93,59 +74,7 @@ class QuizStudyScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             body: Center(
               child: Column(
-                children: [
-                  BlocBuilder<QuizBloc, QuizState>(
-                    builder: buildTopBar,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 25.w, right: 15.w),
-                    constraints: BoxConstraints(minHeight: 50.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        BlocBuilder<QuizBloc, QuizState>(
-                          buildWhen: (previous, current) =>
-                              current.currentIndex != previous.currentIndex,
-                          builder: (context, state) => QuizTitle(
-                            questionIndex: state.currentIndex,
-                            count: state.length,
-                          ),
-                        ),
-                        BlocBuilder<QuizBloc, QuizState>(
-                          buildWhen: (previous, current) =>
-                              current.timeLeft != previous.timeLeft,
-                          builder: (context, state) => _QuizNotify(
-                              isCritical: repository
-                                  .checkCritical(state.currentQuestionId)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: BlocBuilder<QuizBloc, QuizState>(
-                      buildWhen: (previous, current) =>
-                          current.currentIndex != previous.currentIndex,
-                      builder: (context, state) =>
-                          buildQuestion(context, state),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 10.h, left: 20.w),
-                    child: Text(
-                      'Đáp án đúng là A',
-                      style: kText24Bold_1,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 55.h,
-                    child: BlocBuilder<QuizBloc, QuizState>(
-                      buildWhen: (previous, current) =>
-                          current.mode != previous.mode,
-                      builder: (context, state) =>
-                          buildButtonBar(context, state),
-                    ),
-                  )
-                ],
+                children: buildMainColumn(context),
               ),
             ),
           )
@@ -154,13 +83,80 @@ class QuizStudyScreen extends StatelessWidget {
     );
   }
 
+  List<Widget> buildMainColumn(BuildContext context) {
+    double topbarHeight = 50.h;
+    double butonBarHeight = 70.h;
+    double questionTitleheight = 80.h;
+    double questionContentHeight = MediaQuery.of(context).size.height -
+        topbarHeight -
+        butonBarHeight -
+        questionTitleheight -
+        50.h;
+    return [
+      SizedBox(
+        height: topbarHeight,
+        child: BlocBuilder<PracticeBloc, QuizState>(
+          builder: buildTopBar,
+        ),
+      ),
+      SizedBox(
+        height: questionTitleheight,
+        child: Container(
+          margin: EdgeInsets.only(left: 25.w, right: 15.w),
+          constraints: BoxConstraints(minHeight: 50.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BlocBuilder<PracticeBloc, QuizState>(
+                buildWhen: (previous, current) =>
+                    current.currentIndex != previous.currentIndex,
+                builder: (context, state) => QuizTitle(
+                  questionIndex: state.currentIndex,
+                  count: state.length,
+                ),
+              ),
+              BlocBuilder<PracticeBloc, QuizState>(
+                buildWhen: (previous, current) =>
+                    current.timeLeft != previous.timeLeft,
+                builder: (context, state) => _QuizNotify(
+                    isCritical:
+                        repository.checkCritical(state.currentQuestionId)),
+              ),
+            ],
+          ),
+        ),
+      ),
+      Expanded(
+        child: BlocBuilder<PracticeBloc, QuizState>(
+          buildWhen: (previous, current) =>
+              current.currentIndex != previous.currentIndex,
+          builder: (context, state) =>
+              buildQuestion(context, state.currentQuestionId),
+        ),
+      ),
+      BlocBuilder<PracticeBloc, QuizState>(
+        buildWhen: (prev, cur) =>
+            prev.currentQuestionId != cur.currentQuestionId,
+        builder: (context, state) =>
+            buildHintWithFuture(context, state.currentQuestionId),
+      ),
+      SizedBox(
+        height: butonBarHeight,
+        child: BlocBuilder<PracticeBloc, QuizState>(
+          buildWhen: (previous, current) => current.mode != previous.mode,
+          builder: (context, state) => buildButtonBar(context, state),
+        ),
+      )
+    ];
+  }
+
   Widget buildTopBar(BuildContext context, QuizState state) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
       child: Row(
         children: <Widget>[
           ReturnButton.withCallback(
-            callback: () => _onPressBack(context, state),
+            callback: () => _onPressBack(context),
           ),
           SizedBox(
             width: 95.w,
@@ -174,11 +170,11 @@ class QuizStudyScreen extends StatelessWidget {
     );
   }
 
-  Widget buildQuestion(BuildContext context, QuizState state) {
+  Widget buildQuestion(BuildContext context, int currentQuestionId) {
     return FutureBuilder<List<dynamic>>(
         future: Future.wait([
-          repository.getQuestion(state.currentQuestionId),
-          repository.getPractice(state.currentIndex),
+          repository.getQuestion(currentQuestionId),
+          repository.getPractice(currentQuestionId),
         ]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
@@ -187,36 +183,24 @@ class QuizStudyScreen extends StatelessWidget {
             // Load OK
             var quesData = snapshot.data![0] as QuestionModel;
             var practiceData = (snapshot.data![1] as List<PracticeModel>);
-            return BlocBuilder<QuizBloc, QuizState>(
+
+            if (practiceData.isNotEmpty) {
+              BlocProvider.of<PracticeBloc>(context).selectAnswer(
+                practiceData.first.selectedAnswer,
+                practiceData.first.correctAnswer,
+              );
+            }
+
+            return BlocBuilder<PracticeBloc, QuizState>(
               buildWhen: (prev, curr) =>
                   prev.selectedAnswer != curr.selectedAnswer ||
                   prev.mode != curr.mode,
-              builder: (context, state) {
-                if (practiceData.isEmpty) {
-                  return QuestionWidget.modeStart(
-                    quesData,
-                    state.selectedAnswer,
-                    onSelectAnswer: (select, correct) {
-                      var practice =
-                          PracticeModel(quesData.id, select, correct, 0, 0);
-                      repository.insertPractice(practice).then(
-                          (_) => _onSelectAnswer(context, select, correct));
-                    },
-                  );
-                } else {
-                  return QuestionWidget.modeReview(
-                    quesData,
-                    state.selectedAnswer,
-                    onSelectAnswer: (select, correct) {
-                      var old = practiceData.first;
-                      old.selectedAnswer = select;
-                      old.correctAnswer = correct;
-                      repository.updatePractice(old).then(
-                          (_) => _onSelectAnswer(context, select, correct));
-                    },
-                  );
-                }
-              },
+              builder: (context, state) => buildQuestionContent(
+                context,
+                quesData,
+                state.selectedAnswer,
+                practice: practiceData.isNotEmpty ? practiceData.first : null,
+              ),
             );
           }
           // Load error or data is null
@@ -226,6 +210,81 @@ class QuizStudyScreen extends StatelessWidget {
           // Loading
           return buildLoading(context);
         });
+  }
+
+  Widget buildQuestionContent(
+      BuildContext context, QuestionModel quesData, int selected,
+      {PracticeModel? practice}) {
+    if (selected == 0) {
+      return QuestionWidget.modeStart(
+        quesData,
+        selected,
+        onSelectAnswer: (select, correct) => _onSelectAnswer(
+          context,
+          select,
+          correct,
+          quesData,
+        ),
+      );
+    } else {
+      return QuestionWidget.modeReview(
+        quesData,
+        selected,
+        onSelectAnswer: (select, correct) =>
+            _onSelectAnswer(context, select, correct, quesData),
+      );
+    }
+  }
+
+  Widget buildHintWithFuture(BuildContext context, int currentQuestionId) {
+    return FutureBuilder<List<dynamic>>(
+        future: Future.wait([
+          repository.getQuestion(currentQuestionId),
+          repository.getPractice(currentQuestionId),
+        ]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData &&
+              snapshot.data![0] != null) {
+            // Load OK
+            var quesData = snapshot.data![0] as QuestionModel;
+            var practiceData = (snapshot.data![1] as List<PracticeModel>);
+
+            if (practiceData.isNotEmpty) {
+              BlocProvider.of<PracticeBloc>(context).selectAnswer(
+                practiceData.first.selectedAnswer,
+                practiceData.first.correctAnswer,
+              );
+            }
+
+            return BlocBuilder<PracticeBloc, QuizState>(
+              buildWhen: (prev, curr) =>
+                  prev.selectedAnswer != curr.selectedAnswer ||
+                  prev.mode != curr.mode,
+              builder: (context, state) =>
+                  buildHint(context, quesData, state.selectedAnswer),
+            );
+          }
+          // Load error or data is null
+          if (snapshot.hasError) {
+            return buildError(context, snapshot.error!);
+          }
+          // Loading
+          return buildLoading(context);
+        });
+  }
+
+  Widget buildHint(BuildContext context, QuestionModel data, int select) {
+    if (select == 0 || select == data.correct)
+      return Container();
+    else
+      return Padding(
+        padding: EdgeInsets.only(bottom: 10.h, left: 20.w),
+        child: Text(
+          'Đáp án đúng là ' + data.correct.toString(),
+          style: kText24Bold_1,
+        ),
+      );
   }
 
   Widget buildButtonBar(BuildContext context, QuizState state) {
@@ -239,7 +298,7 @@ class QuizStudyScreen extends StatelessWidget {
         if (state.mode == 1) {
           Navigator.pop(context, "Review");
         } else {
-          _onPressSubmit(context, state);
+          _onPressSubmit(context);
         }
       },
     );
