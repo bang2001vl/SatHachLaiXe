@@ -24,36 +24,20 @@ class QuizNavigationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var firstLine = new List<Widget>.empty(growable: true);
-    for (int i = 0; i < maximum && i < 10; i++) {
-      firstLine.add(getQuesNavigationIcon(i));
-    }
-    var secondLine = new List<Widget>.empty(growable: true);
-    for (int i = 10; i < maximum && i < 20; i++) {
-      secondLine.add(getQuesNavigationIcon(i));
-    }
-    var thirdLine = new List<Widget>.empty(growable: true);
-    for (int i = 20; i < maximum && i < 30; i++) {
-      thirdLine.add(getQuesNavigationIcon(i));
-    }
-    var fourLine = new List<Widget>.empty(growable: true);
-    for (int i = 30; i < maximum && i < 40; i++) {
-      fourLine.add(getQuesNavigationIcon(i));
-    }
-
-    Row row(List<Widget> icons) => Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: icons,
-        );
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        row(firstLine),
-        row(secondLine),
-        row(thirdLine),
-        row(fourLine),
-      ],
+    return GridView.count(
+      crossAxisCount: 10,
+      mainAxisSpacing: 0.h,
+      crossAxisSpacing: 0.h,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.all(0),
+      children: List.generate(
+          maximum,
+          (index) => SizedBox(
+                width: 16.w,
+                height: 16.h,
+                child: getQuesNavigationIcon(index),
+              )),
     );
   }
 
@@ -75,7 +59,7 @@ class QuizNavigationWidget extends StatelessWidget {
     return IconButton(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       icon: SvgPicture.asset(path),
-      iconSize: 25.h,
+      iconSize: 20.h,
       constraints: BoxConstraints(minHeight: 16.h, minWidth: 16.w),
       onPressed: () => onSelect?.call(index),
     );
