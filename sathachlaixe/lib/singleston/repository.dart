@@ -3,12 +3,23 @@ import 'package:sathachlaixe/model/practice.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/topic.dart';
+import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 
 class RepositoryGL {
   RepositoryGL();
+
+  String getCurrentMode() {
+    return AppConfig().topicType;
+  }
+
+  Future<int> updateMode(String mode) {
+    return AppController()
+        .updateMode(mode)
+        .then((value) => AppConfig().notifyModeChange());
+  }
 
   Future<List<HistoryModel>> getAllFinishedHistory() {
     return HistoryController().getAllFinishedHistory();
