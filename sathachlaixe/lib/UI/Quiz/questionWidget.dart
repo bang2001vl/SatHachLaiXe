@@ -42,76 +42,76 @@ class QuestionWidget extends StatelessWidget {
       );
     }
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      child: Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                  top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
-              child: Text(
-                quiz.question,
-                style: kText16Medium_14,
-              ),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+                top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
+            child: Text(
+              quiz.question,
+              style: kText16Medium_14,
             ),
-            Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: answers,
-                  ),
+          ),
+          Expanded(
+            child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: answers,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget buildAnswer(String content, int index) {
     var primecolor = dtcolor11;
+    double borderThinkness = 1;
     String iconPath = 'assets/icons/quiz_check_unselected.svg';
 
     if (mode == 0) {
       if (_selectedAnswer == index) {
         // Selected
         primecolor = dtcolor1;
+        borderThinkness = 1.5;
         iconPath = 'assets/icons/quiz_check_selected.svg';
       }
     } else if (mode == 1) {
       if (_correctAnswer == index) {
         // Correct
+        borderThinkness = 2;
         primecolor = dtcolor5;
       }
       if (_selectedAnswer == index) {
         if (_correctAnswer != index) {
           // Selected wrong
           primecolor = dtcolor4;
+          borderThinkness = 2;
           iconPath = 'assets/icons/quiz_check_wrong.svg';
         } else {
           // Selected correct
           primecolor = dtcolor5;
+          borderThinkness = 2;
           iconPath = 'assets/icons/quiz_check_correct.svg';
         }
       }
     }
 
     return Container(
-      margin: EdgeInsets.only(top: 7.h, left: 10.w, right: 10.w, bottom: 7.h),
+      margin: EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
       constraints: BoxConstraints(minHeight: 45),
       decoration: BoxDecoration(
           border: Border.all(
             color: primecolor,
+            width: borderThinkness,
           ),
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: InkWell(

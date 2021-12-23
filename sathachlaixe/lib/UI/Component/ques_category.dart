@@ -21,7 +21,7 @@ class QuesCategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
+      padding: EdgeInsets.symmetric(vertical: 7.h),
       child: SafeArea(
         child: Container(
           height: 130.h,

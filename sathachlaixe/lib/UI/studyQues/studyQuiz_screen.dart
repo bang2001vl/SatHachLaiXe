@@ -84,65 +84,69 @@ class QuizStudyScreen extends StatelessWidget {
   }
 
   List<Widget> buildMainColumn(BuildContext context) {
-    double topbarHeight = 80.h;
-    double butonBarHeight = 70.h;
-    double questionTitleheight = 80.h;
-
     return [
-      SizedBox(
-        height: topbarHeight,
-        child: BlocBuilder<PracticeBloc, QuizState>(
-          builder: buildTopBar,
-        ),
+      BlocBuilder<PracticeBloc, QuizState>(
+        builder: buildTopBar,
       ),
-      SizedBox(
-        height: questionTitleheight,
-        child: Container(
-          margin: EdgeInsets.only(left: 25.w, right: 15.w),
-          constraints: BoxConstraints(minHeight: 50.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              BlocBuilder<PracticeBloc, QuizState>(
-                buildWhen: (previous, current) =>
-                    current.currentIndex != previous.currentIndex,
-                builder: (context, state) => QuizTitle(
-                  questionIndex: state.currentIndex,
-                  count: state.length,
-                ),
+      Container(
+        margin: EdgeInsets.only(left: 20.w, right: 15.w, bottom: 10.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            BlocBuilder<PracticeBloc, QuizState>(
+              buildWhen: (previous, current) =>
+                  current.currentIndex != previous.currentIndex,
+              builder: (context, state) => QuizTitle(
+                questionIndex: state.currentIndex,
+                count: state.length,
               ),
-              BlocBuilder<PracticeBloc, QuizState>(
-                buildWhen: (previous, current) =>
-                    current.timeLeft != previous.timeLeft,
-                builder: (context, state) => _QuizNotify(
-                    isCritical:
-                        repository.checkCritical(state.currentQuestionId)),
-              ),
-            ],
-          ),
+            ),
+            BlocBuilder<PracticeBloc, QuizState>(
+              buildWhen: (previous, current) =>
+                  current.timeLeft != previous.timeLeft,
+              builder: (context, state) => _QuizNotify(
+                  isCritical:
+                      repository.checkCritical(state.currentQuestionId)),
+            ),
+          ],
         ),
       ),
       Expanded(
-        child: BlocBuilder<PracticeBloc, QuizState>(
-          buildWhen: (previous, current) =>
-              current.currentIndex != previous.currentIndex,
-          builder: (context, state) =>
-              buildQuestion(context, state.currentQuestionId),
-        ),
-      ),
-      BlocBuilder<PracticeBloc, QuizState>(
-        buildWhen: (prev, cur) =>
-            prev.currentQuestionId != cur.currentQuestionId,
-        builder: (context, state) =>
-            buildHintWithFuture(context, state.currentQuestionId),
-      ),
-      SizedBox(
-        height: butonBarHeight,
-        child: BlocBuilder<PracticeBloc, QuizState>(
-          buildWhen: (previous, current) =>
-              current.currentIndex != previous.currentIndex,
-          builder: (context, state) => buildButtonBar(
-              context, state.currentIndex, state.questionIds.length),
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: BlocBuilder<PracticeBloc, QuizState>(
+                  buildWhen: (previous, current) =>
+                      current.currentIndex != previous.currentIndex,
+                  builder: (context, state) =>
+                      buildQuestion(context, state.currentQuestionId),
+                ),
+              ),
+              BlocBuilder<PracticeBloc, QuizState>(
+                buildWhen: (prev, cur) =>
+                    prev.currentQuestionId != cur.currentQuestionId,
+                builder: (context, state) =>
+                    buildHintWithFuture(context, state.currentQuestionId),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 20.h),
+                child: BlocBuilder<PracticeBloc, QuizState>(
+                  buildWhen: (previous, current) =>
+                      current.currentIndex != previous.currentIndex,
+                  builder: (context, state) => buildButtonBar(
+                      context, state.currentIndex, state.questionIds.length),
+                ),
+              ),
+            ],
+          ),
         ),
       )
     ];
@@ -150,14 +154,14 @@ class QuizStudyScreen extends StatelessWidget {
 
   Widget buildTopBar(BuildContext context, QuizState state) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
       child: Row(
         children: <Widget>[
           ReturnButton.withCallback(
             callback: () => _onPressBack(context),
           ),
           SizedBox(
-            width: 95.w,
+            width: 80.w,
           ),
           Text(
             state.title,

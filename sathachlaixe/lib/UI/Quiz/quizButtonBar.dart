@@ -25,7 +25,6 @@ class QuizButtonBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: dtcolor13,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
