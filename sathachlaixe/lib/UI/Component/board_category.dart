@@ -1,4 +1,5 @@
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:sathachlaixe/UI/Board/boardCategoryList.dart';
 import 'package:sathachlaixe/UI/Board/boardDetailList.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
@@ -8,11 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BoardCategoryItem extends StatelessWidget {
-  _onClickedItem(BuildContext context, BoardCategoryItem item) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => BoardDetailScreenWithBloc()));
-  }
-
   const BoardCategoryItem({
     Key? key,
     required this.imageSrc,

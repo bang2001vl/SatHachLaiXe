@@ -9,32 +9,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/bloc/boadCategoryBloc.dart';
+import 'package:sathachlaixe/model/board.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 
-class BoardDetailScreenWithBloc extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => BoardCategoteryBloc(repository.getBoardCategory()),
-      child: BlocBuilder<BoardCategoteryBloc, List<BoardCategoryModel>>(
-        builder: (context, listCate) => BoardDetailScreen(
-          listCate,
-        ),
-      ),
-    );
-  }
-}
-
 class BoardDetailScreen extends StatelessWidget {
-  final List<BoardCategoryModel> catagories;
-  final Function(BoardCategoryModel)? onClickItem;
-  BoardDetailScreen(
-    this.catagories, {
-    this.onClickItem,
-    Key? key,
-  }) : super(key: key);
-
+  final BoardCategoryModel cate;
+  BoardDetailScreen({required this.cate, Key? key}) : super(key: key);
   @override
   Widget build(context) {
     var size = MediaQuery.of(context).size;
@@ -52,31 +33,27 @@ class BoardDetailScreen extends StatelessWidget {
                 padding: EdgeInsets.only(
                     left: 20.w, right: 20.w, top: 15.h, bottom: 10.h),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ReturnButton(),
-                    Text('Biển báo cấm', style: kText20Bold_14),
-                    IconButton(
-                      onPressed: () {},
-                      iconSize: 35.h,
-                      icon: SvgPicture.asset('assets/icons/shuffle.svg'),
-                    )
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: Container(
+                        width: 270.w,
+                        child: Text(
+                          cate.name,
+                          style: kText20Bold_14,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
               Expanded(
                 child: Container(
-                  color: dtcolor16,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-                    child: ListView.builder(
-                      itemCount: this.catagories.length,
-                      itemBuilder: (context, index) =>
-                          buildItem(context, this.catagories[index]),
-                    ),
-                  ),
-                ),
+                    color: dtcolor16,
+                    child: BoardCategoryScreenWithFuture(context)),
               ),
             ],
           ),
@@ -85,13 +62,45 @@ class BoardDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget buildItem(BuildContext context, BoardCategoryModel categoryModel) {
+  Widget BoardCategoryScreenWithFuture(BuildContext context) {
+    return FutureBuilder<List<BoardModel>>(
+        future: cate.getChilds(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            //log("has data");
+            return buildContent(context, snapshot.data!);
+          }
+
+          if (snapshot.hasError) {
+            return Text("Có lỗi xảy ra!");
+          }
+
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
+
+  @override
+  Widget buildContent(context, List<BoardModel> boards) {
+    var size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+      child: ListView.builder(
+        itemCount: boards.length,
+        itemBuilder: (context, index) => buildItem(context, boards[index]),
+      ),
+    );
+  }
+
+  Widget buildItem(BuildContext context, BoardModel boardsModel) {
     {
       return InkWell(
         child: BoardItem(
-          imageSrc: categoryModel.assetURL!,
-          name: categoryModel.name,
-          subtitle: categoryModel.detail,
+          imageSrc: boardsModel.assetURL,
+          name: boardsModel.name,
+          subtitle: boardsModel.detail,
         ),
         onTap: () {},
       );

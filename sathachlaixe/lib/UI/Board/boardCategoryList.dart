@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sathachlaixe/UI/Board/boardDetailList.dart';
 import 'package:sathachlaixe/UI/Component/board_category.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
@@ -11,28 +12,16 @@ import 'package:sathachlaixe/bloc/boadCategoryBloc.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 
-class BoardCategoryScreenWithBloc extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => BoardCategoteryBloc(repository.getBoardCategory()),
-      child: BlocBuilder<BoardCategoteryBloc, List<BoardCategoryModel>>(
-        builder: (context, listCate) => BoardCategoryScreen(
-          listCate,
-        ),
-      ),
-    );
-  }
-}
-
 class BoardCategoryScreen extends StatelessWidget {
-  final List<BoardCategoryModel> catagories;
-  final Function(BoardCategoryModel)? onClickItem;
-  BoardCategoryScreen(
-    this.catagories, {
-    this.onClickItem,
-    Key? key,
-  }) : super(key: key);
+  _onClickedItem(BuildContext context, BoardCategoryModel item) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BoardDetailScreen(
+                  cate: item,
+                ))).then(
+        (value) => BlocProvider.of<BoardCategoteryBloc>(context).reload());
+  }
 
   @override
   Widget build(context) {
@@ -65,17 +54,8 @@ class BoardCategoryScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  color: dtcolor16,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-                    child: ListView.builder(
-                      itemCount: this.catagories.length,
-                      itemBuilder: (context, index) =>
-                          buildItem(context, this.catagories[index]),
-                    ),
-                  ),
-                ),
+                    color: dtcolor16,
+                    child: BoardCategoryScreenWithFuture(context)),
               ),
             ],
           ),
@@ -84,15 +64,47 @@ class BoardCategoryScreen extends StatelessWidget {
     );
   }
 
+  Widget BoardCategoryScreenWithFuture(BuildContext context) {
+    return FutureBuilder<List<BoardCategoryModel?>>(
+        future: repository.getBoardCategory(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            //log("has data");
+            return buildContent(context, snapshot.data!);
+          }
+
+          if (snapshot.hasError) {
+            return Text("Có lỗi xảy ra!");
+          }
+
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
+
+  @override
+  Widget buildContent(context, List<BoardCategoryModel?> catagories) {
+    var size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+      child: ListView.builder(
+        itemCount: catagories.length,
+        itemBuilder: (context, index) => buildItem(context, catagories[index]!),
+      ),
+    );
+  }
+
   Widget buildItem(BuildContext context, BoardCategoryModel categoryModel) {
     {
       return InkWell(
         child: BoardCategoryItem(
-          imageSrc: categoryModel.assetURL!,
+          imageSrc: categoryModel.assetURL,
           name: categoryModel.name,
           subtitle: categoryModel.detail,
         ),
-        onTap: () {},
+        onTap: () => _onClickedItem(context, categoryModel),
       );
     }
   }

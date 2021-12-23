@@ -1,22 +1,22 @@
 import 'package:sathachlaixe/model/board.dart';
 
-class BoardModelCategory {
+class BoardCategoryModel {
   int id;
   String name;
   String detail;
   String assetURL;
 
-  BoardModelCategory(this.id, this.name, this.detail, this.assetURL);
+  BoardCategoryModel(this.id, this.name, this.detail, this.assetURL);
 
-  BoardModelCategory.empty({
+  BoardCategoryModel.empty({
     this.id = -1,
     this.name = '',
     this.detail = '',
     this.assetURL = '',
   });
 
-  factory BoardModelCategory.fromJSON(Map json) {
-    return BoardModelCategory(
+  factory BoardCategoryModel.fromJSON(Map json) {
+    return BoardCategoryModel(
       json['id'],
       json['cateId'],
       json['name'],

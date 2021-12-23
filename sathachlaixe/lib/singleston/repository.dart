@@ -92,41 +92,41 @@ class RepositoryGL {
     return AppConfig().mode.topicDemoList;
   }
 
-  Future<List<BoardModelCategory>> getBoardCategory() {
+  Future<List<BoardCategoryModel>> getBoardCategory() {
     // test only
     return Future.value(List.from([
-      BoardModelCategory.empty(
+      BoardCategoryModel.empty(
         id: 1,
         name: "Biển báo cấm",
         detail: "Biển cấm hình tròn, nền trắng, viền đỏ, hình vẽ màu đen.",
-        assetURL: "assets/images/question_categotery_all.png",
+        assetURL: "assets/images/biencam.jpg",
       ),
-      BoardModelCategory.empty(
+      BoardCategoryModel.empty(
         id: 2,
         name: "Biển hiệu lệnh",
         detail: "Có dạng hình tròn, nền xanh, hình vẽ màu trắng.",
-        assetURL: "assets/images/question_categotery_1.png",
+        assetURL: "assets/images/bienhieulenh.jpg",
       ),
-      BoardModelCategory.empty(
+      BoardCategoryModel.empty(
         id: 3,
         name: "Biển chỉ dẫn",
         detail:
             "Có dạng hình vuông hoặc hình chữ nhật, nền xanh, hình vẽ màu trắng.",
-        assetURL: "assets/images/question_categotery_2.png",
+        assetURL: "assets/images/bienchidan.png",
       ),
-      BoardModelCategory.empty(
+      BoardCategoryModel.empty(
         id: 4,
         name: "Biển báo nguy hiểm và cảnh báo",
         detail:
             "Có dạng hình tam giác đều, viền đỏ, nền vàng, hình vẽ màu đen.",
-        assetURL: "assets/images/question_categotery_3.png",
+        assetURL: "assets/images/biennguyhiem.png",
       ),
-      BoardModelCategory.empty(
+      BoardCategoryModel.empty(
         id: 5,
         name: "Biển phụ",
         detail:
             "Có hình chữ nhật đứng hoặc ngang, nền trắng, viền đen, hình vẽ màu đen, thường đặt dưới biển báo chính.",
-        assetURL: "assets/images/question_categotery_4.png",
+        assetURL: "assets/images/bienphu.jpg",
       ),
     ]));
   }

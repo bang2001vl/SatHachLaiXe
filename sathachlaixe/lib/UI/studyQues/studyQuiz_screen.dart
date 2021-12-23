@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
 import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
@@ -314,18 +315,27 @@ class _QuizNotify extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isCritical) {
-      return Container(
-        height: 25.h,
-        width: 100.w,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(38),
-          color: dtcolor1,
-        ),
+      return Stack(
         alignment: Alignment.center,
-        child: Text(
-          "Câu điểm liệt",
-          style: kText10Normal_10,
-        ),
+        children: [
+          SvgPicture.asset(
+            'assets/icons/quiz_clock_bg.svg',
+            width: 120.w,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                "Câu điểm liệt",
+                style: kText14Medium_13,
+              ),
+            ],
+          ),
+        ],
       );
     } else {
       return Container();

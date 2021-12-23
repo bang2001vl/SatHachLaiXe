@@ -17,46 +17,43 @@ class BoardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.h),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: dtcolor13,
-          border: Border(bottom: BorderSide(color: dtcolor11, width: 1)),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              height: 100.h,
-              width: 100.h,
-              margin: EdgeInsets.all(10.h),
-              child: Image.asset(imageSrc),
+    return Container(
+      padding: EdgeInsets.all(10.h),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: dtcolor13,
+        border: Border(bottom: BorderSide(color: dtcolor7, width: 1)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            height: 100.h,
+            width: 100.h,
+            margin: EdgeInsets.only(right: 15.h),
+            child: Image.asset(imageSrc),
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      name,
+                      style: kText18Medium_14,
+                    ),
+                    SizedBox(
+                      height: 7.h,
+                    ),
+                    Text(subtitle, style: kText14Normal_11),
+                  ],
+                ),
+              ],
             ),
-            Expanded(
-              child: Stack(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        name,
-                        style: kText18Medium_14,
-                      ),
-                      SizedBox(
-                        height: 7.h,
-                      ),
-                      Text(subtitle, style: kText14Normal_11),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
