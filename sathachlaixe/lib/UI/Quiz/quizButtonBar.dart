@@ -9,9 +9,13 @@ class QuizButtonBar extends StatelessWidget {
   final Function()? onPressNext;
   final Function()? onPressSubmit;
   final String submitText;
+  final bool showLeftButton;
+  final bool showRightButton;
 
   QuizButtonBar(
       {required this.submitText,
+      this.showLeftButton = true,
+      this.showRightButton = true,
       this.onPressPrevious,
       this.onPressSubmit,
       this.onPressNext,
@@ -26,10 +30,7 @@ class QuizButtonBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          IconButton(
-              onPressed: () => onPressPrevious?.call(),
-              iconSize: 50.h,
-              icon: SvgPicture.asset('assets/icons/previousButton.svg')),
+          buildLeftButton(context),
           GestureDetector(
             child: Container(
               height: 50.h,
@@ -48,12 +49,27 @@ class QuizButtonBar extends StatelessWidget {
               onPressSubmit?.call();
             },
           ),
-          IconButton(
-              onPressed: () => onPressNext?.call(),
-              iconSize: 50.h,
-              icon: SvgPicture.asset('assets/icons/nextButton.svg')),
+          buildRightButton(context),
         ],
       ),
     );
+  }
+
+  Widget buildLeftButton(BuildContext context) {
+    return IconButton(
+        onPressed: () => onPressPrevious?.call(),
+        iconSize: 50.h,
+        icon: showLeftButton
+            ? SvgPicture.asset('assets/icons/previousButton.svg')
+            : Container());
+  }
+
+  Widget buildRightButton(BuildContext context) {
+    return IconButton(
+        onPressed: () => onPressNext?.call(),
+        iconSize: 50.h,
+        icon: showRightButton
+            ? SvgPicture.asset('assets/icons/nextButton.svg')
+            : Container());
   }
 }

@@ -44,14 +44,16 @@ class QuizBloc extends Cubit<QuizState> {
     emit(newState);
   }
 
-  void startTimer() {
+  void startTimer(BuildContext context) {
     if (state.mode == 1 || _timer != null) {
       // Do nothing
     } else {
       _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
-        // if (await this.isClosed) {
-        //   return;
-        // }
+        if (state.timeLeft.isNegative) {
+          submit(context);
+          stopTimer();
+          return;
+        }
         var newState = QuizState.fromInstance(state);
         newState.timeLeft -= Duration(seconds: 1);
         emit(newState);
@@ -63,15 +65,16 @@ class QuizBloc extends Cubit<QuizState> {
     _timer?.cancel();
   }
 
-  void onPressBack(BuildContext context) {
+  Future<bool> onPressBack(BuildContext context) async {
     if (state.mode == 1 || state.isFinished) {
       Navigator.pop(context, 'Cancel');
+      return false;
     } else {
-      showDialog(
+      var value = await showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text("Tạm dừng"),
-          content: const Text("Bạn có muốn tạm dừng để tiếp tục lần tới?"),
+          title: const Text("Chưa nộp bài"),
+          content: const Text("Bạn thực sự muốn thoát?"),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -83,13 +86,14 @@ class QuizBloc extends Cubit<QuizState> {
             ),
           ],
         ),
-      ).then((value) {
-        if (value == "Ok") {
-          onPressPause(context);
-        } else if (value == "Cancel") {
-          Navigator.pop(context, 'Cancel');
-        }
-      });
+      );
+      if (value == "Ok") {
+        onPressPause(context);
+        return true;
+      } else {
+        // Do nothing
+        return false;
+      }
     }
   }
 
@@ -99,7 +103,6 @@ class QuizBloc extends Cubit<QuizState> {
   }
 
   void onPressSubmit(BuildContext context) {
-    stopTimer();
     if (state.selectedList.contains("0")) {
       showDialog(
         context: context,
@@ -120,13 +123,15 @@ class QuizBloc extends Cubit<QuizState> {
         ),
       ).then((value) {
         if (value == "Ok") {
+          stopTimer();
           submit(context);
         } else {
-          startTimer();
+          //startTimer(context);
         }
       });
     } else {
-      BlocProvider.of<QuizBloc>(context).submit(context);
+      stopTimer();
+      submit(context);
     }
   }
 

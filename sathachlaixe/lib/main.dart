@@ -1,12 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
 import 'package:sathachlaixe/UI/Home/home_screen.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
-import './UI/quizUI.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {

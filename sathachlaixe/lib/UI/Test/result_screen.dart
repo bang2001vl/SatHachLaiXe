@@ -12,15 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/bloc/historyBloc.dart';
 import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/state/quiz.dart';
 import 'package:vector_math/vector_math.dart' as vmath;
 import 'dart:math' as math;
-import '../quizUI.dart';
 
 class ResultTest extends StatelessWidget {
   static int RESULT_REVIEW = 0x200;
   static int RESULT_CANCEL = 0x201;
-  HistoryModel history;
+  final HistoryModel history;
   ResultTest({Key? key, required this.history}) : super(key: key);
 
   Widget buildContent(BuildContext context, HistoryModel state) {
