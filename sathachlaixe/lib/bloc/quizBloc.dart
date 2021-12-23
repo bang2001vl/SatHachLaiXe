@@ -65,6 +65,13 @@ class QuizBloc extends Cubit<QuizState> {
     _timer?.cancel();
   }
 
+  void restartQuiz() {
+    emit(QuizState.fromTopic(
+      title: state.title,
+      topic: state.tag as TopicModel,
+    ));
+  }
+
   Future<bool> onPressBack(BuildContext context) async {
     if (state.mode == 1 || state.isFinished) {
       Navigator.pop(context, 'Cancel');
@@ -103,6 +110,12 @@ class QuizBloc extends Cubit<QuizState> {
   }
 
   void onPressSubmit(BuildContext context) {
+    if (state == 1) {
+      restartQuiz();
+      return;
+    }
+
+    // True submit
     if (state.selectedList.contains("0")) {
       showDialog(
         context: context,

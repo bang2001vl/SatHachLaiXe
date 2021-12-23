@@ -92,8 +92,43 @@ class RepositoryGL {
     return AppConfig().mode.topicDemoList;
   }
 
-  List<BoardCategoryModel> getBoardCategory() {
-    return AppConfig().mode.boardCategoryList;
+  Future<List<BoardModelCategory>> getBoardCategory() {
+    // test only
+    return Future.value(List.from([
+      BoardModelCategory.empty(
+        id: 1,
+        name: "Biển báo cấm",
+        detail: "Biển cấm hình tròn, nền trắng, viền đỏ, hình vẽ màu đen.",
+        assetURL: "assets/images/question_categotery_all.png",
+      ),
+      BoardModelCategory.empty(
+        id: 2,
+        name: "Biển hiệu lệnh",
+        detail: "Có dạng hình tròn, nền xanh, hình vẽ màu trắng.",
+        assetURL: "assets/images/question_categotery_1.png",
+      ),
+      BoardModelCategory.empty(
+        id: 3,
+        name: "Biển chỉ dẫn",
+        detail:
+            "Có dạng hình vuông hoặc hình chữ nhật, nền xanh, hình vẽ màu trắng.",
+        assetURL: "assets/images/question_categotery_2.png",
+      ),
+      BoardModelCategory.empty(
+        id: 4,
+        name: "Biển báo nguy hiểm và cảnh báo",
+        detail:
+            "Có dạng hình tam giác đều, viền đỏ, nền vàng, hình vẽ màu đen.",
+        assetURL: "assets/images/question_categotery_3.png",
+      ),
+      BoardModelCategory.empty(
+        id: 5,
+        name: "Biển phụ",
+        detail:
+            "Có hình chữ nhật đứng hoặc ngang, nền trắng, viền đen, hình vẽ màu đen, thường đặt dưới biển báo chính.",
+        assetURL: "assets/images/question_categotery_4.png",
+      ),
+    ]));
   }
 }
 

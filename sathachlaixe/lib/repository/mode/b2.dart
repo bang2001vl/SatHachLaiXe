@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:sathachlaixe/model/history.dart';
+import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/repository/mode/b.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
@@ -15,6 +16,9 @@ class B2Mode extends BMode implements BaseMode {
   }
 
   @override
+  List<QuestionCategoryModel> get questionCategoryList => rawQuestionCategories;
+
+  @override
   int get length => 35;
 
   @override
@@ -26,7 +30,7 @@ class B2Mode extends BMode implements BaseMode {
   @override
   List<String> getRandomQuesIds() {
     Random ran = Random(DateTime.now().microsecondsSinceEpoch);
-    var cateList = questionCategoryList;
+    var cateList = rawQuestionCategories;
 
     var specs = List.generate(2,
         (i) => int.parse(criticalQues[ran.nextInt(criticalQues.length - 1)]));

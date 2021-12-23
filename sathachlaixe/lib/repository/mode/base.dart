@@ -17,8 +17,6 @@ abstract class BaseMode {
 
   List<QuestionCategoryModel> get questionCategoryList;
 
-  List<BoardCategoryModel> get boardCategoryList;
-
   Future<QuestionModel?> getQuestion(int id);
   Future<List<QuestionModel>> getQuestions(List<int> ids);
 }

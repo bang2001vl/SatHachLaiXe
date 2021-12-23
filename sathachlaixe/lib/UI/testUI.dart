@@ -149,10 +149,10 @@ class QuizPage extends StatelessWidget {
                         ),
                         BlocBuilder<QuizBloc, QuizState>(
                           buildWhen: (previous, current) =>
+                              current.mode != previous.mode ||
                               current.timeLeft != previous.timeLeft,
-                          builder: (context, state) => QuizClock(
-                            state.timeLeft,
-                          ),
+                          builder: (context, state) => buildquizClock(
+                              context, state.mode, state.timeLeft),
                         ),
                       ],
                     ),
@@ -256,6 +256,16 @@ class QuizPage extends StatelessWidget {
     );
   }
 
+  Widget buildquizClock(BuildContext context, int mode, Duration timeLeft) {
+    if (mode == 1) {
+      return Container();
+    } else {
+      return QuizClock(
+        timeLeft,
+      );
+    }
+  }
+
   Widget buildQuestion(BuildContext context, QuizState state) {
     return FutureBuilder<QuestionModel?>(
         future: repository.getQuestion(state.currentQuestionId),
@@ -297,7 +307,7 @@ class QuizPage extends StatelessWidget {
   }
 
   Widget buildButtonBar(BuildContext context, int mode, int index, int length) {
-    String text = mode == 1 ? "XONG" : "NỘP BÀI";
+    String text = mode == 1 ? "LÀM LẠI" : "NỘP BÀI";
 
     return QuizButtonBar(
       submitText: text,

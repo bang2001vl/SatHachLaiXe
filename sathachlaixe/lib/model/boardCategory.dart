@@ -1,26 +1,54 @@
-import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/model/board.dart';
 
-class BoardCategoryModel {
+class BoardModelCategory {
+  int id;
   String name;
   String detail;
-  List<String> boardIDs;
-  String? assetURL;
-  String? imageURL;
+  String assetURL;
 
-  int get length => this.boardIDs.length;
+  BoardModelCategory(this.id, this.name, this.detail, this.assetURL);
 
-  BoardCategoryModel(
-      {required this.name,
-      required this.detail,
-      required this.boardIDs,
-      this.assetURL,
-      this.imageURL});
+  BoardModelCategory.empty({
+    this.id = -1,
+    this.name = '',
+    this.detail = '',
+    this.assetURL = '',
+  });
 
-  List<int> getBoardIds_int() {
-    return boardIDs.map((e) => int.parse(e)).toList();
+  factory BoardModelCategory.fromJSON(Map json) {
+    return BoardModelCategory(
+      json['id'],
+      json['cateId'],
+      json['name'],
+      json['detail'],
+    );
   }
 
-  Future<int> countHasComplete() {
-    return repository.countPracticeComplete(this.getBoardIds_int());
+  Future<List<BoardModel>> getChilds_Ids() {
+    // test only
+    return Future.value(List.from([
+      1,
+      2,
+    ]));
+  }
+
+  Future<List<BoardModel>> getChilds() {
+    // test only
+    return Future.value(List.from([
+      BoardModel.empty(
+        id: 1,
+        cateId: this.id,
+        name: "Biển báo 1",
+        detail: "Biển cấm hình tròn, nền trắng, viền đỏ, hình vẽ màu đen.",
+        assetURL: "assets/images/question_categotery_all.png",
+      ),
+      BoardModel.empty(
+        id: 2,
+        cateId: this.id,
+        name: "Biển hiệu 2",
+        detail: "Có dạng hình tròn, nền xanh, hình vẽ màu trắng.",
+        assetURL: "assets/images/question_categotery_1.png",
+      )
+    ]));
   }
 }
