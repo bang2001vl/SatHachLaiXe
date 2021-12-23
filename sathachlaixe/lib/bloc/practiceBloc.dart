@@ -6,8 +6,9 @@ class PracticeBloc extends QuizBloc {
   PracticeBloc(QuizState initState) : super(initState);
 
   @override
-  void onPressBack(BuildContext context) {
+  Future<bool> onPressBack(BuildContext context) async {
     Navigator.pop(context, 'Cancel');
+    return true;
   }
 
   @override

@@ -65,11 +65,12 @@ class QuizBloc extends Cubit<QuizState> {
     _timer?.cancel();
   }
 
-  void onPressBack(BuildContext context) {
+  Future<bool> onPressBack(BuildContext context) async {
     if (state.mode == 1 || state.isFinished) {
       Navigator.pop(context, 'Cancel');
+      return false;
     } else {
-      showDialog(
+      var value = await showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text("Chưa nộp bài"),
@@ -85,13 +86,14 @@ class QuizBloc extends Cubit<QuizState> {
             ),
           ],
         ),
-      ).then((value) {
-        if (value == "Ok") {
-          onPressPause(context);
-        } else if (value == "Cancel") {
-          // Do nothing
-        }
-      });
+      );
+      if (value == "Ok") {
+        onPressPause(context);
+        return true;
+      } else {
+        // Do nothing
+        return false;
+      }
     }
   }
 
