@@ -24,33 +24,31 @@ class QuizButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          buildLeftButton(context),
-          GestureDetector(
-            child: Container(
-              height: 50.h,
-              width: 200.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(38),
-                color: dtcolor1,
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                this.submitText,
-                style: kText18Bold_13,
-              ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        buildLeftButton(context),
+        GestureDetector(
+          child: Container(
+            height: 50.h,
+            width: 200.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(38),
+              color: dtcolor1,
             ),
-            onTap: () {
-              onPressSubmit?.call();
-            },
+            alignment: Alignment.center,
+            child: Text(
+              this.submitText,
+              style: kText18Bold_13,
+            ),
           ),
-          buildRightButton(context),
-        ],
-      ),
+          onTap: () {
+            onPressSubmit?.call();
+          },
+        ),
+        buildRightButton(context),
+      ],
     );
   }
 
