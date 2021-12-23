@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         designSize: Size(414, 896),
         builder: () {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: HomeScreen(),
           );
         });

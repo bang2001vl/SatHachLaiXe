@@ -30,15 +30,15 @@ class OtpScreen extends StatelessWidget {
                   Text(
                     'Mã xác thực',
                     textAlign: TextAlign.center,
-                    style: kText40Bold_3,
+                    style: kText36Bold_3,
                   ),
                   SizedBox(
                     height: 16.h,
                   ),
                   Text('Mã xác thực được gửi đến',
-                      textAlign: TextAlign.center, style: kText20Medium_10),
+                      textAlign: TextAlign.center, style: kText16Medium_10),
                   Text("******5945",
-                      textAlign: TextAlign.center, style: kText28Bold_14),
+                      textAlign: TextAlign.center, style: kText24Bold_14),
                   SizedBox(
                     height: 40.h,
                   ),
@@ -65,13 +65,13 @@ class OtpScreen extends StatelessWidget {
                       Text(
                         "Chưa nhận được mã?",
                         textAlign: TextAlign.center,
-                        style: kText18Bold_9.copyWith(
+                        style: kText14Bold_9.copyWith(
                           fontSize: ScreenUtil().setSp(17),
                         ),
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: Text('GỬI LẠI (112)', style: kText18Bold_3),
+                        child: Text('GỬI LẠI (112)', style: kText14Bold_3),
                       ),
                     ],
                   ),
@@ -89,7 +89,7 @@ class OtpScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'XÁC NHẬN',
-                        style: kText22Bold_13,
+                        style: kText18Bold_13,
                       ),
                     ),
                     onTap: () {
@@ -122,7 +122,7 @@ class TextFieldOTP extends StatelessWidget {
           textAlign: TextAlign.center,
           showCursor: false,
           readOnly: false,
-          style: kText35Bold_1,
+          style: kText30Bold_1,
           keyboardType: TextInputType.number,
           maxLength: 1,
           decoration: InputDecoration(

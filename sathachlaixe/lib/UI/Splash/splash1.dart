@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
                   Text(
                     "Skip",
                     textAlign: TextAlign.right,
-                    style: kText22Medium_1,
+                    style: kText18Medium_1,
                   ),
                   Image.asset(
                     'assets/image/splash1.png',
@@ -34,7 +34,7 @@ class SplashScreen extends StatelessWidget {
                     width: 250.w,
                   ),
                   Text("Ôn thi lý thuyết.",
-                      textAlign: TextAlign.left, style: kText30Bold_6),
+                      textAlign: TextAlign.left, style: kText26Bold_6),
                   SizedBox(
                     height: 69.h,
                   ),
@@ -50,7 +50,7 @@ class SplashScreen extends StatelessWidget {
                         color: Colors.orange,
                       ),
                       alignment: Alignment.center,
-                      child: Text('CONTINUE', style: kText16Medium_13),
+                      child: Text('CONTINUE', style: kText12Medium_13),
                     ),
                     onTap: () {
                       Navigator.push(
@@ -84,7 +84,7 @@ class SplashScreen2 extends StatelessWidget {
               child: Column(
                 children: [
                   Text("Take care of health...",
-                      textAlign: TextAlign.left, style: kText22Bold_13),
+                      textAlign: TextAlign.left, style: kText18Bold_13),
                   SizedBox(
                     height: 69.h,
                   ),

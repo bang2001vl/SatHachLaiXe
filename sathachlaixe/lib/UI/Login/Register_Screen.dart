@@ -29,10 +29,10 @@ class RegisterScreen extends StatelessWidget {
                   Text(
                     'Đăng ký',
                     textAlign: TextAlign.center,
-                    style: kText40Bold_3,
+                    style: kText36Bold_3,
                   ),
                   Text('Tạo tài khoản của bạn.',
-                      textAlign: TextAlign.center, style: kText20Medium_10),
+                      textAlign: TextAlign.center, style: kText16Medium_10),
                   SizedBox(
                     height: 40.h,
                   ),
@@ -89,7 +89,7 @@ class RegisterScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: "Bằng việc đăng ký, bạn đã đồng ý với\n",
-                      style: kText14Normal_10,
+                      style: kText10Normal_10,
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Điều khoản dịch vụ ',
@@ -99,14 +99,14 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         TextSpan(
                           text: 'và ',
-                          style: kText14Normal_10,
+                          style: kText10Normal_10,
                         ),
                         TextSpan(
                             text: 'Chính sách riêng tư',
-                            style: kText14Normal_10),
+                            style: kText10Normal_10),
                         TextSpan(
                           text: '\n của chúng tôi.',
-                          style: kText14Normal_10,
+                          style: kText10Normal_10,
                         ),
                       ],
                     ),
@@ -125,7 +125,7 @@ class RegisterScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'ĐĂNG KÝ',
-                        style: kText24Bold_13,
+                        style: kText20Bold_13,
                       ),
                     ),
                     onTap: () {
@@ -140,7 +140,7 @@ class RegisterScreen extends StatelessWidget {
                       Text(
                         "Đã có tài khoản?",
                         textAlign: TextAlign.center,
-                        style: kText18Bold_9,
+                        style: kText14Bold_9,
                       ),
                       TextButton(
                         onPressed: () {
@@ -149,7 +149,7 @@ class RegisterScreen extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => LoginScreen()));
                         },
-                        child: Text('Đăng nhập', style: kText18Bold_4),
+                        child: Text('Đăng nhập', style: kText14Bold_4),
                       ),
                     ],
                   ),

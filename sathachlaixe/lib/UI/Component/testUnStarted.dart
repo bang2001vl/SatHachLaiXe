@@ -33,7 +33,7 @@ class TestUnstartedComponent extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.left,
-                style: kText20Bold_6,
+                style: kText16Bold_6,
               ),
               SizedBox(
                 height: 10.h,
@@ -50,7 +50,7 @@ class TestUnstartedComponent extends StatelessWidget {
                       children: [
                         Text(
                           "Mở",
-                          style: kText30Bold_6.copyWith(color: dtcolor1),
+                          style: kText26Bold_6.copyWith(color: dtcolor1),
                         ),
                       ]),
                 ),
@@ -61,14 +61,14 @@ class TestUnstartedComponent extends StatelessWidget {
               ),
               Text(
                 totalQues.toString() + " câu hỏi",
-                style: kText16Normal_6,
+                style: kText12Normal_6,
               ),
               SizedBox(
                 height: 2.h,
               ),
               Text(
                 time.inMinutes.toString() + " phút",
-                style: kText16Normal_6,
+                style: kText12Normal_6,
               ),
             ],
           ),

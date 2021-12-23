@@ -72,12 +72,12 @@ class ResultTest extends StatelessWidget {
                   children: [
                     Text(
                       completePercent,
-                      style: kText35Bold_1.copyWith(
+                      style: kText30Bold_1.copyWith(
                           fontSize: ScreenUtil().setSp(50.sp), color: color2),
                     ),
                     Text(
                       complete,
-                      style: kText20Medium_10,
+                      style: kText16Medium_10,
                     ),
                   ],
                 )
@@ -91,7 +91,7 @@ class ResultTest extends StatelessWidget {
               ),
               Text(
                 title,
-                style: kText35Bold_14,
+                style: kText30Bold_14,
               ),
               SizedBox(
                 height: 10.h,
@@ -99,7 +99,7 @@ class ResultTest extends StatelessWidget {
               Text(
                 msg,
                 textAlign: TextAlign.center,
-                style: kText20Medium_10,
+                style: kText16Medium_10,
               ),
               SizedBox(
                 height: 60.h,
@@ -115,7 +115,7 @@ class ResultTest extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     'Xem chi tiết',
-                    style: kText22Bold_13,
+                    style: kText18Bold_13,
                   ),
                 ),
                 onTap: () => Navigator.pop(context, RESULT_REVIEW),
@@ -126,7 +126,7 @@ class ResultTest extends StatelessWidget {
               GestureDetector(
                 child: Text(
                   "Trở về trang chủ",
-                  style: kText18Bold_3,
+                  style: kText14Bold_3,
                 ),
                 onTap: () => Navigator.pop(context, RESULT_CANCEL),
               ),

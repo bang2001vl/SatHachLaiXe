@@ -161,7 +161,7 @@ class QuizStudyScreen extends StatelessWidget {
           ),
           Text(
             state.title,
-            style: kText22Bold_13.copyWith(fontSize: 22.h),
+            style: kText18Bold_13,
           ),
         ],
       ),
@@ -280,7 +280,7 @@ class QuizStudyScreen extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 10.h, left: 20.w),
         child: Text(
           'Đáp án đúng là ' + data.correct.toString(),
-          style: kText24Bold_1,
+          style: kText20Bold_1,
         ),
       );
   }
@@ -321,7 +321,7 @@ class _QuizNotify extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           "Câu điểm liệt",
-          style: kText14Normal_10,
+          style: kText10Normal_10,
         ),
       );
     } else {

@@ -1,3 +1,4 @@
+import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
@@ -15,6 +16,8 @@ abstract class BaseMode {
   bool checkResult(HistoryModel data);
 
   List<QuestionCategoryModel> get questionCategoryList;
+
+  List<BoardCategoryModel> get boardCategoryList;
 
   Future<QuestionModel?> getQuestion(int id);
   Future<List<QuestionModel>> getQuestions(List<int> ids);

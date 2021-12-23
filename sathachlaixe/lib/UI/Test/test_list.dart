@@ -148,7 +148,7 @@ class TestListPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               ReturnButton(),
-              Text('THI THỬ', style: kText24Bold_13),
+              Text('THI THỬ', style: kText20Bold_13),
               IconButton(
                 onPressed: () => onPressRandomTest(context),
                 iconSize: 35.h,

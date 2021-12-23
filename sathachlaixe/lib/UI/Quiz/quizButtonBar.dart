@@ -42,7 +42,7 @@ class QuizButtonBar extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 this.submitText,
-                style: kText22Bold_13,
+                style: kText18Bold_13,
               ),
             ),
             onTap: () {
