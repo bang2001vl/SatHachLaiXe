@@ -1,20 +1,13 @@
-import 'package:sathachlaixe/SQLite/quizSQLite.dart';
-import 'package:sathachlaixe/UI/Login/profile_screen.dart';
 import 'package:sathachlaixe/UI/QuickTest/selectQuesCategory.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/home_category.dart';
 import 'package:sathachlaixe/UI/Component/searchbar.dart';
 import 'package:sathachlaixe/UI/profile/profile_screen.dart';
 import 'package:sathachlaixe/UI/studyQues/quesCategory_sceen.dart';
-import 'package:sathachlaixe/model/history.dart';
-import 'package:sathachlaixe/singleston/repository.dart';
-import '../quizUI.dart';
 
 import '../Test/test_list.dart';
-import 'package:sathachlaixe/UI/Login/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -130,12 +123,11 @@ class HomeScreen extends StatelessWidget {
                         title: "Ôn tập nhanh",
                         svgSrc: "assets/icons/ic_shuffle.svg",
                       ),
-                       onTap: () {
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    QuickTestScreen()));
+                                builder: (context) => QuickTestScreen()));
                       },
                     ),
                     InkWell(

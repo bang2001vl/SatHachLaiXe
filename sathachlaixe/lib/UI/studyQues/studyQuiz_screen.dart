@@ -87,11 +87,7 @@ class QuizStudyScreen extends StatelessWidget {
     double topbarHeight = 50.h;
     double butonBarHeight = 70.h;
     double questionTitleheight = 80.h;
-    double questionContentHeight = MediaQuery.of(context).size.height -
-        topbarHeight -
-        butonBarHeight -
-        questionTitleheight -
-        50.h;
+
     return [
       SizedBox(
         height: topbarHeight,
@@ -143,8 +139,10 @@ class QuizStudyScreen extends StatelessWidget {
       SizedBox(
         height: butonBarHeight,
         child: BlocBuilder<PracticeBloc, QuizState>(
-          buildWhen: (previous, current) => current.mode != previous.mode,
-          builder: (context, state) => buildButtonBar(context, state),
+          buildWhen: (previous, current) =>
+              current.currentIndex != previous.currentIndex,
+          builder: (context, state) => buildButtonBar(
+              context, state.currentIndex, state.questionIds.length),
         ),
       )
     ];
@@ -287,19 +285,17 @@ class QuizStudyScreen extends StatelessWidget {
       );
   }
 
-  Widget buildButtonBar(BuildContext context, QuizState state) {
-    String text = state.mode == 1 ? "XONG" : "NỘP BÀI";
+  Widget buildButtonBar(BuildContext context, int index, int length) {
+    String text = "$index/$length";
 
     return QuizButtonBar(
       submitText: text,
+      showLeftButton: index > 1,
+      showRightButton: index < length,
       onPressNext: () => _onPressNext(context),
       onPressPrevious: () => _onPressPrevious(context),
       onPressSubmit: () {
-        if (state.mode == 1) {
-          Navigator.pop(context, "Review");
-        } else {
-          _onPressSubmit(context);
-        }
+        Navigator.pop(context, "Submit");
       },
     );
   }

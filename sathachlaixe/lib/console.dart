@@ -2,14 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sathachlaixe/SQLite/quizSQLite.dart';
-import 'package:sathachlaixe/UI/quizUI.dart';
-import 'package:sathachlaixe/UI/studyQues/quesCategory_sceen.dart';
 import 'package:sathachlaixe/UI/studyQues/studyQuiz_screen.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
-
-import 'model/history.dart';
-import 'repository/sqlite/historyController.dart';
 
 void main() => runApp(new MyApp());
 

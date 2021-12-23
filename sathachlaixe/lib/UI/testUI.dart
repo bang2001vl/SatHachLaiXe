@@ -11,6 +11,7 @@ import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Test/result_screen.dart';
 import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/bloc/quizBloc.dart';
+import 'package:sathachlaixe/helper/widgetObserver.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/topic.dart';
@@ -114,93 +115,101 @@ class QuizPage extends StatelessWidget {
   Widget build(BuildContext context) {
     log("Build QuizPage");
     BlocProvider.of<QuizBloc>(context).startTimer();
-    return SafeArea(
-        child: Stack(
-      children: [
-        Image.asset('assets/icons/blue_bg.png',
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Column(
-              children: [
-                buildTopBar(context),
-                SizedBox(
-                  height:
-                      repository.getTopoicDemos().first.questionIDs.length > 30
-                          ? 160.h
-                          : 120.h,
-                  width: 320.w,
-                  child: Container(
-                    constraints: BoxConstraints(minHeight: 120.h),
-                    child: BlocBuilder<QuizBloc, QuizState>(
-                      buildWhen: (previous, current) =>
-                          checkChanged(previous, current),
-                      builder: (context, state) {
-                        if (state.mode == 1) {
-                          return QuizNavigationWidget.modeReview(
-                            state.getSelectedListInt(),
-                            state.getCorrectListInt(),
-                            onSelect: (i) => _onChangeNavigation(context, i),
-                          );
-                        } else {
-                          return QuizNavigationWidget.modeStart(
-                            state.getSelectedListInt(),
-                            onSelect: (i) => _onChangeNavigation(context, i),
-                          );
-                        }
-                      },
+    return WidgetObserver(
+      child: SafeArea(
+          child: Stack(
+        children: [
+          Image.asset('assets/icons/blue_bg.png',
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                children: [
+                  buildTopBar(context),
+                  SizedBox(
+                    height:
+                        repository.getTopoicDemos().first.questionIDs.length >
+                                30
+                            ? 160.h
+                            : 120.h,
+                    width: 320.w,
+                    child: Container(
+                      constraints: BoxConstraints(minHeight: 120.h),
+                      child: BlocBuilder<QuizBloc, QuizState>(
+                        buildWhen: (previous, current) =>
+                            checkChanged(previous, current),
+                        builder: (context, state) {
+                          if (state.mode == 1) {
+                            return QuizNavigationWidget.modeReview(
+                              state.getSelectedListInt(),
+                              state.getCorrectListInt(),
+                              onSelect: (i) => _onChangeNavigation(context, i),
+                            );
+                          } else {
+                            return QuizNavigationWidget.modeStart(
+                              state.getSelectedListInt(),
+                              onSelect: (i) => _onChangeNavigation(context, i),
+                            );
+                          }
+                        },
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 25.w, right: 15.w),
-                  constraints: BoxConstraints(minHeight: 50.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BlocBuilder<QuizBloc, QuizState>(
-                        buildWhen: (previous, current) =>
-                            current.currentIndex != previous.currentIndex,
-                        builder: (context, state) => QuizTitle(
-                          questionIndex: state.currentIndex,
-                          count: state.length,
+                  Container(
+                    margin: EdgeInsets.only(left: 25.w, right: 15.w),
+                    constraints: BoxConstraints(minHeight: 50.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        BlocBuilder<QuizBloc, QuizState>(
+                          buildWhen: (previous, current) =>
+                              current.currentIndex != previous.currentIndex,
+                          builder: (context, state) => QuizTitle(
+                            questionIndex: state.currentIndex,
+                            count: state.length,
+                          ),
                         ),
-                      ),
-                      BlocBuilder<QuizBloc, QuizState>(
-                        buildWhen: (previous, current) =>
-                            current.timeLeft != previous.timeLeft,
-                        builder: (context, state) => QuizClock(
-                          state.timeLeft,
+                        BlocBuilder<QuizBloc, QuizState>(
+                          buildWhen: (previous, current) =>
+                              current.timeLeft != previous.timeLeft,
+                          builder: (context, state) => QuizClock(
+                            state.timeLeft,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: BlocBuilder<QuizBloc, QuizState>(
-                    buildWhen: (previous, current) =>
-                        current.currentIndex != previous.currentIndex,
-                    builder: (context, state) => buildQuestion(context, state),
+                  Expanded(
+                    child: BlocBuilder<QuizBloc, QuizState>(
+                      buildWhen: (previous, current) =>
+                          current.currentIndex != previous.currentIndex,
+                      builder: (context, state) =>
+                          buildQuestion(context, state),
+                    ),
                   ),
-                ),
-                Container(
-                  height: 70.h,
-                  child: BlocBuilder<QuizBloc, QuizState>(
-                    buildWhen: (previous, current) =>
-                        previous.mode != current.mode,
-                    builder: (context, state) =>
-                        buildButtonBar(context, state.mode),
-                  ),
-                )
-              ],
+                  Container(
+                    height: 70.h,
+                    child: BlocBuilder<QuizBloc, QuizState>(
+                      buildWhen: (previous, current) =>
+                          previous.currentIndex != current.currentIndex ||
+                          previous.mode != current.mode,
+                      builder: (context, state) => buildButtonBar(
+                          context,
+                          state.mode,
+                          state.currentIndex,
+                          state.questionIds.length),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        )
-      ],
-    ));
+          )
+        ],
+      )),
+    );
   }
 
   Widget buildTopBar(BuildContext context) {
@@ -263,11 +272,13 @@ class QuizPage extends StatelessWidget {
         });
   }
 
-  Widget buildButtonBar(BuildContext context, int mode) {
+  Widget buildButtonBar(BuildContext context, int mode, int index, int length) {
     String text = mode == 1 ? "XONG" : "NỘP BÀI";
 
     return QuizButtonBar(
       submitText: text,
+      showLeftButton: index > 1,
+      showRightButton: index < length,
       onPressNext: () => _onPressNext(context),
       onPressPrevious: () => _onPressPrevious(context),
       onPressSubmit: () {
