@@ -19,11 +19,12 @@ import 'package:sathachlaixe/singleston/repository.dart';
 class QuesCategoryScreenWithBloc extends StatelessWidget {
   _onClickedItem(BuildContext context, QuestionCategoryModel item) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => QuizStudyScreen.modeStudy(
-                  cate: item,
-                )));
+            context,
+            MaterialPageRoute(
+                builder: (context) => QuizStudyScreen.modeStudy(
+                      cate: item,
+                    )))
+        .then((value) => BlocProvider.of<CategoteryBloc>(context).reload());
   }
 
   @override

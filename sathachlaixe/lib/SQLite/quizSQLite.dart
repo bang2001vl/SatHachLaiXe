@@ -57,7 +57,7 @@ class QuizDB {
     //debugPrint("Db size  = " + (await io.File(await getDBPath()).length()).toString());
     debugPrint("Get quiz no." + id.toString());
 
-    var db = await openDB();
+    var db = await this.openDB();
     var sql = "SELECT * FROM [question] WHERE id = ?;";
     var result = await db.rawQuery(sql, [id]);
     await db.close();

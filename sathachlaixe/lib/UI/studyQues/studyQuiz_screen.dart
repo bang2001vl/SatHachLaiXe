@@ -84,7 +84,7 @@ class QuizStudyScreen extends StatelessWidget {
   }
 
   List<Widget> buildMainColumn(BuildContext context) {
-    double topbarHeight = 50.h;
+    double topbarHeight = 80.h;
     double butonBarHeight = 70.h;
     double questionTitleheight = 80.h;
 
