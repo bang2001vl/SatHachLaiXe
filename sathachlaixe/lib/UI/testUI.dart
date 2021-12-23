@@ -114,7 +114,8 @@ class QuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("Build QuizPage");
-    BlocProvider.of<QuizBloc>(context).startTimer();
+    BlocProvider.of<QuizBloc>(context).startTimer(context);
+
     return SafeArea(
         child: Stack(
       children: [
@@ -128,34 +129,7 @@ class QuizPage extends StatelessWidget {
             child: Column(
               children: [
                 buildTopBar(context),
-                SizedBox(
-                  height:
-                      repository.getTopoicDemos().first.questionIDs.length > 30
-                          ? 160.h
-                          : 120.h,
-                  width: 320.w,
-                  child: Container(
-                    constraints: BoxConstraints(minHeight: 120.h),
-                    child: BlocBuilder<QuizBloc, QuizState>(
-                      buildWhen: (previous, current) =>
-                          checkChanged(previous, current),
-                      builder: (context, state) {
-                        if (state.mode == 1) {
-                          return QuizNavigationWidget.modeReview(
-                            state.getSelectedListInt(),
-                            state.getCorrectListInt(),
-                            onSelect: (i) => _onChangeNavigation(context, i),
-                          );
-                        } else {
-                          return QuizNavigationWidget.modeStart(
-                            state.getSelectedListInt(),
-                            onSelect: (i) => _onChangeNavigation(context, i),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
+                buildNavigator(context),
                 Container(
                   margin: EdgeInsets.only(
                       left: 25.w, right: 15.w, top: 10.h, bottom: 5.h),
@@ -205,9 +179,10 @@ class QuizPage extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 20.h),
                           child: BlocBuilder<QuizBloc, QuizState>(
                             buildWhen: (previous, current) =>
+                                previous.currentIndex != current.currentIndex ||
                                 previous.mode != current.mode,
-                            builder: (context, state) =>
-                                buildButtonBar(context, state.mode),
+                            builder: (context, state) => buildButtonBar(context,
+                                state.mode, state.currentIndex, state.length),
                           ),
                         )
                       ],
@@ -238,6 +213,38 @@ class QuizPage extends StatelessWidget {
             style: kText20Bold_13,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildNavigator(BuildContext context) {
+    double heightNavigator =
+        repository.getTopoicDemos().first.questionIDs.length > 30
+            ? 160.h
+            : 120.h;
+
+    return SizedBox(
+      height: heightNavigator,
+      width: 320.w,
+      child: Container(
+        constraints: BoxConstraints(minHeight: 120.h),
+        child: BlocBuilder<QuizBloc, QuizState>(
+          buildWhen: (previous, current) => checkChanged(previous, current),
+          builder: (context, state) {
+            if (state.mode == 1) {
+              return QuizNavigationWidget.modeReview(
+                state.getSelectedListInt(),
+                state.getCorrectListInt(),
+                onSelect: (i) => _onChangeNavigation(context, i),
+              );
+            } else {
+              return QuizNavigationWidget.modeStart(
+                state.getSelectedListInt(),
+                onSelect: (i) => _onChangeNavigation(context, i),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -282,11 +289,13 @@ class QuizPage extends StatelessWidget {
         });
   }
 
-  Widget buildButtonBar(BuildContext context, int mode) {
+  Widget buildButtonBar(BuildContext context, int mode, int index, int length) {
     String text = mode == 1 ? "XONG" : "NỘP BÀI";
 
     return QuizButtonBar(
       submitText: text,
+      showLeftButton: index > 0,
+      showRightButton: index < length - 1,
       onPressNext: () => _onPressNext(context),
       onPressPrevious: () => _onPressPrevious(context),
       onPressSubmit: () {
