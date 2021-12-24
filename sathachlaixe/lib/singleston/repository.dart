@@ -1,3 +1,4 @@
+import 'package:sathachlaixe/model/board.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/practice.dart';
@@ -90,6 +91,16 @@ class RepositoryGL {
 
   List<TopicModel> getTopoicDemos() {
     return AppConfig().mode.topicDemoList;
+  }
+
+  Future<BoardModel> getBoard(int id) {
+    return Future.value(BoardModel.empty(
+      id: 1,
+      cateId: 1,
+      name: "Biển báo 1",
+      detail: "Biển cấm hình tròn, nền trắng, viền đỏ, hình vẽ màu đen.",
+      assetURL: "assets/images/question_categotery_all.png",
+    ));
   }
 
   Future<List<BoardCategoryModel>> getBoardCategory() {
