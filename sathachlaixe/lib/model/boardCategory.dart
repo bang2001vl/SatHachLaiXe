@@ -18,9 +18,9 @@ class BoardCategoryModel {
   factory BoardCategoryModel.fromJSON(Map json) {
     return BoardCategoryModel(
       json['id'],
-      json['cateId'],
       json['name'],
       json['detail'],
+      json['assetURL'],
     );
   }
 

@@ -6,6 +6,7 @@ import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/repository/sqlite/appController.dart';
+import 'package:sathachlaixe/repository/sqlite/boardCategoryController.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
@@ -104,6 +105,7 @@ class RepositoryGL {
   }
 
   Future<List<BoardCategoryModel>> getBoardCategory() {
+    return BoardCateController().getBoardCateAll();
     // test only
     return Future.value(List.from([
       BoardCategoryModel.empty(

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/studyQues/studyQuiz_screen.dart';
+import 'package:sathachlaixe/repository/sqlite/boardController.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 
 void main() => runApp(new MyApp());
@@ -33,13 +34,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _test(BuildContext context) async {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => QuizStudyScreen.modeStudy(
-                  cate: repository.getQuestionCategory()[1],
-                ))).then(
-        (value) => log("[QuesCategoryScreenWithBloc] Exit with : " + value));
+    var a = await repository.getBoardCategory();
+    log("done");
   }
 
   @override
