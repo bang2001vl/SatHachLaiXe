@@ -53,20 +53,34 @@ class QuizButtonBar extends StatelessWidget {
   }
 
   Widget buildLeftButton(BuildContext context) {
-    return IconButton(
+    double size = 50.h;
+    if (showLeftButton) {
+      return IconButton(
         onPressed: () => onPressPrevious?.call(),
-        iconSize: 50.h,
-        icon: showLeftButton
-            ? SvgPicture.asset('assets/icons/previousButton.svg')
-            : Container());
+        iconSize: size,
+        icon: SvgPicture.asset('assets/icons/previousButton.svg'),
+      );
+    } else {
+      return SizedBox(
+        width: size,
+        height: size,
+      );
+    }
   }
 
   Widget buildRightButton(BuildContext context) {
-    return IconButton(
+    double size = 50.h;
+    if (showRightButton) {
+      return IconButton(
         onPressed: () => onPressNext?.call(),
-        iconSize: 50.h,
-        icon: showRightButton
-            ? SvgPicture.asset('assets/icons/nextButton.svg')
-            : Container());
+        iconSize: size,
+        icon: SvgPicture.asset('assets/icons/nextButton.svg'),
+      );
+    } else {
+      return SizedBox(
+        width: size,
+        height: size,
+      );
+    }
   }
 }

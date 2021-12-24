@@ -65,11 +65,12 @@ class QuizBloc extends Cubit<QuizState> {
     _timer?.cancel();
   }
 
-  void restartQuiz() {
+  void restartQuiz(BuildContext context) {
     emit(QuizState.fromTopic(
       title: state.title,
       topic: state.tag as TopicModel,
     ));
+    startTimer(context);
   }
 
   Future<bool> onPressBack(BuildContext context) async {
@@ -110,8 +111,8 @@ class QuizBloc extends Cubit<QuizState> {
   }
 
   void onPressSubmit(BuildContext context) {
-    if (state == 1) {
-      restartQuiz();
+    if (state.mode == 1) {
+      restartQuiz(context);
       return;
     }
 

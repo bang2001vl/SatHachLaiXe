@@ -130,10 +130,11 @@ class TestListPage extends StatelessWidget {
         builder: (context) => quizPage,
       ),
     ).then((value) {
-      if (value != "Cancel") {
-        log("History has changed");
-        context.read<TopicBloc>().reload();
-      }
+      context.read<TopicBloc>().reload();
+      // if (value != "Cancel") {
+      //   log("History has changed");
+      //   context.read<TopicBloc>().reload();
+      // }
     });
   }
 

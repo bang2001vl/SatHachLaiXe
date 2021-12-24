@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +7,7 @@ import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
 import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
 import 'package:sathachlaixe/UI/Quiz/quizClock.dart';
 import 'package:sathachlaixe/UI/Quiz/quizNavigation.dart';
-import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
-import 'package:sathachlaixe/UI/Test/result_screen.dart';
 import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/bloc/quizBloc.dart';
 import 'package:sathachlaixe/model/history.dart';
@@ -316,11 +313,7 @@ class QuizPage extends StatelessWidget {
       onPressNext: () => _onPressNext(context),
       onPressPrevious: () => _onPressPrevious(context),
       onPressSubmit: () {
-        if (mode == 1) {
-          Navigator.pop(context, "Review");
-        } else {
-          _onPressSubmit(context);
-        }
+        _onPressSubmit(context);
       },
     );
   }

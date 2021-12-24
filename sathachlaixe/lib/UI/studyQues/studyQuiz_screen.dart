@@ -130,12 +130,12 @@ class QuizStudyScreen extends StatelessWidget {
                       buildQuestion(context, state.currentQuestionId),
                 ),
               ),
-              BlocBuilder<PracticeBloc, QuizState>(
-                buildWhen: (prev, cur) =>
-                    prev.currentQuestionId != cur.currentQuestionId,
-                builder: (context, state) =>
-                    buildHintWithFuture(context, state.currentQuestionId),
-              ),
+              // BlocBuilder<PracticeBloc, QuizState>(
+              //   buildWhen: (prev, cur) =>
+              //       prev.currentQuestionId != cur.currentQuestionId,
+              //   builder: (context, state) =>
+              //       buildHintWithFuture(context, state.currentQuestionId),
+              // ),
               Padding(
                 padding: EdgeInsets.only(bottom: 20.h),
                 child: BlocBuilder<PracticeBloc, QuizState>(
@@ -290,16 +290,20 @@ class QuizStudyScreen extends StatelessWidget {
   }
 
   Widget buildButtonBar(BuildContext context, int index, int length) {
-    String text = "$index/$length";
+    String text = (index + 1).toString() + "/" + length.toString();
 
     return QuizButtonBar(
       submitText: text,
-      showLeftButton: index > 1,
-      showRightButton: index < length,
-      onPressNext: () => _onPressNext(context),
-      onPressPrevious: () => _onPressPrevious(context),
+      // showLeftButton: index > 0,
+      // showRightButton: index < length - 1,
+      onPressNext: () => index == length - 1
+          ? BlocProvider.of<PracticeBloc>(context).selectQuestion(0)
+          : _onPressNext(context),
+      onPressPrevious: () => index == 0
+          ? BlocProvider.of<PracticeBloc>(context).selectQuestion(length - 1)
+          : _onPressPrevious(context),
       onPressSubmit: () {
-        Navigator.pop(context, "Submit");
+        //Navigator.pop(context, "Submit");
       },
     );
   }
