@@ -76,7 +76,6 @@ class QuizDB {
     var db = await openDB();
     var sql = "SELECT * FROM [question] WHERE id = ?;";
     var result = await db.rawQuery(sql, [id]);
-    await db.close();
     return QuizBaseDB.fromMap(result.first);
   }
 
@@ -87,7 +86,6 @@ class QuizDB {
     var db = await this.openDB();
     var sql = "SELECT * FROM [question] WHERE id = ?;";
     var result = await db.rawQuery(sql, [id]);
-    await db.close();
 
     if (result.isEmpty) {
       return null;
@@ -101,7 +99,6 @@ class QuizDB {
     var argsPlaceholder = idList.map((e) => "?").join(",");
     var sql = "SELECT * FROM [question] WHERE id IN ($argsPlaceholder);";
     var result = await db.rawQuery(sql, idList);
-    await db.close();
 
     var rs = List.generate(
         result.length, (index) => QuestionModel.fromMap(result[index]));

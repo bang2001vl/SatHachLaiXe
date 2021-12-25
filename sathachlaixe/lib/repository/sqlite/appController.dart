@@ -46,6 +46,10 @@ class AppDBController {
       "key": "mode",
       "value": "b1",
     });
+    await db.insert(_tableConfig, {
+      "key": "syncState",
+      "value": "1",
+    });
 
     log("[OK]: Init table config");
   }
@@ -105,9 +109,35 @@ class AppController {
     return reader.first["value"] as String;
   }
 
-  Future<int> updateMode(String mode) async {
+  Future<int> updateMode(String value) async {
     var db = await AppDBController().openDB();
     String sql = "UPDATE $tableName SET value = ? WHERE key = 'mode'";
-    return db.rawUpdate(sql, [mode]);
+    return db.rawUpdate(sql, [value]);
+  }
+
+  Future<int> getSyncState() async {
+    var db = await AppDBController().openDB();
+    String sql = "SELECT value FROM $tableName WHERE key = 'syncState'";
+    var reader = await db.rawQuery(sql);
+    return int.parse(reader.first["value"] as String);
+  }
+
+  Future<int> updateSyncState(int value) async {
+    var db = await AppDBController().openDB();
+    String sql = "UPDATE $tableName SET value = ? WHERE key = 'syncState'";
+    return db.rawUpdate(sql, [value]);
+  }
+
+  Future<String> getToken() async {
+    var db = await AppDBController().openDB();
+    String sql = "SELECT value FROM $tableName WHERE key = 'token'";
+    var reader = await db.rawQuery(sql);
+    return reader.first["value"] as String;
+  }
+
+  Future<int> updateToken(int value) async {
+    var db = await AppDBController().openDB();
+    String sql = "UPDATE $tableName SET value = ? WHERE key = 'token'";
+    return db.rawUpdate(sql, [value]);
   }
 }

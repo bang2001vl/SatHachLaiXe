@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:sathachlaixe/model/board.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
@@ -25,6 +27,12 @@ class RepositoryGL {
         .then((value) => AppConfig().notifyModeChange());
   }
 
+  Future<int> getLastSyncTime() async {
+    var a = await HistoryController().getMaxSyncTime();
+    var b = await PracticeController().getMaxSyncTime();
+    return max(a, b);
+  }
+
   Future<List<HistoryModel>> getAllFinishedHistory() {
     return HistoryController().getAllFinishedHistory();
   }
@@ -47,6 +55,17 @@ class RepositoryGL {
 
   Future<List<HistoryModel?>> getLastestHistoryList(List<int> idList) {
     return HistoryController().getLastestHistoryList(idList);
+  }
+
+  Future<List<HistoryModel>> getUnsyncHistories() {
+    return HistoryController().getUnsyncHistories();
+  }
+
+  Future<int> updateSyncTime(
+      List<int> historiesIds, List<int> practicesIds, int syncTime) async {
+    var a = await HistoryController().updateSyncTime(historiesIds, syncTime);
+    var b = await PracticeController().updateSyncTime(practicesIds, syncTime);
+    return a + b;
   }
 
   Duration getTimeLimit() {
@@ -82,13 +101,27 @@ class RepositoryGL {
   }
 
   Future<int> insertOrUpdatePractice(
-      int questionId, int selectedAnswer, int correctAnswer) {
-    return PracticeController()
-        .insertOrUpdate(questionId, selectedAnswer, correctAnswer);
+    int questionId,
+    int selectedAnswer,
+    int correctAnswer, {
+    int countWrong = 0,
+    int countCorrect = 0,
+  }) {
+    return PracticeController().insertOrUpdate(
+      questionId,
+      selectedAnswer,
+      correctAnswer,
+      countWrong: countWrong,
+      countCorrect: countCorrect,
+    );
   }
 
   Future<int> updatePractice(PracticeModel data) {
     return PracticeController().update(data);
+  }
+
+  Future<List<PracticeModel>> getUnsyncPractices() {
+    return PracticeController().getUnsyncPractices();
   }
 
   List<TopicModel> getTopoicDemos() {

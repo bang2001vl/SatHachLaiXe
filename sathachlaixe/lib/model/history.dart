@@ -68,6 +68,13 @@ class HistoryModel extends TimeStampModel {
         "rawSelected": this.rawSelected,
       };
 
+  Map<String, Object?> toJSON() {
+    var json = toJSON_insert();
+    json["create_time"] = this.create_time;
+    json["update_time"] = this.update_time;
+    return json;
+  }
+
   HistoryModel({
     required this.topicID,
     this.isPassed = false,

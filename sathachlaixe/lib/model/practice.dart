@@ -28,7 +28,7 @@ class PracticeModel extends TimeStampModel {
     getTimeStamp(json);
   }
 
-  Map<String, Object> toJSONinsert() {
+  Map<String, Object?> toJSONinsert() {
     return {
       "questionID": this.questionID,
       "selectedAnswer": this.selectedAnswer,
@@ -36,5 +36,12 @@ class PracticeModel extends TimeStampModel {
       "countWrong": this.countWrong,
       "countCorrect": this.countCorrect,
     };
+  }
+
+  Map<String, Object?> toJSON() {
+    var json = toJSONinsert();
+    json["create_time"] = this.create_time;
+    json["update_time"] = this.update_time;
+    return json;
   }
 }

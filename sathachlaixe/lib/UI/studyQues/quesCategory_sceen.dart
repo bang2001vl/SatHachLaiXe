@@ -15,16 +15,19 @@ import 'package:sathachlaixe/bloc/categoteryBloc.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
 
 class QuesCategoryScreenWithBloc extends StatelessWidget {
   _onClickedItem(BuildContext context, QuestionCategoryModel item) {
     Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => QuizStudyScreen.modeStudy(
-                      cate: item,
-                    )))
-        .then((value) => BlocProvider.of<CategoteryBloc>(context).reload());
+        context,
+        MaterialPageRoute(
+            builder: (context) => QuizStudyScreen.modeStudy(
+                  cate: item,
+                ))).then((value) {
+      BlocProvider.of<CategoteryBloc>(context).reload();
+      SocketController().notifyDataChanged();
+    });
   }
 
   @override

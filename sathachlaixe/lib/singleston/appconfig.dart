@@ -1,12 +1,16 @@
+import 'package:sathachlaixe/model/auth.dart';
 import 'package:sathachlaixe/repository/mode/b1.dart';
 import 'package:sathachlaixe/repository/mode/b2.dart';
 import 'package:sathachlaixe/repository/mode/base.dart';
 import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/repository/sqlite/controller.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppConfig {
+  AuthModel? auth;
+
   String _topicType = "b1";
 
   String get topicType => _topicType;
@@ -44,6 +48,10 @@ class AppConfig {
 
   Future<void> init() async {
     await notifyModeChange();
+    var a = await AppController().getSyncState();
+    if (a == 1) {
+      //SocketController().init();
+    }
     return;
   }
 

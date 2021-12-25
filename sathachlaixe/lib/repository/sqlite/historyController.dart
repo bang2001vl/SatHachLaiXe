@@ -15,9 +15,10 @@ class HistoryController {
     var values = data.toJSON_insert();
     values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
     values["update_time"] = values["create_time"];
+    values["sync_time"] = 0;
     values["mode"] = repository.getCurrentMode();
     var affected = await db.insert(this.tableName, values);
-
+    log(values.toString());
     return affected;
   }
 
@@ -48,9 +49,9 @@ class HistoryController {
     var rs = List<HistoryModel>.generate(
         data.length, (index) => new HistoryModel.fromJSON(data[index]));
 
-    data.forEach((element) {
-      log(element.toString());
-    });
+    // data.forEach((element) {
+    //   log(element.toString());
+    // });
 
     return rs;
   }
@@ -77,9 +78,9 @@ class HistoryController {
     var rs = List<HistoryModel>.generate(
         data.length, (index) => new HistoryModel.fromJSON(data[index]));
 
-    data.forEach((element) {
-      log(element.toString());
-    });
+    // data.forEach((element) {
+    //   log(element.toString());
+    // });
 
     return rs;
   }
@@ -108,5 +109,42 @@ class HistoryController {
       }
     });
     return rs;
+  }
+
+  Future<List<HistoryModel>> getUnsyncHistories() async {
+    var db = await AppConfig().openDB();
+    var sql = "SELECT * FROM $tableName WHERE sync_time = 0";
+    var data = await db.rawQuery(sql);
+
+    var rs = List<HistoryModel>.generate(
+        data.length, (index) => new HistoryModel.fromJSON(data[index]));
+
+    data.forEach((element) {
+      log(element.toString());
+    });
+
+    return rs;
+  }
+
+  Future<int> updateSyncTime(List<int> ids, int syncTime) async {
+    var db = await AppConfig().openDB();
+    var argsPlaceholder = ids.map((e) => "?").join(",");
+    var sql =
+        "UPDATE $tableName SET sync_time = ? WHERE id IN ($argsPlaceholder);";
+    var values = List.empty(growable: true);
+    values
+      ..add(syncTime)
+      ..addAll(ids);
+    return db.rawUpdate(sql, values);
+  }
+
+  Future<int> getMaxSyncTime() async {
+    var db = await AppConfig().openDB();
+    var sql = "SELECT * FROM $tableName ORDER BY sync_time DESC LIMIT 1;";
+    var reader = await db.rawQuery(sql);
+    if (reader.isEmpty) {
+      return 0;
+    }
+    return reader.first["sync_time"] as int;
   }
 }

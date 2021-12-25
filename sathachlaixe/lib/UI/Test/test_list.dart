@@ -16,6 +16,7 @@ import 'package:sathachlaixe/bloc/topicBloc.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
 
 class TestList extends StatelessWidget {
   @override
@@ -131,10 +132,7 @@ class TestListPage extends StatelessWidget {
       ),
     ).then((value) {
       context.read<TopicBloc>().reload();
-      // if (value != "Cancel") {
-      //   log("History has changed");
-      //   context.read<TopicBloc>().reload();
-      // }
+      SocketController().notifyDataChanged();
     });
   }
 
