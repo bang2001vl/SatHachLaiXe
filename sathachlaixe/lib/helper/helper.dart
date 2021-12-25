@@ -3,9 +3,8 @@ import 'dart:developer';
 
 import 'package:flutter/services.dart';
 
-Future<List<Map<String, Object>>> getDateFromAsset(String key) async {
-  final String raw =
-      await rootBundle.loadString("assets/db_resource/board.tsv");
+Future<List<Map<String, Object>>> getDataFromAsset(String key) async {
+  final String raw = await rootBundle.loadString(key);
 
   final List<String> lines = const LineSplitter().convert(raw);
   // Lines[0] is column's name
@@ -18,7 +17,7 @@ Future<List<Map<String, Object>>> getDateFromAsset(String key) async {
     final List<String> fields = line.split('\t');
     var values = Map<String, Object>.fromIterables(columns, fields);
     //log(line);
-    log(values.toString());
+    //log(values.toString());
     return values;
   });
 }

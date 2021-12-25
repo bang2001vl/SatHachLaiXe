@@ -30,7 +30,7 @@ class AppDBController {
     log("Create new database: [app]");
 
     await initConfig(db);
-    //await initBoard(db);
+    await initBoard(db);
     await initBoardCate(db);
 
     log("[OK]: Created database app");
@@ -62,7 +62,7 @@ class AppDBController {
 
       await txn.execute(sql);
 
-      final rows = await getDateFromAsset("asset/db_resource/board.tsv");
+      final rows = await getDataFromAsset("assets/db_resource/board.tsv");
 
       for (int i = 0; i < rows.length; i++) {
         var row = rows[i];
@@ -84,7 +84,7 @@ class AppDBController {
 
       await txn.execute(sql);
 
-      final rows = await getDateFromAsset("asset/db_resource/boardCate.tsv");
+      final rows = await getDataFromAsset("assets/db_resource/boardCate.tsv");
 
       for (int i = 0; i < rows.length; i++) {
         var row = rows[i];

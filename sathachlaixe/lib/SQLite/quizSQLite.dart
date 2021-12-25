@@ -3,44 +3,72 @@ import 'dart:io' as io;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as pathLib;
 import 'package:path_provider/path_provider.dart';
+import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sqflite/sqflite.dart';
 
 class QuizDB {
-  static const String dbName = "final.db";
-
-  QuizDB();
-
-  Future<void> ensureDB() async {
-    debugPrint("DATABASE: onEnsure");
-    final path = await getDBPath();
-    if (io.FileSystemEntity.typeSync(path) ==
-        io.FileSystemEntityType.notFound) {
-      debugPrint("DATABASE: Not found db file. Starting copy db from bundle");
-      await copyDBto(path);
-    }
-    debugPrint("DATABASE: Ensure OK");
-  }
-
-  Future<String> getDBPath() async {
-    final dbDir = await getDatabasesPath();
-    return join(dbDir, dbName);
-  }
-
-  Future<void> copyDBto(String path) async {
-    ByteData data = await rootBundle.load("assets/final.db");
-    if (data.lengthInBytes > 10) debugPrint("Found in bundle");
-    List<int> bytes =
-        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-    await io.File(path).writeAsBytes(bytes);
-  }
+  String dbName = "question.db";
+  Database? _db;
 
   Future<Database> openDB() async {
-    await ensureDB();
-    final path = await getDBPath();
-    return openDatabase(path);
+    final databasesPath = await getDatabasesPath();
+    String path = pathLib.join(databasesPath, dbName);
+
+    if (_db == null) {
+      _db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    }
+
+    return _db as Database;
+  }
+
+  Future<void> closeDB() async {
+    return _db?.close();
+  }
+
+  Future<void> ensureDB() async {
+    if (_db != null) {
+      await closeDB();
+    }
+    await openDB();
+    await closeDB();
+  }
+
+  Future<void> _onCreate(Database db, int version) async {
+    log("[START]: Create new database: [$dbName]");
+    await initQuestion(db);
+    log("[DONE]: Created database [$dbName]");
+  }
+
+  Future<void> initQuestion(Database db) async {
+    String tableName = 'question';
+    return db.transaction((txn) async {
+      String sql = "CREATE TABLE $tableName(" +
+          "id INTEGER PRIMARY KEY, " +
+          "question TEXT DEFAULT '', " +
+          "imageurl TEXT DEFAULT '', " +
+          "correct INT DEFAULT -1, " +
+          "answer1 TEXT DEFAULT '', " +
+          "answer2 TEXT DEFAULT '', " +
+          "answer3 TEXT DEFAULT '', " +
+          "answer4 TEXT DEFAULT '', " +
+          "type INT DEFAULT -1)";
+
+      await txn.execute(sql);
+
+      final rows = await getDataFromAsset("assets/db_resource/question.tsv");
+
+      for (int i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        row["id"] = int.parse(row["id"].toString());
+        row["correct"] = int.parse(row["correct"].toString());
+        row["type"] = int.parse(row["type"].toString());
+
+        await txn.insert(tableName, row);
+      }
+    }).then((value) => log("[OK]: Init table $tableName"));
   }
 
   Future<QuizBaseDB> findQuizById(int id) async {

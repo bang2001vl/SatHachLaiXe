@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
 import 'package:sathachlaixe/UI/Home/home_screen.dart';
+import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,29 +12,40 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  Future<List<QuizBaseDB>> getQuizList(List questionIDs) async {
-    List<QuizBaseDB> quizs = List<QuizBaseDB>.empty(growable: true);
-    var db = QuizDB();
-    for (int i = 0; i < questionIDs.length; i++) {
-      quizs.add(await db.findQuizById(questionIDs[i]));
-    }
-    return quizs;
+  Future<bool> loadConfiguare() async {
+    log("Start init configuare");
+    AppConfig().init();
+    // Check DB
+    await QuizDB().ensureDB();
+    log("End init configuare");
+    return true;
   }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    log("Start init configuare");
-    AppConfig().init().then((value) => log("End init configuare"));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(
-        title: "My Home Page",
-      ),
+      home: FutureBuilder(
+          future: loadConfiguare(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              return MyHomePage(
+                title: "My Home Page",
+              );
+            }
+            if (snapshot.hasError) {
+              return buildError(context, snapshot.error);
+            }
+            return Scaffold(
+              body: buildLoading(context),
+            );
+          }),
     );
   }
 }

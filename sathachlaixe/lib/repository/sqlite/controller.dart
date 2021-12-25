@@ -43,7 +43,7 @@ class DBController {
         "selectedAnswer INTEGER DEFAULT 0, " +
         "correctAnswer INTEGER DEFAULT 0, " +
         "countWrong INTEGER DEFAULT 0, " +
-        "countcorrect INTEGER DEFAULT 0 " +
+        "countCorrect INTEGER DEFAULT 0 " +
         ")";
     await db.execute(sql1).then((value) => log("CREATE history: [OK]"));
     await db.execute(sql2).then((value) => log("CREATE practice: [OK]"));
