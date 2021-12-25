@@ -308,10 +308,14 @@ class QuizPage extends StatelessWidget {
 
     return QuizButtonBar(
       submitText: text,
-      showLeftButton: index > 0,
-      showRightButton: index < length - 1,
-      onPressNext: () => _onPressNext(context),
-      onPressPrevious: () => _onPressPrevious(context),
+      // showLeftButton: index > 0,
+      // showRightButton: index < length - 1,
+      onPressNext: () => index == length - 1
+          ? BlocProvider.of<QuizBloc>(context).selectQuestion(0)
+          : _onPressNext(context),
+      onPressPrevious: () => index == 0
+          ? BlocProvider.of<QuizBloc>(context).selectQuestion(length - 1)
+          : _onPressPrevious(context),
       onPressSubmit: () {
         _onPressSubmit(context);
       },
