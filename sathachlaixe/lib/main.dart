@@ -24,50 +24,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: FutureBuilder(
-          future: loadConfiguare(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              return MyHomePage(
-                title: "My Home Page",
-              );
-            }
-            if (snapshot.hasError) {
-              return buildError(context, snapshot.error);
-            }
-            return Scaffold(
-              body: buildLoading(context),
-            );
-          }),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: Size(414, 896),
         builder: () {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: HomeScreen(),
+            home: FutureBuilder(
+                future: loadConfiguare(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    return HomeScreen();
+                  }
+                  if (snapshot.hasError) {
+                    return buildError(context, snapshot.error);
+                  }
+                  return Scaffold(
+                    body: buildLoading(context),
+                  );
+                }),
           );
         });
   }

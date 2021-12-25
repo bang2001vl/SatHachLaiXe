@@ -1,7 +1,6 @@
 import 'package:sathachlaixe/model/base.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sathachlaixe/singleston/repository.dart';
 
 class HistoryEvent extends BlocBaseEvent {}
 
