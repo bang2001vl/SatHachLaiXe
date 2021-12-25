@@ -1,3 +1,6 @@
 id	name	detail	assetURL
 1	Biển báo cấm	Biển cấm hình tròn, nền trắng, viền đỏ, hình vẽ màu đen.	assets/images/biencam.jpg
 2	Biển hiệu lệnh	Có dạng hình tròn, nền xanh, hình vẽ màu trắng.	assets/images/bienhieulenh.jpg
+3	Biển chỉ dẫn	Có dạng hình vuông hoặc hình chữ nhật, nền xanh, hình vẽ màu trắng.	assets/images/bienchidan.png
+4	Biển báo nguy hiểm	Có dạng hình tam giác đều, viền đỏ, nền vàng, hình vẽ màu đen.	assets/images/biennguyhiem.png
+5	Biển phụ	Có hình chữ nhật đứng hoặc ngang, nền trắng, viền đen, hình vẽ màu đen, thường đặt dưới biển báo chính.	assets/images/bienphu.jpg
