@@ -65,6 +65,7 @@ flutter:
     - assets/final.db
     - assets/images/
     - assets/images/question/
+    - assets/images/boards/
     - assets/db_resource/
 
   # An image asset can refer to one or more resolution-specific "variants", see
