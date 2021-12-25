@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/studyQues/studyQuiz_screen.dart';
 import 'package:sathachlaixe/repository/sqlite/boardController.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
 
 void main() => runApp(new MyApp());
 
@@ -34,8 +35,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _test(BuildContext context) async {
-    var a = await repository.getBoardCategory();
-    log("done");
+    SocketController().socket.emit("test_server");
   }
 
   @override

@@ -7,7 +7,7 @@ class BoardCategoteryBloc extends IReloadableBloc<BoardCategoryModel> {
 
   @override
   void reload() async {
-    var list = await repository.getBoardCategory();
+    var list = await repository.getBoardCateAll();
     emit(list);
   }
 }

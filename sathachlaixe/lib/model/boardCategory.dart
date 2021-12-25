@@ -1,4 +1,5 @@
 import 'package:sathachlaixe/model/board.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class BoardCategoryModel {
   int id;
@@ -24,31 +25,12 @@ class BoardCategoryModel {
     );
   }
 
-  Future<List<BoardModel>> getChilds_Ids() {
-    // test only
-    return Future.value(List.from([
-      1,
-      2,
-    ]));
+  Future<List<int>> getChilds_Ids() async {
+    var a = await getChilds();
+    return List.generate(a.length, (index) => a[index].id).toList();
   }
 
   Future<List<BoardModel>> getChilds() {
-    // test only
-    return Future.value(List.from([
-      BoardModel.empty(
-        id: 1,
-        cateId: this.id,
-        name: "Biển báo 1",
-        detail: "Biển cấm hình tròn, nền trắng, viền đỏ, hình vẽ màu đen.",
-        assetURL: "assets/images/question_categotery_all.png",
-      ),
-      BoardModel.empty(
-        id: 2,
-        cateId: this.id,
-        name: "Biển hiệu 2",
-        detail: "Có dạng hình tròn, nền xanh, hình vẽ màu trắng.",
-        assetURL: "assets/images/question_categotery_1.png",
-      )
-    ]));
+    return repository.getBoardByCate(this.id);
   }
 }

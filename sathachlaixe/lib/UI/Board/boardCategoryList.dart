@@ -66,7 +66,7 @@ class BoardCategoryScreen extends StatelessWidget {
 
   Widget BoardCategoryScreenWithFuture(BuildContext context) {
     return FutureBuilder<List<BoardCategoryModel?>>(
-        future: repository.getBoardCategory(),
+        future: repository.getBoardCateAll(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
