@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:sathachlaixe/model/practice.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class PracticeController {
   final String tableName = 'practice';
@@ -14,17 +15,20 @@ class PracticeController {
     var db = await AppConfig().openDB();
     var values = data.toJSONinsert();
     values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
+    values["update_time"] = values["create_time"]!;
+    values["mode"] = repository.getCurrentMode();
     return db.insert(tableName, values);
   }
 
   Future<List<PracticeModel>> getPratice(int questionId) async {
     var db = await AppConfig().openDB();
-    String sql = "SELECT * FROM $tableName WHERE questionId = ?";
-    var data = await db.rawQuery(sql, [questionId]);
+    var mode = repository.getCurrentMode();
+    String sql = "SELECT * FROM $tableName WHERE mode = ? AND questionId = ?";
+    var data = await db.rawQuery(sql, [mode, questionId]);
 
-    data.forEach((element) {
-      log(element.toString());
-    });
+    // data.forEach((element) {
+    //   log(element.toString());
+    // });
 
     return data.map((row) => PracticeModel.fromJSON(row)).toList();
   }
@@ -53,11 +57,14 @@ class PracticeController {
   /// Count how many question has been practice in input list*/
   Future<int> countHasPraticed(List<int> questionIds) async {
     var db = await AppConfig().openDB();
+    var mode = repository.getCurrentMode();
     var argsPlaceholder = questionIds.map((e) => "?").join(",");
     String sql =
-        "SELECT id FROM $tableName WHERE questionId IN ($argsPlaceholder) AND selectedAnswer > 0";
+        "SELECT id FROM $tableName WHERE mode = ? AND questionId IN ($argsPlaceholder) AND selectedAnswer > 0";
 
-    return db.rawQuery(sql, questionIds).then((reader) {
+    var values = List<Object>.of([mode], growable: true);
+    values.addAll(questionIds);
+    return db.rawQuery(sql, values).then((reader) {
       return reader.length;
     });
   }

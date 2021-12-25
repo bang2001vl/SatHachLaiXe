@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/repository/sqlite/questionStatistic.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class HistoryController {
   final String tableName = 'history';
@@ -13,15 +14,18 @@ class HistoryController {
     var db = await AppConfig().openDB();
     var values = data.toJSON_insert();
     values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
+    values["update_time"] = values["create_time"];
+    values["mode"] = repository.getCurrentMode();
     var affected = await db.insert(this.tableName, values);
 
     return affected;
   }
 
-  Future<List<HistoryModel>> getHistoryList() async {
+  Future<List<HistoryModel>> getHistoryAll() async {
     var db = await AppConfig().openDB();
-    var sql = "SELECT * FROM history WHERE topicId > 0;";
-    var data = await db.rawQuery(sql);
+    var mode = repository.getCurrentMode();
+    var sql = "SELECT * FROM history WHERE mode = ?";
+    var data = await db.rawQuery(sql, [mode]);
 
     var rs = List<HistoryModel>.generate(
         data.length, (index) => new HistoryModel.fromJSON(data[index]));
@@ -36,9 +40,10 @@ class HistoryController {
   Future<List<HistoryModel>> getLastestHistory(int topicId,
       {int count = 1}) async {
     var db = await AppConfig().openDB();
+    var mode = repository.getCurrentMode();
     var sql =
-        "SELECT * FROM history WHERE topicId  = ? ORDER BY create_time DESC LIMIT ?;";
-    var data = await db.rawQuery(sql, [topicId, count]);
+        "SELECT * FROM $tableName WHERE mode = ? AND topicId  = ? ORDER BY create_time DESC LIMIT ?;";
+    var data = await db.rawQuery(sql, [mode, topicId, count]);
 
     var rs = List<HistoryModel>.generate(
         data.length, (index) => new HistoryModel.fromJSON(data[index]));
@@ -54,7 +59,7 @@ class HistoryController {
     var rs = List<HistoryModel?>.of([]);
     for (int i = 0; i < idList.length; i++) {
       var h = await getLastestHistory(idList[i]);
-      if (!h.isEmpty) {
+      if (h.isNotEmpty) {
         rs.add(h.first);
       } else {
         rs.add(null);
@@ -65,8 +70,9 @@ class HistoryController {
 
   Future<List<HistoryModel>> getAllFinishedHistory() async {
     var db = await AppConfig().openDB();
-    var sql = "SELECT * FROM history WHERE isFinished = 1;";
-    var data = await db.rawQuery(sql);
+    var mode = repository.getCurrentMode();
+    var sql = "SELECT * FROM $tableName WHERE mode = ? AND isFinished = 1;";
+    var data = await db.rawQuery(sql, [mode]);
 
     var rs = List<HistoryModel>.generate(
         data.length, (index) => new HistoryModel.fromJSON(data[index]));

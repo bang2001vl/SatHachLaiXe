@@ -17,6 +17,10 @@ class BMode {
     _initQuestionCategogies();
   }
 
+  Future<void> ensureDB() async {
+    return QuizDB().ensureDB();
+  }
+
   bool checkCritical(int questionId) {
     return criticalQues.contains(questionId.toString());
   }

@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as PathLib;
 
 class DBController {
-  String dbName = "luyenthib1.db";
+  String dbName = "data.db";
   Database? _db;
 
   Future<Database> openDB() async {
@@ -25,6 +25,7 @@ class DBController {
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
         "sync_time INTEGER DEFAULT NULL, " +
+        "mode TEXT DEFAULT '', " +
         "topicID INTEGER DEFAULT -1, " +
         "isPassed INTEGER DEFAULT 0, " +
         "isFinished INTEGER DEFAULT 0, " +
@@ -38,6 +39,7 @@ class DBController {
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
         "sync_time INTEGER DEFAULT NULL, " +
+        "mode TEXT DEFAULT '', " +
         "topicID INTEGER DEFAULT -1, " +
         "questionID INTEGER DEFAULT -1, " +
         "selectedAnswer INTEGER DEFAULT 0, " +

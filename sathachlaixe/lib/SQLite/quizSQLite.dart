@@ -33,7 +33,6 @@ class QuizDB {
       await closeDB();
     }
     await openDB();
-    await closeDB();
   }
 
   Future<void> _onCreate(Database db, int version) async {

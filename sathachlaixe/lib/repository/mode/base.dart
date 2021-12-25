@@ -19,6 +19,8 @@ abstract class BaseMode {
 
   Future<QuestionModel?> getQuestion(int id);
   Future<List<QuestionModel>> getQuestions(List<int> ids);
+
+  Future<void> ensureDB();
 }
 
 class TopicRange {

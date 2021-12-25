@@ -5,10 +5,10 @@ class TimeStampModel {
   late DateTime? update_time;
 
   TimeStampModel({
-    this.id = null,
-    this.create_time = null,
-    this.update_time = null,
-    this.sync_time = null,
+    this.id,
+    this.create_time,
+    this.update_time,
+    this.sync_time,
   });
 
   void getTimeStamp(Map json) {
