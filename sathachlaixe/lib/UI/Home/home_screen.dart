@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/home_category.dart';
 import 'package:sathachlaixe/UI/Component/searchbar.dart';
+import 'package:sathachlaixe/UI/WrongQues/topWrong_screen.dart';
 import 'package:sathachlaixe/UI/profile/profile_screen.dart';
 import 'package:sathachlaixe/UI/studyQues/quesCategory_sceen.dart';
 
@@ -147,6 +148,12 @@ class HomeScreen extends StatelessWidget {
                         title: "Câu hay sai",
                         svgSrc: "assets/icons/ic_fail.svg",
                       ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TopWrongScreen()));
+                      },
                     ),
                     InkWell(
                       child: HomeCategory(

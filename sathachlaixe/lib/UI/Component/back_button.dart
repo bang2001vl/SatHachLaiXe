@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ReturnButton extends StatelessWidget {
-  ReturnButton({Key? key}) : super(key: key);
+class BackButtonComponent extends StatelessWidget {
+  BackButtonComponent({Key? key}) : super(key: key);
   Function? callback;
-  ReturnButton.withCallback({Key? key, this.callback}) : super(key: key);
+  BackButtonComponent.withCallback({Key? key, this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ReturnButton extends StatelessWidget {
             ? () => Navigator.pop(context)
             : () => callback?.call(),
         iconSize: 40.h,
-        icon: SvgPicture.asset('assets/icons/backButton.svg'),
+        icon: SvgPicture.asset('assets/icons/back.svg'),
       ),
     );
   }

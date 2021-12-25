@@ -67,6 +67,9 @@ var kText16Medium_1 = kText12Normal_14.copyWith(
   fontSize: ScreenUtil().setSp(16.sp),
   color: dtcolor1,
 );
+var kText16Bold_1 = kText16Medium_1.copyWith(
+  fontWeight: FontWeight.bold,
+);
 var kText16Medium_10 = kText16Medium_1.copyWith(
   color: dtcolor10,
 );
@@ -82,8 +85,11 @@ var kText14Medium_13 = kText18Bold_13.copyWith(
   fontSize: ScreenUtil().setSp(14.sp),
 );
 var kText14Bold_4 = kText14Bold_9.copyWith(color: dtcolor4);
-var kText14Bold_9 =
-    kText12Normal_14.copyWith(fontWeight: FontWeight.bold, color: dtcolor9);
+var kText14Bold_1 = kText14Bold_9.copyWith(color: dtcolor1);
+var kText14Bold_9 = kText12Normal_14.copyWith(
+    fontWeight: FontWeight.bold,
+    color: dtcolor9,
+    fontSize: ScreenUtil().setSp(14.sp));
 var kText14Bold_3 =
     kText12Normal_14.copyWith(fontWeight: FontWeight.bold, color: dtcolor3);
 var kText14Normal_11 =

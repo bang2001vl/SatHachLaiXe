@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sathachlaixe/UI/Component/back_button.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
 import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
@@ -206,7 +207,7 @@ class QuizPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
       child: Row(
         children: <Widget>[
-          ReturnButton.withCallback(
+          BackButtonComponent.withCallback(
             callback: () => _onPressBack(context),
           ),
           SizedBox(
