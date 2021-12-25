@@ -41,6 +41,7 @@ class B2Mode extends BMode implements BaseMode {
     c1.addAll(getRandomIdFromCategory(ran, cateList[5], 1, specs));
     c1.addAll(getRandomIdFromCategory(ran, cateList[6], 9, specs));
     c1.addAll(getRandomIdFromCategory(ran, cateList[7], 9, specs));
+    c1.addAll(specs);
 
     c1.sort();
     return List.from(c1.map((e) => e.toString()));
