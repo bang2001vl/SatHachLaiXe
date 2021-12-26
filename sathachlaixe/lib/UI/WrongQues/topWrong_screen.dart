@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Component/back_button.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Component/top_wrong.dart';
@@ -23,18 +24,25 @@ class TopWrongScreen extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Container(
-                    height: 100.h,
-                    padding: EdgeInsets.only(left: 20.w),
-                    child: Stack(
+                  Padding(
+                    padding:
+                        EdgeInsets.only(right: 20.w, top: 20.h, left: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         BackButtonComponent(),
-                        Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "TOP CÂU SAI",
-                              style: kText20Bold_13,
-                            ))
+                        Text(
+                          "TOP CÂU HAY SAI",
+                          style: kText20Bold_13,
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            height: 30.h,
+                            width: 30.h,
+                            child: SvgPicture.asset('assets/icons/play.svg'),
+                          ),
+                        )
                       ],
                     ),
                   ),

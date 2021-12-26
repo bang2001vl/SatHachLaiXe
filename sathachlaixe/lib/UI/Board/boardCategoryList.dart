@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Board/boardDetailList.dart';
+import 'package:sathachlaixe/UI/Component/back_button.dart';
 import 'package:sathachlaixe/UI/Component/board_category.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
@@ -36,19 +37,18 @@ class BoardCategoryScreen extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    left: 20.w, right: 20.w, top: 15.h, bottom: 10.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Container(
+                height: 100.h,
+                padding: EdgeInsets.only(left: 20.w),
+                child: Stack(
                   children: <Widget>[
-                    ReturnButton(),
-                    Text('CÁC LOẠI BIỂN BÁO', style: kText20Bold_14),
-                    IconButton(
-                      onPressed: () {},
-                      iconSize: 35.h,
-                      icon: SvgPicture.asset('assets/icons/shuffle.svg'),
-                    )
+                    BackButtonComponent(),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "CÁC LOẠI BIỂN BÁO",
+                          style: kText20Bold_13,
+                        ))
                   ],
                 ),
               ),

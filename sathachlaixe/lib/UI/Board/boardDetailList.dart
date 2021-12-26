@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sathachlaixe/UI/Component/back_button.dart';
 import 'package:sathachlaixe/UI/Component/board_category.dart';
 import 'package:sathachlaixe/UI/Component/board_item.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
@@ -32,22 +33,20 @@ class BoardDetailScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(
                     left: 20.w, right: 20.w, top: 15.h, bottom: 10.h),
-                child: Row(
-                  children: <Widget>[
-                    ReturnButton(),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: Container(
-                        width: 270.w,
-                        child: Text(
-                          cate.name,
-                          style: kText20Bold_14,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Container(
+                  height: 100.h,
+                  padding: EdgeInsets.only(left: 20.w),
+                  child: Stack(
+                    children: <Widget>[
+                      BackButtonComponent(),
+                      Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            cate.name,
+                            style: kText20Bold_13,
+                          ))
+                    ],
+                  ),
                 ),
               ),
               Expanded(
