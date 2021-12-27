@@ -32,6 +32,7 @@ class AppDBController {
     await initConfig(db);
     await initBoard(db);
     await initBoardCate(db);
+    await initTips(db);
 
     log("[OK]: Created database app");
   }
@@ -96,6 +97,30 @@ class AppDBController {
         await txn.insert(tableName, row);
       }
     }).then((value) => log("[OK]: Init table boardCate"));
+  }
+
+  Future<void> initTips(Database db) {
+    String tableName = 'tips';
+    return db.transaction((txn) async {
+      String sql = "CREATE TABLE $tableName(" +
+          "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+          "title TEXT DEFAULT '', " +
+          "detail TEXT DEFAULT '', " +
+          "content TEXT DEFAULT '', " +
+          "assetURL TEXT DEFAULT '', " +
+          "typeId INTEGER DEFAULT 0, " +
+          "mode TEXT DEFAULT '' " +
+          ")";
+      await db.execute(sql);
+
+      final rows = await getDataFromAsset("assets/db_resource/tips.tsv");
+
+      for (int i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        row["typeId"] = int.parse(row["typeId"].toString());
+        await txn.insert(tableName, row);
+      }
+    }).then((value) => log("[OK]: Init table tips"));
   }
 }
 

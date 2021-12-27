@@ -25,27 +25,34 @@ class DBController {
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
         "sync_time INTEGER DEFAULT NULL, " +
-        "mode TEXT DEFAULT '', " +
         "topicID INTEGER DEFAULT -1, " +
         "isPassed INTEGER DEFAULT 0, " +
         "isFinished INTEGER DEFAULT 0, " +
         "timeLeft INTEGER DEFAULT 0, " +
         "rawQuestionIDs TEXT DEFAULT '', " +
         "rawCorrect TEXT DEFAULT '', " +
-        "rawSelected TEXT DEFAULT '' " +
+        "rawSelected TEXT DEFAULT '', " +
+        "mode TEXT DEFAULT '' " +
         ")";
     String sql2 = "CREATE TABLE practice(" +
         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
         "sync_time INTEGER DEFAULT NULL, " +
-        "mode TEXT DEFAULT '', " +
         "topicID INTEGER DEFAULT -1, " +
         "questionID INTEGER DEFAULT -1, " +
         "selectedAnswer INTEGER DEFAULT 0, " +
         "correctAnswer INTEGER DEFAULT 0, " +
         "countWrong INTEGER DEFAULT 0, " +
-        "countCorrect INTEGER DEFAULT 0 " +
+        "countCorrect INTEGER DEFAULT 0, " +
+        "mode TEXT DEFAULT '' " +
+        ")";
+    String sql3 = "CREATE TABLE tips(" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "title TEXT DEFAULT '', " +
+        "detail TEXT DEFAULT '', " +
+        "content TEXT DEFAULT '', " +
+        "mode TEXT DEFAULT '' " +
         ")";
     await db.execute(sql1).then((value) => log("CREATE history: [OK]"));
     await db.execute(sql2).then((value) => log("CREATE practice: [OK]"));

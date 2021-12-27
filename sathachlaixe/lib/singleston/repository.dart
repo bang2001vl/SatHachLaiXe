@@ -12,6 +12,7 @@ import 'package:sathachlaixe/repository/sqlite/boardCategoryController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardController.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
+import 'package:sathachlaixe/repository/sqlite/tipController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 
 class RepositoryGL {
@@ -139,6 +140,8 @@ class RepositoryGL {
   Future<List<BoardCategoryModel>> getBoardCateAll() {
     return BoardCateController().getBoardCateAll();
   }
+
+  TipController tips = TipController();
 }
 
 final RepositoryGL repository = new RepositoryGL();
