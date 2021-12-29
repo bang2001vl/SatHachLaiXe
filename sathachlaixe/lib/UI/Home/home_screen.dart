@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/home_category.dart';
 import 'package:sathachlaixe/UI/Component/searchbar.dart';
+import 'package:sathachlaixe/UI/Tips/tips_screen.dart';
 import 'package:sathachlaixe/UI/WrongQues/topWrong_screen.dart';
 import 'package:sathachlaixe/UI/profile/profile_screen.dart';
 import 'package:sathachlaixe/UI/studyQues/quesCategory_sceen.dart';
@@ -63,8 +64,8 @@ class HomeScreen extends StatelessWidget {
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                        image:
-                                            AssetImage("assets/images/avt.png"),
+                                        image: AssetImage(
+                                            "assets/images/avtProfile.png"),
                                         fit: BoxFit.fill),
                                   ),
                                 ),
@@ -160,6 +161,12 @@ class HomeScreen extends StatelessWidget {
                         title: "Mẹo thi",
                         svgSrc: "assets/icons/ic_tips.svg",
                       ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TipsScreen()));
+                      },
                     ),
                   ],
                 ),

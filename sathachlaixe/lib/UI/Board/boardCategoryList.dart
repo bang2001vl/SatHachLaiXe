@@ -38,11 +38,14 @@ class BoardCategoryScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                height: 100.h,
+                height: 90.h,
                 padding: EdgeInsets.only(left: 20.w),
+                decoration: BoxDecoration(
+                  color: dtcolor1,
+                ),
                 child: Stack(
                   children: <Widget>[
-                    BackButtonComponent(),
+                    ReturnButton(),
                     Align(
                         alignment: Alignment.center,
                         child: Text(

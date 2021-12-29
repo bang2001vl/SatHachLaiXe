@@ -30,23 +30,19 @@ class BoardDetailScreen extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    left: 20.w, right: 20.w, top: 15.h, bottom: 10.h),
-                child: Container(
-                  height: 100.h,
-                  padding: EdgeInsets.only(left: 20.w),
-                  child: Stack(
-                    children: <Widget>[
-                      BackButtonComponent(),
-                      Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            cate.name,
-                            style: kText20Bold_13,
-                          ))
-                    ],
-                  ),
+              Container(
+                height: 90.h,
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Stack(
+                  children: <Widget>[
+                    ReturnButton(),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          cate.name,
+                          style: kText20Bold_14,
+                        ))
+                  ],
                 ),
               ),
               Expanded(
