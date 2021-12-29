@@ -1,11 +1,13 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:sathachlaixe/model/board.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/practice.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
+import 'package:sathachlaixe/model/tip.dart';
 import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardCategoryController.dart';
@@ -141,7 +143,9 @@ class RepositoryGL {
     return BoardCateController().getBoardCateAll();
   }
 
-  TipController tips = TipController();
+  Future<List<TipModel>> getTipsByType(int typeId) {
+    return TipController().getTipByType(typeId);
+  }
 }
 
 final RepositoryGL repository = new RepositoryGL();

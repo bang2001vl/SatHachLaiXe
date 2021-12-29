@@ -70,6 +70,11 @@ var kText16Medium_1 = kText12Normal_14.copyWith(
 var kText16Bold_1 = kText16Medium_1.copyWith(
   fontWeight: FontWeight.bold,
 );
+
+var kText16Normal_11 = kText16Medium_1.copyWith(
+  fontWeight: FontWeight.normal,
+  color: dtcolor11,
+);
 var kText16Medium_10 = kText16Medium_1.copyWith(
   color: dtcolor10,
 );

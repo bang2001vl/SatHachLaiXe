@@ -6,7 +6,7 @@ class TipModel {
   int typeId;
 
   List<String> get contentList => content.split('@');
-
+  int get count => contentList.length;
   TipModel(this.title, this.detail, this.content, this.assetURL, this.typeId);
   factory TipModel.fromJSON(Map json) {
     return TipModel(
