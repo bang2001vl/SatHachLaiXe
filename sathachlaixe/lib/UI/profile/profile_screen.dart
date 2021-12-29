@@ -7,6 +7,7 @@ import 'package:sathachlaixe/UI/Component/profileMenuItem.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/UI/profile/dataSetting.dart';
 import 'package:sathachlaixe/UI/profile/mode_screen.dart';
 
 class PersonalScreen extends StatelessWidget {
@@ -111,16 +112,10 @@ class PersonalScreen extends StatelessWidget {
                       check: true,
                       color: cwcolor22,
                     ),
-                    ProfileMenuItem(
-                      iconSrc: 'assets/icons/sync.svg',
-                      title: 'Đồng bộ hóa',
-                      check: true,
-                      color: cwcolor23,
-                    ),
                     InkWell(
                       child: ProfileMenuItem(
                         iconSrc: 'assets/icons/security.svg',
-                        title: 'Cài đặt loại bằng lái',
+                        title: 'Cài đặt dữ liệu',
                         check: true,
                         color: cwcolor24,
                       ),
@@ -128,7 +123,7 @@ class PersonalScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ModeScreen()));
+                                builder: (context) => DataSettingScreen()));
                       },
                     ),
                     SizedBox(

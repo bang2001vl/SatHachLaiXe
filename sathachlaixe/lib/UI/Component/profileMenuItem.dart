@@ -37,14 +37,7 @@ class ProfileMenuItem extends StatelessWidget {
             ),
             SizedBox(width: 11.w),
             SizedBox(
-              child: Text(
-                title,
-                style: kText16Medium_1.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: ScreenUtil().setSp(20),
-                  color: Colors.black,
-                ),
-              ),
+              child: Text(title, style: kText18Medium_14),
             ),
             Spacer(),
             if (check) (Icon(Icons.arrow_forward_ios, color: dtcolor1))
