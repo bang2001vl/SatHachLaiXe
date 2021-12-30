@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ffi';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
@@ -7,11 +8,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Style/size.dart';
 import 'package:sathachlaixe/UI/Home/home_screen.dart';
+import 'package:sathachlaixe/model/auth.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 import 'Register_Screen.dart';
 
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatelessWidget {
+  String _email = '';
+  String _password = '';
+  bool _needSaved = true;
+
+  void onPressSubmit(context) async {
+    log("Login with email : $_email, password : $_password");
+    var result = await repository.auth
+        .login(_email, _password, needSaveToken: _needSaved);
+    if (result == 1) {
+      Navigator.pop(context, "OK");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +59,7 @@ class LoginScreen extends StatelessWidget {
                       hintStyle: kText16Medium_1,
                       border: InputBorder.none,
                     ),
+                    onChanged: (value) => _email = value,
                   ),
                 ),
                 SizedBox(
@@ -60,6 +77,7 @@ class LoginScreen extends StatelessWidget {
                       hintStyle: kText16Medium_1,
                       border: InputBorder.none,
                     ),
+                    onChanged: (value) => _password = value,
                   ),
                 ),
                 SizedBox(
@@ -71,8 +89,10 @@ class LoginScreen extends StatelessWidget {
                       padding: EdgeInsets.all(4),
                     ),
                     Checkbox(
-                      value: false,
-                      onChanged: (value) {},
+                      value: _needSaved,
+                      onChanged: (value) {
+                        _needSaved = value!;
+                      },
                     ),
                     Text(
                       'Nhớ mật khẩu',
@@ -109,8 +129,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    onPressSubmit(context);
                   },
                 ),
                 Row(

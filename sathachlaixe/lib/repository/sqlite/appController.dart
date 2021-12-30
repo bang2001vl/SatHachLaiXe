@@ -29,7 +29,7 @@ class AppDBController {
   Future<void> _onCreate(Database db, int version) async {
     log("Create new database: [app]");
 
-    await initConfig(db);
+    //await initConfig(db);
     await initBoard(db);
     await initBoardCate(db);
     await initTips(db);
@@ -37,23 +37,23 @@ class AppDBController {
     log("[OK]: Created database app");
   }
 
-  Future<void> initConfig(Database db) async {
-    String sql = "CREATE TABLE $_tableConfig(" +
-        "key TEXT PRIMARY KEY NOT NULL, " +
-        "value TEXT DEFAULT NULL " +
-        ")";
-    await db.execute(sql);
-    await db.insert(_tableConfig, {
-      "key": "mode",
-      "value": "b1",
-    });
-    await db.insert(_tableConfig, {
-      "key": "syncState",
-      "value": "1",
-    });
+  // Future<void> initConfig(Database db) async {
+  //   String sql = "CREATE TABLE $_tableConfig(" +
+  //       "key TEXT PRIMARY KEY NOT NULL, " +
+  //       "value TEXT DEFAULT NULL " +
+  //       ")";
+  //   await db.execute(sql);
+  //   await db.insert(_tableConfig, {
+  //     "key": "mode",
+  //     "value": "b1",
+  //   });
+  //   await db.insert(_tableConfig, {
+  //     "key": "syncState",
+  //     "value": "1",
+  //   });
 
-    log("[OK]: Init table config");
-  }
+  //   log("[OK]: Init table config");
+  // }
 
   Future<void> initBoard(Database db) async {
     String tableName = 'board';

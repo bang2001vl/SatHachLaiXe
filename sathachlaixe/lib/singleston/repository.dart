@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:sathachlaixe/model/board.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
@@ -9,6 +8,7 @@ import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/tip.dart';
 import 'package:sathachlaixe/model/topic.dart';
+import 'package:sathachlaixe/repository/auth.dart';
 import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardCategoryController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardController.dart';
@@ -16,6 +16,8 @@ import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
 import 'package:sathachlaixe/repository/sqlite/tipController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
+
+final RepositoryGL repository = new RepositoryGL();
 
 class RepositoryGL {
   RepositoryGL();
@@ -25,9 +27,16 @@ class RepositoryGL {
   }
 
   Future<int> updateMode(String mode) {
-    return AppController()
-        .updateMode(mode)
+    return AppConfig.instance
+        .setMode(mode)
         .then((value) => AppConfig().notifyModeChange());
+  }
+
+  int? get currentSyncState => AppConfig.instance.syncState;
+
+  Future<void> setSyncState(int state) async {
+    AppConfig.instance.syncState = state;
+    AppConfig.instance.setSycnState(state);
   }
 
   Future<int> getLastSyncTime() async {
@@ -65,9 +74,9 @@ class RepositoryGL {
   }
 
   Future<int> updateSyncTime(
-      List<int> historiesIds, List<int> practicesIds, int syncTime) async {
-    var a = await HistoryController().updateSyncTime(historiesIds, syncTime);
-    var b = await PracticeController().updateSyncTime(practicesIds, syncTime);
+      List<HistoryModel> histories, List<PracticeModel> practices) async {
+    var a = await HistoryController().updateSyncTimeAll(histories);
+    var b = await PracticeController().updateSyncTimeAll(practices);
     return a + b;
   }
 
@@ -146,6 +155,19 @@ class RepositoryGL {
   Future<List<TipModel>> getTipsByType(int typeId) {
     return TipController().getTipByType(typeId);
   }
+
+  Future<int> deleteAllData() async {
+    var count = 0;
+    count += await HistoryController().deleteAll();
+    count += await PracticeController().deleteAll();
+    return count;
+  }
+
+  TipRepo tips = TipController();
+  AuthRepo auth = AuthController();
 }
 
-final RepositoryGL repository = new RepositoryGL();
+abstract class TipRepo {
+  Future<List<TipModel>> getTipAll();
+  Future<List<TipModel>> getTipByType(int typeId);
+}

@@ -9,6 +9,8 @@ import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   runApp(MyApp());
 }
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
           builder: () {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
+              navigatorKey: navigatorKey,
               home: FutureBuilder(
                   future: loadConfiguare(),
                   builder: (context, snapshot) {

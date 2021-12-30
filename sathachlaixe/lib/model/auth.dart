@@ -1,6 +1,14 @@
 class AuthModel {
-  String username;
-  String fullname;
-  String token;
-  AuthModel(this.username, this.fullname, this.token);
+  String email;
+  String password;
+  AuthModel({
+    required this.email,
+    required this.password,
+  });
+  Map toJSON() {
+    return {
+      "email": this.email,
+      "password": this.password,
+    };
+  }
 }

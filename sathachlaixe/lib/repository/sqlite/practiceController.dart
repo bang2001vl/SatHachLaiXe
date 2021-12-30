@@ -93,16 +93,18 @@ class PracticeController {
     return rs;
   }
 
-  Future<int> updateSyncTime(List<int> ids, int syncTime) async {
+  Future<int> updateSyncTimeAll(List<PracticeModel> list) async {
+    int rs = 0;
+    for (int i = 0; i < list.length; i++) {
+      rs += await updateSyncTime(list[i].create_time!, list[i].sync_time);
+    }
+    return rs;
+  }
+
+  Future<int> updateSyncTime(int createdTime, int? syncTime) async {
     var db = await AppConfig().openDB();
-    var argsPlaceholder = ids.map((e) => "?").join(",");
-    var sql =
-        "UPDATE $tableName SET sync_time = ? WHERE id IN ($argsPlaceholder);";
-    var values = List.empty(growable: true);
-    values
-      ..add(syncTime)
-      ..addAll(ids);
-    return db.rawUpdate(sql, values);
+    var sql = "UPDATE $tableName SET sync_time = ? WHERE create_time = ?;";
+    return db.rawUpdate(sql, [syncTime, createdTime]);
   }
 
   Future<int> getMaxSyncTime() async {
@@ -114,5 +116,13 @@ class PracticeController {
       return 0;
     }
     return reader.first["sync_time"] as int;
+  }
+
+  Future<int> deleteAll() async {
+    var db = await AppConfig().openDB();
+    var sql = "DELETE FROM $tableName";
+    var count = await db.rawDelete(sql);
+    log("Delete from practice : " + count.toString());
+    return count;
   }
 }

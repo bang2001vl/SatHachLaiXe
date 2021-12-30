@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Component/mode_item.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
@@ -7,9 +9,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
 
 class DataSettingScreen extends StatelessWidget {
   bool status = true;
+
+  void onPressDeleteData(context) {
+    log("Delete data sync");
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Xóa dữ liệu"),
+              content: const Text(
+                  "Tiến hành xóa cả dữ liệu trên thiết bị và dữ liệu trên server.\nDữ liệu sau khi xóa sẽ không thể khôi phục.\n Bạn thực sự muốn xóa?"),
+              actions: [
+                TextButton(
+                  child: const Text("Tiếp tục"),
+                  onPressed: () => Navigator.pop(context, "OK"),
+                ),
+                TextButton(
+                  child: const Text("Hủy"),
+                  onPressed: () => Navigator.pop(context, "Cancel"),
+                ),
+              ],
+            )).then((value) {
+      if (value == "OK") {
+        SocketController.instance.deleteData();
+      }
+    });
+  }
 
   @override
   Widget build(context) {
@@ -59,7 +87,7 @@ class DataSettingScreen extends StatelessWidget {
                           height: 10.h,
                         ),
                         InkWell(
-                            onTap: () {},
+                            onTap: () => onPressDeleteData(context),
                             child: Text(
                               'Xóa và đặt lại dữ liệu',
                               style: kText18Bold_14.copyWith(color: dtcolor4),

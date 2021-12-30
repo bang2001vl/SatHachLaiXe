@@ -2,7 +2,7 @@ import 'package:sathachlaixe/model/tip.dart';
 import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 
-class TipController {
+class TipController implements TipRepo {
   final String tableName = "tips";
 
   Future<List<TipModel>> getTipAll() async {

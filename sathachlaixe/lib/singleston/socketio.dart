@@ -4,6 +4,8 @@ import 'dart:developer';
 
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/practice.dart';
+import 'package:sathachlaixe/model/user.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -12,18 +14,27 @@ import 'socketObserver.dart';
 class SocketController {
   final String url = "http://192.168.1.110:9000";
 
-  final String event_get_unsync = "get_unsync_data";
-  final String response_get_unsync = "response_unsync_data";
-  final String notify_change = "notify_change_data";
-  final String response_notify_changed = "responsed_notify_data_changed";
-  final String event_data_changed = "data_changed";
+  static const String request_get_unsync = "get_unsync_data";
+  static const String response_get_unsync = "response_unsync_data";
 
-  final String event_test = "test_client";
-  final String event_authorize = "authorize";
-  final String event_authorized = "authorized";
+  static const String request_insert_data = "notify_change_data";
+  static const String response_notify_changed = "responsed_notify_data_changed";
+
+  static const String request_deleted_data = "delete_data";
+
+  static const String event_data_changed = "data_changed";
+  static const String event_deleted_data = "deleted_sync_data";
+
+  static const String event_test = "test_client";
+  static const String event_authorize = "authorize";
+  static const String event_authorized = "authorized";
 
   late IO.Socket socket;
   late Timer timer;
+
+  void deleteData() {
+    socket.emit(request_deleted_data);
+  }
 
   Future<void> updateData(
       List<HistoryModel> newHistories, List<PracticeModel> newPratices) async {
@@ -52,10 +63,13 @@ class SocketController {
     log("SOCKETIO : Send new data to server");
 
     socket.on(response_notify_changed, (data) async {
-      var historiesIds = newHistories.map((e) => e.id as int).toList();
-      var practicesIds = newPratices.map((e) => e.id as int).toList();
-      int syncTime = data["sync_time"];
-      await repository.updateSyncTime(historiesIds, practicesIds, syncTime);
+      var rawHistories = data["histories"] as List;
+      var rawPractices = data["practices"] as List;
+      var histories =
+          rawHistories.map((e) => HistoryModel.fromJSON(e)).toList();
+      var practices =
+          rawPractices.map((e) => PracticeModel.fromJSON(e)).toList();
+      await repository.updateSyncTime(histories, practices);
 
       // Unbind response's handler after got it
       socket.off(response_notify_changed);
@@ -64,7 +78,7 @@ class SocketController {
     var out1 = newHistories.map((e) => e.toJSON()).toList();
     var out2 = newPratices.map((e) => e.toJSON()).toList();
 
-    socket.emit(notify_change, {
+    socket.emit(request_insert_data, {
       "histories": out1,
       "practices": out2,
     });
@@ -93,12 +107,17 @@ class SocketController {
     });
 
     var lastSync = await repository.getLastSyncTime();
-    socket.emit(event_get_unsync, {"lastSync": lastSync});
+    socket.emit(request_get_unsync, {"lastSync": lastSync});
   }
 
-  SocketController.privateController();
+  SocketController._privateController();
 
   void init() {
+    if (AppConfig.instance.token == null) {
+      repository.auth.onUnauthorized();
+      return;
+    }
+
     var op = IO.OptionBuilder().setTransports(['websocket'])
         // .setReconnectionAttempts(3)
         // .disableReconnection()
@@ -108,8 +127,7 @@ class SocketController {
     socket.onConnect((_) {
       log("SocketIO: onConnect");
       socket.emit(event_authorize, {
-        "username": "temp",
-        "token": "123465",
+        "token": AppConfig.instance.token,
       });
     });
 
@@ -118,6 +136,10 @@ class SocketController {
 
     socket.on(event_authorized, (data) async {
       log("Authorized");
+
+      AppConfig.instance.userInfo = UserModel.fromJSON(data["userInfo"]);
+      AppConfig.instance.saveUserInfo(AppConfig.instance.userInfo!);
+
       notifyDataChanged();
       getUnsyncData();
     });
@@ -129,6 +151,10 @@ class SocketController {
 
     socket.on(event_data_changed, (_) => getUnsyncData());
 
+    socket.on(event_deleted_data, (_) {
+      repository.deleteAllData();
+    });
+
     log("[OK] : Init socketIO");
   }
 
@@ -136,7 +162,8 @@ class SocketController {
     socket.close();
   }
 
-  static SocketController _instance = SocketController.privateController();
+  static SocketController _instance = SocketController._privateController();
+  static SocketController get instance => _instance;
   factory SocketController() => _instance;
 }
 

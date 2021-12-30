@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
 
 void main() => runApp(new MyApp());
+final navigatorKeyConsole = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
         designSize: Size(414, 896),
         builder: () {
           return MaterialApp(
+            navigatorKey: navigatorKeyConsole,
             title: 'Flutter Demo',
             home: new MyHomePage(title: 'Flutter Hello World'),
           );
@@ -32,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _test(BuildContext context) async {
-    SocketController().socket.emit("test_server");
+    repository.auth.showLogin(context);
   }
 
   @override
