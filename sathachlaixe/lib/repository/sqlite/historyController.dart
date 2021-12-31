@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/repository/sqlite/questionStatistic.dart';
@@ -22,18 +23,17 @@ class HistoryController {
     return affected;
   }
 
-  Future<List<HistoryModel>> getHistoryAll() async {
+  Future<List<HistoryModel>> getAll() async {
     var db = await AppConfig().openDB();
-    var mode = repository.getCurrentMode();
-    var sql = "SELECT * FROM history WHERE mode = ?";
-    var data = await db.rawQuery(sql, [mode]);
+    var sql = "SELECT * FROM $tableName";
+    var data = await db.rawQuery(sql);
 
     var rs = List<HistoryModel>.generate(
         data.length, (index) => new HistoryModel.fromJSON(data[index]));
 
-    data.forEach((element) {
-      log(element.toString());
-    });
+    // data.forEach((element) {
+    //   log(element.toString());
+    // });
 
     return rs;
   }
@@ -155,6 +155,14 @@ class HistoryController {
     var db = await AppConfig().openDB();
     var sql = "DELETE FROM $tableName";
     var count = await db.rawDelete(sql);
+    log("Delete from history : " + count.toString());
+    return count;
+  }
+
+  Future<int> deleteAllUntil(int maxTime) async {
+    var db = await AppConfig().openDB();
+    var sql = "DELETE FROM $tableName WHERE create_time < ?";
+    var count = await db.rawDelete(sql, [maxTime]);
     log("Delete from history : " + count.toString());
     return count;
   }

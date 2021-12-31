@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -9,8 +10,16 @@ import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/profile/dataSetting.dart';
 import 'package:sathachlaixe/UI/profile/mode_screen.dart';
+import 'package:sathachlaixe/UI/profile/userWidget.dart';
+import 'package:sathachlaixe/helper/helper.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class PersonalScreen extends StatelessWidget {
+  void onPressLogout() {
+    repository.auth.logout();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,45 +42,7 @@ class PersonalScreen extends StatelessWidget {
                       fit: BoxFit.fitWidth,
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 20.w, top: 20.h),
-                        child: ReturnButton(),
-                      ),
-                      SizedBox(
-                        height: 50.h,
-                      ),
-                      CircleAvatar(
-                        radius: 50.h,
-                        backgroundImage: AssetImage(
-                          "assets/images/avtProfile.png",
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Text(
-                        'Thủy Tiên',
-                        style: kText16Medium_1.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(20.sp),
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Text(
-                        '0946375458',
-                        style: kText16Medium_1.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: ScreenUtil().setSp(12.sp),
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: UserAvatarWidget(),
                 ),
               ),
               Padding(
@@ -158,11 +129,14 @@ class PersonalScreen extends StatelessWidget {
                       check: false,
                       color: cwcolor25,
                     ),
-                    ProfileMenuItem(
-                      iconSrc: 'assets/icons/signout.svg',
-                      title: 'Đăng xuất',
-                      check: false,
-                      color: cwcolor23,
+                    GestureDetector(
+                      child: ProfileMenuItem(
+                        iconSrc: 'assets/icons/signout.svg',
+                        title: 'Đăng xuất',
+                        check: false,
+                        color: cwcolor23,
+                      ),
+                      onTap: () => onPressLogout(),
                     ),
                   ],
                 ),

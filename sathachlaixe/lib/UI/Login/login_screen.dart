@@ -1,14 +1,12 @@
 import 'dart:developer';
-import 'dart:ffi';
+import 'package:flutter/material.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Component/textbox.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart' as wid;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sathachlaixe/UI/Style/size.dart';
-import 'package:sathachlaixe/UI/Home/home_screen.dart';
-import 'package:sathachlaixe/model/auth.dart';
+import 'package:sathachlaixe/helper/helper.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import 'Register_Screen.dart';
 
@@ -22,9 +20,13 @@ class LoginScreen extends StatelessWidget {
   void onPressSubmit(context) async {
     log("Login with email : $_email, password : $_password");
     var result = await repository.auth
-        .login(_email, _password, needSaveToken: _needSaved);
+        .login(_email, _password, needSaveAuth: _needSaved);
     if (result == 1) {
-      Navigator.pop(context, "OK");
+      wid.Navigator.pop(context, "OK");
+    } else if (result == -1) {
+      showNotifyMessage("Thất bại", "Không thể kết nối đến máy chủ");
+    } else if (result == -402) {
+      showNotifyMessage("Thất bại", "Sai email hoặc mật khẩu");
     }
   }
 

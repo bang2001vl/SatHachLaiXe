@@ -7,6 +7,7 @@ import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/helper/widgetObserver.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -26,6 +27,20 @@ class MyApp extends StatelessWidget {
 
   void onInitApp() {
     AppConfig().init();
+  }
+
+  void onPaused() {
+    AppConfig.instance.savePrefs();
+    if (repository.isSyncON) {
+      SocketController.instance.notifyDataChanged();
+    }
+  }
+
+  void onResume() {
+    AppConfig.instance.loadPreferences();
+    if (repository.isSyncON) {
+      SocketController.instance.getUnsyncData();
+    }
   }
 
   void onDisposeApp() {

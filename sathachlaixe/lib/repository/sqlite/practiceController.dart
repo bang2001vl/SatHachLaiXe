@@ -125,4 +125,27 @@ class PracticeController {
     log("Delete from practice : " + count.toString());
     return count;
   }
+
+  Future<int> deleteAllUntil(int maxTime) async {
+    var db = await AppConfig().openDB();
+    var sql = "DELETE FROM $tableName WHERE create_time < ?";
+    var count = await db.rawDelete(sql, [maxTime]);
+    log("Delete from history : " + count.toString());
+    return count;
+  }
+
+  Future<List<PracticeModel>> getAll() async {
+    var db = await AppConfig().openDB();
+    var sql = "SELECT * FROM $tableName";
+    var data = await db.rawQuery(sql);
+
+    var rs = List<PracticeModel>.generate(
+        data.length, (index) => new PracticeModel.fromJSON(data[index]));
+
+    // data.forEach((element) {
+    //   log(element.toString());
+    // });
+
+    return rs;
+  }
 }

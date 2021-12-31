@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
@@ -15,17 +16,30 @@ import 'package:sqflite/sqflite.dart';
 
 class AppConfig {
   static final String _keySyncState = "syncState";
+  static final String _keyLatestSyncTime = "latestSyncTime";
   static final String _keyToken = "token";
-  static final String _keyUserDisplayName = "name";
+  static final String _keyUserInfo = "userInfo";
   static final String _keyMode = "mode";
 
   int? syncState;
   UserModel? userInfo;
   String? token;
   String _topicType = "b1";
+  int latestSyncTime = 0;
 
-  /* Preferences state */
-  Future<void> setSycnState(int? state) async {
+  /* Preferences sync time */
+  Future<void> saveLatestSyncTime(int unixTimeStamp) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setInt(_keyLatestSyncTime, unixTimeStamp);
+  }
+
+  Future<int?> getLatestSyncTime() async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_keyLatestSyncTime);
+  }
+
+  /* Preferences sync state */
+  Future<void> saveSycnState(int? state) async {
     var prefs = await SharedPreferences.getInstance();
     if (state == null) {
       prefs.remove(_keySyncState);
@@ -39,7 +53,7 @@ class AppConfig {
   }
 
 /* Preferences mode */
-  Future<void> setMode(String? mode) async {
+  Future<void> saveMode(String? mode) async {
     var prefs = await SharedPreferences.getInstance();
     if (mode == null) {
       prefs.remove(_keyMode);
@@ -56,21 +70,20 @@ class AppConfig {
   Future<void> saveUserInfo(UserModel? user) async {
     var prefs = await SharedPreferences.getInstance();
     if (user == null) {
-      prefs.remove(_keyUserDisplayName);
+      prefs.remove(_keyUserInfo);
     } else {
-      prefs.setString(_keyUserDisplayName, user!.name);
+      var json = jsonEncode(userInfo!.toJSON());
+      prefs.setString(_keyUserInfo, json);
     }
   }
 
   Future<UserModel?> getSavedUser() async {
     var prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey(_keyUserDisplayName)) {
+    if (!prefs.containsKey(_keyUserInfo)) {
       return null;
     }
-
-    return UserModel(
-      name: _keyUserDisplayName,
-    );
+    var json = prefs.getString(_keyUserInfo);
+    return UserModel.fromJSON(jsonDecode(json!));
   }
 
   /* Preferences token*/
@@ -124,20 +137,30 @@ class AppConfig {
       log("First time run app");
       await _mode.ensureDB();
       await AppDBController().openDB();
-      await setMode("b1");
-      _topicType = "b1";
+      await saveMode("b1");
+      await saveLatestSyncTime(0);
     }
 
+    await loadPreferences();
+
+    if (syncState == 1) {
+      SocketController.instance.init();
+    }
+  }
+
+  Future<void> loadPreferences() async {
     // Load all preferences
+    _topicType = (await getMode())!;
     this.syncState = await getSycnState();
     this.token = await getSavedToken();
     this.userInfo = await getSavedUser();
+  }
 
-    // SocketController.instance.init();
-    // return;
-    // if (syncState == 1) {
-    //   SocketController.instance.init();
-    // }
+  Future<void> savePrefs() async {
+    await saveToken(this.token);
+    await saveUserInfo(this.userInfo);
+    await saveSycnState(this.syncState);
+    await saveMode(this._topicType);
   }
 
   /* Singleton block */

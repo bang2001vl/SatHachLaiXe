@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:js';
 
 import 'package:dio/dio.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:sathachlaixe/UI/Login/login_screen.dart';
-import 'package:sathachlaixe/console.dart';
 import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/model/auth.dart';
 import 'package:sathachlaixe/model/user.dart';
@@ -25,14 +23,14 @@ class AuthController extends AuthRepo {
 
   @override
   Future<int> login(String email, String password,
-      {bool needSaveToken = true}) {
+      {bool needSaveAuth = true, bool isAutoLogin = false}) {
     var url = this.makeURL("login");
     var headers = {
       HttpHeaders.contentTypeHeader: "application/json",
     };
     var auth = AuthModel(
       email: email,
-      password: _encryptPassword(password),
+      password: isAutoLogin ? password : _encryptPassword(password),
     );
     return Dio()
         .post(
@@ -42,7 +40,8 @@ class AuthController extends AuthRepo {
     )
         .then((res) async {
       if (res.data["errorCode"] != null) {
-        onError(res.data);
+        var errorCode = res.data["errorCode"] as int;
+        return -1 * errorCode;
       }
 
       // Check respone
@@ -56,41 +55,10 @@ class AuthController extends AuthRepo {
 
       // Success
       var userInfo = UserModel.fromJSON(userJson);
-      onLoginSuccess(userInfo, token, needSaveToken);
-      return 1;
-    }).catchError(onError);
-  }
-
-  @override
-  Future<int> logout(String token) {
-    var url = this.makeURL("logout");
-    var headers = {
-      HttpHeaders.contentTypeHeader: "application/json",
-    };
-
-    return Dio()
-        .post(
-      url,
-      options: Options(headers: headers),
-    )
-        .then((res) async {
-      if (res.data["errorCode"] != null) {
-        onError(res.data);
+      if (needSaveAuth) {
+        await repository.auth.saveAuth(auth);
       }
-
-      // Success
-      log("APIs: Logout");
-      log(res.data.toString());
-
-      AppConfig.instance.syncState = null;
-      AppConfig.instance.userInfo = null;
-      AppConfig.instance.token = null;
-
-      await AppConfig.instance.setSycnState(null);
-      await AppConfig.instance.saveToken(null);
-      await AppConfig.instance.saveUserInfo(null);
-
-      await repository.deleteAllData();
+      await onLoginSuccess(userInfo, token, isAutoLogin);
       return 1;
     }).catchError(onError);
   }
@@ -112,28 +80,55 @@ abstract class AuthRepo {
   /// Send login data to server
   ///
   /// Return 1 if login successfull
-  Future<int> login(String email, String password, {bool needSaveToken = true});
+  Future<int> login(String email, String password,
+      {bool needSaveAuth = true, bool isAutoLogin = false});
 
-  Future<int> logout(String token);
+  Future<int> logout() async {
+    if (AppConfig.instance.token == null) return -1;
+    var token = AppConfig.instance.token as String;
+    log("Logout with token : $token");
+
+    var h = await repository.getUnsyncHistories();
+    var p = await repository.getUnsyncPractices();
+
+    if (h.length > 0 || p.length > 0) {
+      var result = await showYesNoDialog(
+          "Đăng xuất", "Dữ liệu chưa đồng bộ sẽ bị mất", "Tiếp tục", "Hủy");
+      if (result == 2) {
+        return -1;
+      }
+    }
+
+    await repository.deleteAllData();
+    await repository.updateToken(null);
+    await repository.updateSyncState(null);
+    await repository.updateUserInfo(null);
+    await SocketController.instance.close();
+
+    return 1;
+  }
 
   Future<int> register(String token);
 
   Future<void> onLoginSuccess(
-      UserModel userInfo, String token, bool needSaveToken) async {
-    var rs = await askBeforeSync();
-    if (rs == "Delete") {
-      await repository.deleteAllData();
+      UserModel userInfo, String token, bool isAutoLogin) async {
+    var h = await repository.getUnsyncHistories();
+    var p = await repository.getUnsyncPractices();
+
+    if (h.length > 0 || p.length > 0) {
+      var rs = await askBeforeSync();
+      if (rs == "Delete") {
+        await repository.deleteAllData();
+      }
     }
 
-    AppConfig.instance.userInfo = userInfo;
-    AppConfig.instance.token = token;
-    AppConfig.instance.syncState = 1;
-
-    await AppConfig.instance.saveUserInfo(userInfo);
-    await AppConfig.instance.setSycnState(1);
-    if (needSaveToken) {
-      await AppConfig.instance.saveToken(token);
+    if (!isAutoLogin) {
+      await repository.updateLatestSyncTime(0);
+      await repository.updateSyncState(1);
     }
+
+    await repository.updateUserInfo(userInfo);
+    await repository.updateToken(token);
 
     SocketController.instance.init();
   }
@@ -164,19 +159,31 @@ abstract class AuthRepo {
   }
 
   void showLogin(context) {
-    // Maybe check auto login here
-
-    // If can't auto login then go here
     Navigator.push(
       context,
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (context) => LoginScreen(),
       ),
-    );
+    ).then((value) {
+      if (value == "OK") {
+        log("Login successfull");
+      }
+    });
   }
 
-  void onUnauthorized() {
+  void onUnauthorized() async {
+    var authSaved = await getAuth();
+    if (authSaved != null) {
+      var rs =
+          await login(authSaved.email, authSaved.password, isAutoLogin: true);
+      if (rs == 1) {
+        // Login success
+        return;
+      }
+    }
+
+    // Cannot auto login
     var context = getCurrentContext();
     showDialog(
       context: context,
@@ -198,8 +205,35 @@ abstract class AuthRepo {
       if (value == "login") {
         showLogin(context);
       } else if (value == "offSync") {
-        AppConfig.instance.setSycnState(0);
+        AppConfig.instance.saveSycnState(0);
       }
     });
+  }
+
+  static const _keyAuth = "auth";
+
+  Future<void> saveAuth(AuthModel? auth) async {
+    log("Save auth");
+    var prefs = await SharedPreferences.getInstance();
+    var key = AuthRepo._keyAuth;
+    if (auth == null) {
+      prefs.remove(key);
+    } else {
+      var json = jsonEncode(auth.toJSON());
+      log(json);
+      prefs.setString(key, json);
+    }
+  }
+
+  Future<AuthModel?> getAuth() async {
+    var prefs = await SharedPreferences.getInstance();
+    var key = AuthRepo._keyAuth;
+    if (prefs.containsKey(key)) {
+      var json = prefs.getString(key);
+      log(json!);
+      return AuthModel.fromJSON(jsonDecode(json));
+    } else {
+      return null;
+    }
   }
 }

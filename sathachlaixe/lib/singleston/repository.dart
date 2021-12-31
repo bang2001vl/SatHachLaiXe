@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:sathachlaixe/model/board.dart';
@@ -8,6 +9,7 @@ import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/tip.dart';
 import 'package:sathachlaixe/model/topic.dart';
+import 'package:sathachlaixe/model/user.dart';
 import 'package:sathachlaixe/repository/auth.dart';
 import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardCategoryController.dart';
@@ -16,6 +18,7 @@ import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
 import 'package:sathachlaixe/repository/sqlite/tipController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
 
 final RepositoryGL repository = new RepositoryGL();
 
@@ -28,21 +31,37 @@ class RepositoryGL {
 
   Future<int> updateMode(String mode) {
     return AppConfig.instance
-        .setMode(mode)
+        .saveMode(mode)
         .then((value) => AppConfig().notifyModeChange());
   }
 
-  int? get currentSyncState => AppConfig.instance.syncState;
+  bool get isSyncON => AppConfig.instance.syncState == 1;
 
-  Future<void> setSyncState(int state) async {
+  Future<void> updateSyncState(int? state) async {
     AppConfig.instance.syncState = state;
-    AppConfig.instance.setSycnState(state);
+    await AppConfig.instance.saveSycnState(state);
   }
 
-  Future<int> getLastSyncTime() async {
-    var a = await HistoryController().getMaxSyncTime();
-    var b = await PracticeController().getMaxSyncTime();
-    return max(a, b);
+  Future<void> updateToken(String? token) async {
+    AppConfig.instance.token = token;
+    await AppConfig.instance.saveToken(token);
+  }
+
+  Future<void> updateLatestSyncTime(int unixTimeStamp) async {
+    AppConfig.instance.latestSyncTime = unixTimeStamp;
+    await AppConfig.instance.saveLatestSyncTime(unixTimeStamp);
+  }
+
+  Future<void> updateUserInfo(UserModel? userInfo) async {
+    AppConfig.instance.userInfo = userInfo;
+    await AppConfig.instance.saveUserInfo(userInfo);
+  }
+
+  FutureOr<int> getLastSyncTime() async {
+    // var a = await HistoryController().getMaxSyncTime();
+    // var b = await PracticeController().getMaxSyncTime();
+    // return max(a, b);
+    return AppConfig.instance.latestSyncTime;
   }
 
   Future<List<HistoryModel>> getAllFinishedHistory() {
@@ -59,6 +78,14 @@ class RepositoryGL {
 
   bool checkPassed(HistoryModel data) {
     return AppConfig().mode.checkResult(data);
+  }
+
+  Future<List<HistoryModel>> getAllHistory() {
+    return HistoryController().getAll();
+  }
+
+  Future<List<PracticeModel>> getAllpractice() {
+    return PracticeController().getAll();
   }
 
   Future<List<HistoryModel>> getLastestHistory(int topicId, {int count = 1}) {
@@ -160,6 +187,13 @@ class RepositoryGL {
     var count = 0;
     count += await HistoryController().deleteAll();
     count += await PracticeController().deleteAll();
+    return count;
+  }
+
+  Future<int> deleteAllDataUntil(int maxTime) async {
+    var count = 0;
+    count += await HistoryController().deleteAllUntil(maxTime);
+    count += await PracticeController().deleteAllUntil(maxTime);
     return count;
   }
 

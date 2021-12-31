@@ -11,10 +11,17 @@ class TopicBloc extends IReloadableBloc<TopicModel> with SocketObserver {
   }
 
   @override
-  void onDataChanged(
-      List<HistoryModel> newHistories, List<PracticeModel> newPratices) {
+  void onDataChanged() {
     reload();
   }
+
+  @override
+  void onAuthorized() {
+    reload();
+  }
+
+  @override
+  void onUserInfoChanged() {}
 
   @override
   Future<void> close() {

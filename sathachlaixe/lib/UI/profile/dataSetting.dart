@@ -1,14 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Component/mode_item.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketObserver.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
 
 class DataSettingScreen extends StatelessWidget {
@@ -82,7 +81,12 @@ class DataSettingScreen extends StatelessWidget {
                           style: kText18Bold_14,
                         ),
                         new CustomRadio(),
-                        SyncSwitch(),
+                        SyncSwitch(
+                          firstState: repository.isSyncON,
+                          onChanged: (value) {
+                            log("Changed sync state");
+                          },
+                        ),
                         SizedBox(
                           height: 10.h,
                         ),
@@ -104,12 +108,31 @@ class DataSettingScreen extends StatelessWidget {
 }
 
 class SyncSwitch extends StatefulWidget {
+  final Function(bool value)? onChanged;
+  final bool firstState;
+  SyncSwitch({required this.firstState, this.onChanged, Key? key})
+      : super(key: key);
   @override
-  _SyncSwitchState createState() => new _SyncSwitchState();
+  _SyncSwitchState createState() =>
+      new _SyncSwitchState(syncStatus: firstState);
 }
 
-class _SyncSwitchState extends State<SyncSwitch> {
+class _SyncSwitchState extends State<SyncSwitch> with SocketObserver {
   bool syncStatus = false;
+  _SyncSwitchState({this.syncStatus = false});
+
+  @override
+  void initState() {
+    super.initState();
+    SocketBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    SocketBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SwitchListTile.adaptive(
@@ -119,9 +142,29 @@ class _SyncSwitchState extends State<SyncSwitch> {
         style: kText18Bold_14,
       ),
       value: syncStatus,
-      onChanged: (value) => setState(() {
-        syncStatus = value;
-      }),
+      onChanged: (value) async {
+        if (value == repository.isSyncON) return;
+        await repository.updateSyncState(value ? 1 : 0);
+        widget.onChanged?.call(value);
+
+        setState(() {
+          syncStatus = value;
+        });
+      },
     );
   }
+
+  // @override
+  // void onAuthorized() {
+  //   setState(() {
+  //     syncStatus = true;
+  //   });
+  // }
+
+  // @override
+  // void onDisconnect() {
+  //   setState(() {
+  //     syncStatus = false;
+  //   });
+  // }
 }
