@@ -1,16 +1,14 @@
-# sathachlaixe
+# Phần Mềm Sát Hạch Lái Xe
 
-A new Flutter project.
+ Đồ án 1 - Khoa Công Nghệ Phần Mềm - Trường ĐH Công Nghệ Thông Tin
 
-## Getting Started
+## Thành viên:
 
-This project is a starting point for a Flutter application.
+Nguyễn Phạm Duy Bằng - 1950397
 
-A few resources to get you started if this is your first Flutter project:
+Võ Thị Thủy Tiên - 19520296
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Dự án về server
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://github.com/bang2001vl/luyenthigplx
+

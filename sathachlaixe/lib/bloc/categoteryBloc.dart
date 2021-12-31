@@ -1,6 +1,4 @@
 import 'package:sathachlaixe/bloc/base.dart';
-import 'package:sathachlaixe/model/practice.dart';
-import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/singleston/socketObserver.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';

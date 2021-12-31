@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/repository/sqlite/questionStatistic.dart';
@@ -12,15 +11,20 @@ class HistoryController {
   HistoryController();
 
   Future<int> insertHistory(HistoryModel data) async {
+    log("History: Insert");
     var db = await AppConfig().openDB();
-    var values = data.toJSON_insert();
-    values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
-    values["update_time"] = values["create_time"];
-    values["sync_time"] = 0;
+    var values = data.toJSON();
+
+    if (values["create_time"] == null) {
+      // First time, not sync
+      values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
+      values["update_time"] = values["create_time"];
+      values["sync_time"] = 0;
+    }
+
     values["mode"] = repository.getCurrentMode();
-    var affected = await db.insert(this.tableName, values);
     log(values.toString());
-    return affected;
+    return db.insert(this.tableName, values);
   }
 
   Future<List<HistoryModel>> getAll() async {

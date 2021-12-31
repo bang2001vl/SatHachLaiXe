@@ -34,8 +34,11 @@ class QuizStudyScreen extends StatelessWidget {
 
   void _onSelectAnswer(
       BuildContext context, int select, int correct, QuestionModel quesData) {
-    repository.insertOrUpdatePractice(quesData.id, select, correct).then((_) =>
-        BlocProvider.of<PracticeBloc>(context).selectAnswer(select, correct));
+    repository
+        .insertOrUpdatePracticeAnswer(
+            PracticeModel(quesData.id, select, correct, 0, 0))
+        .then((_) => BlocProvider.of<PracticeBloc>(context)
+            .selectAnswer(select, correct));
   }
 
   void _onPressNext(BuildContext context) {

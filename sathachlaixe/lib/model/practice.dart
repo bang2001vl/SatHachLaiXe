@@ -42,6 +42,7 @@ class PracticeModel extends TimeStampModel {
     var json = toJSONinsert();
     json["create_time"] = this.create_time;
     json["update_time"] = this.update_time;
+    json["sync_time"] = this.sync_time;
     return json;
   }
 }

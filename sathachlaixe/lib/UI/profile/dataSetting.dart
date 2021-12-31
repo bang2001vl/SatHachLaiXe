@@ -6,6 +6,7 @@ import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import 'package:sathachlaixe/singleston/socketObserver.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
@@ -117,21 +118,9 @@ class SyncSwitch extends StatefulWidget {
       new _SyncSwitchState(syncStatus: firstState);
 }
 
-class _SyncSwitchState extends State<SyncSwitch> with SocketObserver {
+class _SyncSwitchState extends State<SyncSwitch> {
   bool syncStatus = false;
   _SyncSwitchState({this.syncStatus = false});
-
-  @override
-  void initState() {
-    super.initState();
-    SocketBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    SocketBinding.instance.removeObserver(this);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,28 +132,19 @@ class _SyncSwitchState extends State<SyncSwitch> with SocketObserver {
       ),
       value: syncStatus,
       onChanged: (value) async {
+        if (!repository.isAuthorized) {
+          showNotifyMessage(
+              "Chưa đăng nhập", "Vui lòng đăng nhập để sử dụng chức năng");
+          return;
+        }
         if (value == repository.isSyncON) return;
         await repository.updateSyncState(value ? 1 : 0);
         widget.onChanged?.call(value);
 
         setState(() {
-          syncStatus = value;
+          syncStatus = repository.isSyncON;
         });
       },
     );
   }
-
-  // @override
-  // void onAuthorized() {
-  //   setState(() {
-  //     syncStatus = true;
-  //   });
-  // }
-
-  // @override
-  // void onDisconnect() {
-  //   setState(() {
-  //     syncStatus = false;
-  //   });
-  // }
 }

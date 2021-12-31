@@ -15,7 +15,7 @@ import 'package:sathachlaixe/singleston/socketio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends AuthRepo {
-  static final String _apiURL = "http://192.168.1.110:8080/auth";
+  final String _apiURL = RepositoryGL.serverURL + ":8080/auth";
 
   String makeURL(String apiName) {
     return _apiURL + "/" + apiName;
@@ -112,6 +112,7 @@ abstract class AuthRepo {
 
   Future<void> onLoginSuccess(
       UserModel userInfo, String token, bool isAutoLogin) async {
+    log("APIs: Login success");
     var h = await repository.getUnsyncHistories();
     var p = await repository.getUnsyncPractices();
 

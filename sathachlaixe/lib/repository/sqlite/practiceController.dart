@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:core';
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:sathachlaixe/model/practice.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
@@ -12,12 +11,19 @@ class PracticeController {
   PracticeController();
 
   Future<int> insert(PracticeModel data) async {
+    log("Practice: Insert");
     var db = await AppConfig().openDB();
-    var values = data.toJSONinsert();
-    values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
-    values["update_time"] = values["create_time"]!;
-    values["sync_time"] = 0;
+    var values = data.toJSON();
+
+    if (values["create_time"] == null) {
+      // First time, not sync
+      values["create_time"] = DateTime.now().toUtc().millisecondsSinceEpoch;
+      values["update_time"] = values["create_time"];
+      values["sync_time"] = 0;
+    }
+
     values["mode"] = repository.getCurrentMode();
+    log(values.toString());
     return db.insert(tableName, values);
   }
 
@@ -41,23 +47,14 @@ class PracticeController {
     return db.update(tableName, values, where: "id = ?", whereArgs: [data.id]);
   }
 
-  Future<int> insertOrUpdate(
-    int questionId,
-    int selectedAnswer,
-    int correctAnswer, {
-    int countWrong = 0,
-    int countCorrect = 0,
-  }) async {
-    var old = await getPratice(questionId);
+  Future<int> insertOrUpdateAnswer(PracticeModel model) async {
+    var old = await getPratice(model.questionID);
     if (old.isEmpty) {
-      var data = PracticeModel(questionId, selectedAnswer, correctAnswer, 0, 0);
-      return insert(data);
+      return insert(model);
     } else {
       var data = old.first;
-      data.selectedAnswer = selectedAnswer;
-      data.correctAnswer = correctAnswer;
-      data.countWrong = countWrong;
-      data.countCorrect = countCorrect;
+      data.selectedAnswer = model.selectedAnswer;
+      data.correctAnswer = model.correctAnswer;
       return update(data);
     }
   }

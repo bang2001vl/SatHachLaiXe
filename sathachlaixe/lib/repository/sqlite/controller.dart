@@ -24,7 +24,7 @@ class DBController {
         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
-        "sync_time INTEGER DEFAULT NULL, " +
+        "sync_time INTEGER DEFAULT 0, " +
         "topicID INTEGER DEFAULT -1, " +
         "isPassed INTEGER DEFAULT 0, " +
         "isFinished INTEGER DEFAULT 0, " +
@@ -38,7 +38,7 @@ class DBController {
         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
         "create_time INTEGER DEFAULT NULL, " +
         "update_time INTEGER DEFAULT NULL, " +
-        "sync_time INTEGER DEFAULT NULL, " +
+        "sync_time INTEGER DEFAULT 0, " +
         "topicID INTEGER DEFAULT -1, " +
         "questionID INTEGER DEFAULT -1, " +
         "selectedAnswer INTEGER DEFAULT 0, " +

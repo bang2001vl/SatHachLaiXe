@@ -132,7 +132,6 @@ class TestListPage extends StatelessWidget {
       ),
     ).then((value) {
       context.read<TopicBloc>().reload();
-      SocketController().notifyDataChanged();
     });
   }
 

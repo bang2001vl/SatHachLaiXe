@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:sathachlaixe/model/board.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
@@ -25,6 +25,8 @@ final RepositoryGL repository = new RepositoryGL();
 class RepositoryGL {
   RepositoryGL();
 
+  static const serverURL = "http://thunderv.southeastasia.cloudapp.azure.com";
+
   String getCurrentMode() {
     return AppConfig().topicType;
   }
@@ -36,10 +38,14 @@ class RepositoryGL {
   }
 
   bool get isSyncON => AppConfig.instance.syncState == 1;
+  bool get isAuthorized => SocketController.instance.isConnected;
 
   Future<void> updateSyncState(int? state) async {
     AppConfig.instance.syncState = state;
     await AppConfig.instance.saveSycnState(state);
+    if (isSyncON) {
+      SocketController.instance.notifyDataChanged();
+    }
   }
 
   Future<void> updateToken(String? token) async {
@@ -48,6 +54,7 @@ class RepositoryGL {
   }
 
   Future<void> updateLatestSyncTime(int unixTimeStamp) async {
+    log("AppConfig: Update syncTime = " + unixTimeStamp.toString());
     AppConfig.instance.latestSyncTime = unixTimeStamp;
     await AppConfig.instance.saveLatestSyncTime(unixTimeStamp);
   }
@@ -68,8 +75,12 @@ class RepositoryGL {
     return HistoryController().getAllFinishedHistory();
   }
 
-  Future<int> insertHistory(HistoryModel data) {
-    return HistoryController().insertHistory(data);
+  Future<int> insertHistory(HistoryModel data) async {
+    var c = await HistoryController().insertHistory(data);
+    if (isSyncON) {
+      SocketController.instance.notifyDataChanged();
+    }
+    return c;
   }
 
   TopicModel getRandomTopic() {
@@ -135,28 +146,14 @@ class RepositoryGL {
     return PracticeController().getPratice(questionId);
   }
 
-  Future<int> insertPractice(PracticeModel data) {
-    return PracticeController().insert(data);
-  }
+  Future<int> insertOrUpdatePracticeAnswer(PracticeModel model) async {
+    var c = await PracticeController().insertOrUpdateAnswer(model);
 
-  Future<int> insertOrUpdatePractice(
-    int questionId,
-    int selectedAnswer,
-    int correctAnswer, {
-    int countWrong = 0,
-    int countCorrect = 0,
-  }) {
-    return PracticeController().insertOrUpdate(
-      questionId,
-      selectedAnswer,
-      correctAnswer,
-      countWrong: countWrong,
-      countCorrect: countCorrect,
-    );
-  }
+    if (isSyncON) {
+      SocketController.instance.notifyDataChanged();
+    }
 
-  Future<int> updatePractice(PracticeModel data) {
-    return PracticeController().update(data);
+    return c;
   }
 
   Future<List<PracticeModel>> getUnsyncPractices() {

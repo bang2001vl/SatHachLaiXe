@@ -26,7 +26,6 @@ class QuesCategoryScreenWithBloc extends StatelessWidget {
                   cate: item,
                 ))).then((value) {
       BlocProvider.of<CategoteryBloc>(context).reload();
-      SocketController().notifyDataChanged();
     });
   }
 

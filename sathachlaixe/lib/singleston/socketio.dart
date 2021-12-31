@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' as Math;
 
 import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/model/history.dart';
@@ -13,7 +14,8 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'socketObserver.dart';
 
 class SocketController {
-  final String url = "http://192.168.1.110:9000";
+  //final String url = "http://192.168.1.110:9000";
+  final String url = RepositoryGL.serverURL + ":9000";
 
   static const String request_get_unsync = "get_unsync_data";
   static const String response_get_unsync = "response_unsync_data";
@@ -31,6 +33,8 @@ class SocketController {
   static const String event_authorized = "authorized";
 
   IO.Socket? _socket;
+
+  bool get isConnected => _socket == null ? false : _socket!.connected;
 
   void deleteData() {
     if (_socket == null) {
@@ -51,13 +55,7 @@ class SocketController {
 
     for (int i = 0; i < newPratices.length; i++) {
       var practice = newPratices[i];
-      await repository.insertOrUpdatePractice(
-        practice.questionID,
-        practice.selectedAnswer,
-        practice.correctAnswer,
-        countCorrect: practice.countCorrect,
-        countWrong: practice.countWrong,
-      );
+      await repository.insertOrUpdatePracticeAnswer(practice);
     }
   }
 
@@ -77,18 +75,7 @@ class SocketController {
     if (newHistories.length < 1 && newPratices.length < 1) return;
     log("SOCKETIO : Send new data to server");
 
-    _socket?.on(response_notify_changed, (data) async {
-      // Unbind response's handler after got it
-      _socket?.off(response_notify_changed);
-
-      var rawHistories = data["histories"] as List;
-      var rawPractices = data["practices"] as List;
-      var histories =
-          rawHistories.map((e) => HistoryModel.fromJSON(e)).toList();
-      var practices =
-          rawPractices.map((e) => PracticeModel.fromJSON(e)).toList();
-      await repository.updateSyncTime(histories, practices);
-    });
+    _socket?.on(response_notify_changed, _onResponseNotifyChanged);
 
     var mode = repository.getCurrentMode();
     var out1 = newHistories.map((e) {
@@ -109,30 +96,56 @@ class SocketController {
     });
   }
 
+  void _onResponseNotifyChanged(data) async {
+    // Unbind response's handler after got it
+    _socket?.off(response_notify_changed);
+
+    var rawHistories = data["histories"] as List;
+    var rawPractices = data["practices"] as List;
+    var histories = rawHistories.map((e) => HistoryModel.fromJSON(e)).toList();
+    var practices = rawPractices.map((e) => PracticeModel.fromJSON(e)).toList();
+    await repository.updateSyncTime(histories, practices);
+
+    // Finnaly, update latest sync time
+    var sync_time = await repository.getLastSyncTime();
+    rawHistories.forEach((element) {
+      sync_time = Math.max(sync_time, element["sync_time"]);
+    });
+    rawPractices.forEach((element) {
+      sync_time = Math.max(sync_time, element["sync_time"]);
+    });
+
+    repository.updateLatestSyncTime(sync_time);
+  }
+
   void getUnsyncData() async {
     if (_socket == null) {
+      log("ERROR: Call getUnsyncData() with null socket");
       return;
     }
     if (!_socket!.connected) {
+      log("ERROR: Call getUnsyncData() with unconnect socket");
       return;
     }
     _socket?.on(response_get_unsync, (data) async {
       // Unbind response's handler after got it
       _socket?.off(response_get_unsync);
+      var jsonHistories = data["histories"] as List;
+      var jsonPractices = data["practices"] as List;
 
       var jsonUserInfo = data["userInfo"];
+      var sync_time = data["sync_time"] as int;
       if (jsonUserInfo != null) {
         var userInfo = UserModel.fromJSON(jsonUserInfo);
         await repository.updateUserInfo(userInfo);
         SocketBinding.instance._invokeOnUserInfoChanged();
+        sync_time = Math.max(sync_time, userInfo.updateTime);
       }
 
       if (repository.isSyncON) {
         // Only sync when sync is ON
-        var jsonHistories = data["histories"] as List;
-        var jsonPractices = data["practices"] as List;
 
-        if (jsonHistories.length > 1 || jsonPractices.length > 1) {
+        if (jsonHistories.length > 0 || jsonPractices.length > 0) {
           var newHistories =
               jsonHistories.map((json) => HistoryModel.fromJSON(json)).toList();
           var newPratices = jsonPractices
@@ -146,7 +159,14 @@ class SocketController {
       }
 
       // Finnaly, update latest sync time
-      var sync_time = data["sync_time"];
+      sync_time = Math.max(sync_time, await repository.getLastSyncTime());
+      jsonHistories.forEach((element) {
+        sync_time = Math.max(sync_time, element["sync_time"]);
+      });
+      jsonPractices.forEach((element) {
+        sync_time = Math.max(sync_time, element["sync_time"]);
+      });
+
       repository.updateLatestSyncTime(sync_time);
     });
 
