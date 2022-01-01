@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sathachlaixe/UI/Board/boardFlipCard.dart';
+import 'package:sathachlaixe/UI/Board/boardPlay.dart';
 import 'package:sathachlaixe/UI/Component/back_button.dart';
 import 'package:sathachlaixe/UI/Component/board_category.dart';
 import 'package:sathachlaixe/UI/Component/board_item.dart';
@@ -30,18 +32,32 @@ class BoardDetailScreen extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
-              Container(
-                height: 90.h,
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Stack(
+              Padding(
+                padding: EdgeInsets.only(
+                    right: 20.w, top: 20.h, left: 15.w, bottom: 15.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ReturnButton(),
-                    Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          cate.name,
-                          style: kText20Bold_14,
-                        ))
+                    Text(
+                      cate.name,
+                      style: kText20Bold_14,
+                    ),
+                    InkWell(
+                      child: Container(
+                        height: 25.h,
+                        width: 25.h,
+                        child: SvgPicture.asset('assets/icons/playBlack.svg'),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BoardPlayScreen(
+                                      cate: cate,
+                                    )));
+                      },
+                    )
                   ],
                 ),
               ),

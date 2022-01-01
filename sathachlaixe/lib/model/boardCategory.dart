@@ -6,15 +6,10 @@ class BoardCategoryModel {
   String name;
   String detail;
   String assetURL;
-
-  BoardCategoryModel(this.id, this.name, this.detail, this.assetURL);
-
-  BoardCategoryModel.empty({
-    this.id = -1,
-    this.name = '',
-    this.detail = '',
-    this.assetURL = '',
-  });
+  String boardIDs;
+  List<String> get listBoardIDs => boardIDs.split(' ');
+  BoardCategoryModel(
+      this.id, this.name, this.detail, this.assetURL, this.boardIDs);
 
   factory BoardCategoryModel.fromJSON(Map json) {
     return BoardCategoryModel(
@@ -22,6 +17,7 @@ class BoardCategoryModel {
       json['name'],
       json['detail'],
       json['assetURL'],
+      json['boardIDs'],
     );
   }
 
@@ -32,5 +28,9 @@ class BoardCategoryModel {
 
   Future<List<BoardModel>> getChilds() {
     return repository.getBoardByCate(this.id);
+  }
+
+  List<int> getBoardIds_int() {
+    return listBoardIDs.map((e) => int.parse(e)).toList();
   }
 }

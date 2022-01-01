@@ -28,6 +28,7 @@ final dtcolor13 = Color(0xFFFFFFFF);
 final dtcolor14 = Color(0xFF000000);
 final dtcolor15 = Color(0xFFFF9900);
 final dtcolor16 = Color(0xFFF4F7FE);
+final dtcolor17 = Color(0xFF383A55);
 final cwcolor21 = Color(0xFF5AAEE7);
 final cwcolor22 = Color(0xFFD8F4ED);
 final cwcolor23 = Color(0xFFFFDFDD);
