@@ -85,7 +85,8 @@ class AppDBController {
           "id INTEGER PRIMARY KEY, "
           "name TEXT DEFAULT '', "
           "detail TEXT DEFAULT '', "
-          "assetURL TEXT DEFAULT '')";
+          "assetURL TEXT DEFAULT '',"
+          "boardIDs TEXT DEFAULT '')";
 
       await txn.execute(sql);
 
