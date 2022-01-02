@@ -3,6 +3,9 @@ class TipModel {
   String detail;
   String content;
   String assetURL;
+
+  /// 0->LT
+  /// 1->TH
   int typeId;
 
   List<String> get contentList => content.split('@');

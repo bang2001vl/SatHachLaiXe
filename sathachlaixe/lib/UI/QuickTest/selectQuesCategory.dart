@@ -1,17 +1,35 @@
-import 'dart:ffi';
+import 'dart:math';
 
+import 'package:sathachlaixe/UI/Component/ques_category.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
-import 'package:sathachlaixe/UI/Style/size.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
-import 'package:sathachlaixe/UI/Component/textbox.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sathachlaixe/main.dart';
+import 'package:sathachlaixe/UI/studyQues/studyQuiz_screen.dart';
+import 'package:sathachlaixe/model/questionCategory.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class QuickTestScreen extends StatelessWidget {
-  String? value;
+  QuestionCategoryModel? selected;
+  final int count = 5;
+
+  void onClickSubmit(context) {
+    if (selected == null) return;
+    int c = count;
+    var questionIds = List.of(selected!.questionIDs);
+    questionIds.shuffle(Random(DateTime.now().millisecondsSinceEpoch));
+    if (c > questionIds.length) {
+      c = questionIds.length;
+    }
+    questionIds = questionIds.sublist(0, c);
+    questionIds.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => QuizStudyScreen.modePratice(questionIds),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +69,15 @@ class QuickTestScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: dtcolor1, width: 2.w),
                     ),
-                    child: new MyDropDown(),
+                    child: new MyDropDown(
+                      onSelect: (p0) => this.selected = p0,
+                    ),
                   ),
                   SizedBox(
                     height: 80.h,
                   ),
                   GestureDetector(
+                    onTap: () => onClickSubmit(context),
                     child: Container(
                       height: 60.h,
                       width: 250.w,
@@ -79,14 +100,30 @@ class QuickTestScreen extends StatelessWidget {
 }
 
 class MyDropDown extends StatefulWidget {
-  MyDropDown();
+  final Function(QuestionCategoryModel)? onSelect;
+  MyDropDown({this.onSelect, Key? key}) : super(key: key);
 
   @override
   _MyDropDownState createState() => _MyDropDownState();
 }
 
 class _MyDropDownState extends State<MyDropDown> {
-  String? selected;
+  late String selected;
+
+  late List<QuestionCategoryModel> cates;
+
+  String getValue(QuestionCategoryModel cate) {
+    return cate.name;
+  }
+
+  @override
+  void initState() {
+    cates = repository.getQuestionCategory();
+    selected = getValue(cates[0]);
+    super.initState();
+    widget.onSelect?.call(cates[0]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
@@ -94,17 +131,22 @@ class _MyDropDownState extends State<MyDropDown> {
           enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent))),
       value: selected,
-      items: ["Tất cả"]
-          .map((label) => DropdownMenuItem(
-                child: Text(
-                  label,
-                  style: kText16Medium_1,
-                ),
-                value: label,
-              ))
-          .toList(),
+      items: List.generate(cates.length, (index) {
+        var name = cates[index].name;
+        var value = getValue(cates[index]);
+
+        return DropdownMenuItem(
+          child: Text(
+            name,
+            style: kText16Medium_1,
+          ),
+          value: value,
+        );
+      }),
       onChanged: (value) {
         setState(() => selected = value!);
+        widget.onSelect
+            ?.call(cates.where((cate) => getValue(cate) == value).first);
       },
     );
   }

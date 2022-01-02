@@ -154,6 +154,9 @@ class AppConfig {
     this.syncState = await getSycnState();
     this.token = await getSavedToken();
     this.userInfo = await getSavedUser();
+    var temp = await getLatestSyncTime();
+    this.latestSyncTime = temp == null ? 0 : temp;
+    log("Loaded all config");
   }
 
   Future<void> savePrefs() async {

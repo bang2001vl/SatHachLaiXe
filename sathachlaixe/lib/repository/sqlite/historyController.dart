@@ -115,6 +115,13 @@ class HistoryController {
     return rs;
   }
 
+  Future<List<QuestionStatistic>> statisticTopWrong(int count) async {
+    var statisticData = await statisticQuestions();
+    var l = statisticData.values.toList();
+    l.sort((a, b) => a.countWrong.compareTo(b.countWrong));
+    return l.sublist(0, count);
+  }
+
   Future<List<HistoryModel>> getUnsyncHistories() async {
     var db = await AppConfig().openDB();
     var sql = "SELECT * FROM $tableName WHERE sync_time = 0";

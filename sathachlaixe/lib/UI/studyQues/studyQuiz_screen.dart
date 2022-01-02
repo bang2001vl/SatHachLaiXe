@@ -1,14 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Component/back_button.dart';
-import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
 import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
-import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/UI/testUI.dart';
@@ -21,12 +18,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/state/quiz.dart';
 
 class QuizStudyScreen extends StatelessWidget {
-  final QuestionCategoryModel cate;
+  late final QuestionCategoryModel cate;
   final int mode;
+
+  bool get isModeStudy => mode == 0;
+  bool get isModePractice => mode == 1;
+
   QuizStudyScreen({required this.cate, required this.mode, Key? key})
       : super(key: key);
   QuizStudyScreen.modeStudy({required this.cate, this.mode = 0, Key? key})
       : super(key: key);
+  QuizStudyScreen.modePratice(List<String> questionIDs,
+      {this.mode = 1, Key? key})
+      : super(key: key) {
+    this.cate = QuestionCategoryModel(
+        name: "Ôn tập", detail: "null", questionIDs: questionIDs);
+  }
 
   void _onPressBack(BuildContext context) {
     BlocProvider.of<PracticeBloc>(context).onPressBack(context);
@@ -47,10 +54,6 @@ class QuizStudyScreen extends StatelessWidget {
 
   void _onPressPrevious(BuildContext context) {
     BlocProvider.of<PracticeBloc>(context).selectQuestionPrevious();
-  }
-
-  void _onPressSubmit(BuildContext context) {
-    BlocProvider.of<PracticeBloc>(context).onPressSubmit(context);
   }
 
   bool checkChanged(QuizState previous, QuizState current) {
@@ -100,17 +103,23 @@ class QuizStudyScreen extends StatelessWidget {
             BlocBuilder<PracticeBloc, QuizState>(
               buildWhen: (previous, current) =>
                   current.currentIndex != previous.currentIndex,
-              builder: (context, state) => QuizTitle(
-                questionIndex: state.currentIndex,
-                count: state.length,
-              ),
+              builder: (context, state) {
+                if (isModeStudy) {
+                  return QuizTitle(
+                      questionIndex: state.currentIndex, count: state.length);
+                } else if (isModePractice) {
+                  return Text('Câu ' + (state.currentQuestionId).toString(),
+                      style: kText20Normal_13);
+                }
+                throw UnimplementedError();
+              },
             ),
             BlocBuilder<PracticeBloc, QuizState>(
               buildWhen: (previous, current) =>
                   current.timeLeft != previous.timeLeft,
               builder: (context, state) => _QuizNotify(
-                  isCritical:
-                      repository.checkCritical(state.currentQuestionId)),
+                isCritical: repository.checkCritical(state.currentQuestionId),
+              ),
             ),
           ],
         ),
@@ -190,11 +199,14 @@ class QuizStudyScreen extends StatelessWidget {
             var quesData = snapshot.data![0] as QuestionModel;
             var practiceData = (snapshot.data![1] as List<PracticeModel>);
 
-            if (practiceData.isNotEmpty) {
-              BlocProvider.of<PracticeBloc>(context).selectAnswer(
-                practiceData.first.selectedAnswer,
-                practiceData.first.correctAnswer,
-              );
+            if (isModeStudy) {
+              // Only get previous answer when in mode == 0
+              if (practiceData.isNotEmpty) {
+                BlocProvider.of<PracticeBloc>(context).selectAnswer(
+                  practiceData.first.selectedAnswer,
+                  practiceData.first.correctAnswer,
+                );
+              }
             }
 
             return BlocBuilder<PracticeBloc, QuizState>(

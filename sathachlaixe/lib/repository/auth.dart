@@ -116,7 +116,7 @@ abstract class AuthRepo {
     var h = await repository.getUnsyncHistories();
     var p = await repository.getUnsyncPractices();
 
-    if (h.length > 0 || p.length > 0) {
+    if (!isAutoLogin && (h.length > 0 || p.length > 0)) {
       var rs = await askBeforeSync();
       if (rs == "Delete") {
         await repository.deleteAllData();

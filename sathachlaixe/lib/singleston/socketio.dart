@@ -50,25 +50,26 @@ class SocketController {
   Future<void> _updateData(
       List<HistoryModel> newHistories, List<PracticeModel> newPratices) async {
     for (int i = 0; i < newHistories.length; i++) {
-      await repository.insertHistory(newHistories[i]);
+      await repository.insertHistory(newHistories[i], needUpdateCount: false);
     }
 
     for (int i = 0; i < newPratices.length; i++) {
       var practice = newPratices[i];
-      await repository.insertOrUpdatePracticeAnswer(practice);
+      await repository.insertOrUpdatePractice(practice);
     }
   }
 
   void notifyDataChanged() async {
-    if (_socket == null) {
-      return;
-    }
-    if (!_socket!.connected) {
-      return;
-    }
+    // if (_socket == null) {
+    //   return;
+    // }
+    // if (!_socket!.connected) {
+    //   return;
+    // }
     if (!repository.isSyncON) {
       return;
     }
+    // await connect();
     var newHistories = await repository.getUnsyncHistories();
     var newPratices = await repository.getUnsyncPractices();
 
@@ -127,51 +128,52 @@ class SocketController {
       log("ERROR: Call getUnsyncData() with unconnect socket");
       return;
     }
-    _socket?.on(response_get_unsync, (data) async {
-      // Unbind response's handler after got it
-      _socket?.off(response_get_unsync);
-      var jsonHistories = data["histories"] as List;
-      var jsonPractices = data["practices"] as List;
-
-      var jsonUserInfo = data["userInfo"];
-      var sync_time = data["sync_time"] as int;
-      if (jsonUserInfo != null) {
-        var userInfo = UserModel.fromJSON(jsonUserInfo);
-        await repository.updateUserInfo(userInfo);
-        SocketBinding.instance._invokeOnUserInfoChanged();
-        sync_time = Math.max(sync_time, userInfo.updateTime);
-      }
-
-      if (repository.isSyncON) {
-        // Only sync when sync is ON
-
-        if (jsonHistories.length > 0 || jsonPractices.length > 0) {
-          var newHistories =
-              jsonHistories.map((json) => HistoryModel.fromJSON(json)).toList();
-          var newPratices = jsonPractices
-              .map((json) => PracticeModel.fromJSON(json))
-              .toList();
-
-          await _updateData(newHistories, newPratices);
-
-          SocketBinding.instance._invokeDataChanged();
-        }
-      }
-
-      // Finnaly, update latest sync time
-      sync_time = Math.max(sync_time, await repository.getLastSyncTime());
-      jsonHistories.forEach((element) {
-        sync_time = Math.max(sync_time, element["sync_time"]);
-      });
-      jsonPractices.forEach((element) {
-        sync_time = Math.max(sync_time, element["sync_time"]);
-      });
-
-      repository.updateLatestSyncTime(sync_time);
-    });
+    _socket?.on(response_get_unsync, _onResponseUnsyncData);
 
     var lastSync = await repository.getLastSyncTime();
     _socket?.emit(request_get_unsync, {"lastSync": lastSync});
+  }
+
+  void _onResponseUnsyncData(data) async {
+// Unbind response's handler after got it
+    _socket?.off(response_get_unsync);
+    var jsonHistories = data["histories"] as List;
+    var jsonPractices = data["practices"] as List;
+
+    var jsonUserInfo = data["userInfo"];
+    var sync_time = data["sync_time"] as int;
+    if (jsonUserInfo != null) {
+      var userInfo = UserModel.fromJSON(jsonUserInfo);
+      await repository.updateUserInfo(userInfo);
+      SocketBinding.instance._invokeOnUserInfoChanged();
+      sync_time = Math.max(sync_time, userInfo.updateTime);
+    }
+
+    if (repository.isSyncON) {
+      // Only sync when sync is ON
+
+      if (jsonHistories.length > 0 || jsonPractices.length > 0) {
+        var newHistories =
+            jsonHistories.map((json) => HistoryModel.fromJSON(json)).toList();
+        var newPratices =
+            jsonPractices.map((json) => PracticeModel.fromJSON(json)).toList();
+
+        await _updateData(newHistories, newPratices);
+
+        SocketBinding.instance._invokeDataChanged();
+      }
+    }
+
+    // Finnaly, update latest sync time
+    sync_time = Math.max(sync_time, await repository.getLastSyncTime());
+    jsonHistories.forEach((element) {
+      sync_time = Math.max(sync_time, element["sync_time"]);
+    });
+    jsonPractices.forEach((element) {
+      sync_time = Math.max(sync_time, element["sync_time"]);
+    });
+
+    await repository.updateLatestSyncTime(sync_time);
   }
 
   FutureOr<void> close() async {
@@ -187,16 +189,26 @@ class SocketController {
     SocketBinding.instance._invokeOnDisconnected();
   }
 
+  FutureOr<int> connect() async {
+    if (repository.isAuthorized) {
+      return 0;
+    }
+
+    await this.close();
+    return this.init();
+  }
+
   SocketController._privateController();
 
-  init() {
-    if (this._socket != null) return;
+  FutureOr<int> init() {
+    if (this._socket != null) return 1;
     if (AppConfig.instance.token == null) {
       log("SocketIO: Not found token");
       repository.auth.onUnauthorized();
-      return false;
+      return -1;
     }
 
+    var completer = Completer<int>();
     var op = IO.OptionBuilder()
         .setTransports(['websocket'])
         // .setReconnectionAttempts(3)
@@ -240,15 +252,20 @@ class SocketController {
       getUnsyncData();
 
       SocketBinding.instance._invokeOnAuthorized();
+      completer.complete(1);
     });
 
-    socket.on(event_data_changed, (_) => getUnsyncData());
+    socket.on(event_data_changed, (_) {
+      log("SocketIO: onEventDataChanged");
+      getUnsyncData();
+    });
 
     socket.on(event_deleted_data, (_) {
       repository.deleteAllData();
     });
 
     log("[OK] : Init socketIO");
+    return completer.future;
   }
 
   void cannotConnect() {

@@ -16,6 +16,7 @@ import 'package:sathachlaixe/repository/sqlite/boardCategoryController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardController.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
+import 'package:sathachlaixe/repository/sqlite/questionStatistic.dart';
 import 'package:sathachlaixe/repository/sqlite/tipController.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
@@ -75,9 +76,20 @@ class RepositoryGL {
     return HistoryController().getAllFinishedHistory();
   }
 
-  Future<int> insertHistory(HistoryModel data) async {
+  Future<int> insertHistory(HistoryModel data,
+      {bool needUpdateCount = true, bool needSync = true}) async {
     var c = await HistoryController().insertHistory(data);
-    if (isSyncON) {
+    if (needUpdateCount) {
+      for (int i = 0; i < data.questionIds.length; i++) {
+        var quesId = int.parse(data.questionIds[i]);
+        if (data.selectedAns[i] == data.correctAns[i]) {
+          PracticeController().insertOrPlusCorrect(quesId);
+        } else {
+          PracticeController().plusWrong(quesId);
+        }
+      }
+    }
+    if (needSync && isSyncON) {
       SocketController.instance.notifyDataChanged();
     }
     return c;
@@ -146,10 +158,22 @@ class RepositoryGL {
     return PracticeController().getPratice(questionId);
   }
 
-  Future<int> insertOrUpdatePracticeAnswer(PracticeModel model) async {
+  Future<int> insertOrUpdatePractice(PracticeModel model,
+      {bool needSync = false}) async {
+    var c = await PracticeController().insertOrUpdate(model);
+
+    if (needSync && isSyncON) {
+      SocketController.instance.notifyDataChanged();
+    }
+
+    return c;
+  }
+
+  Future<int> insertOrUpdatePracticeAnswer(PracticeModel model,
+      {bool needSync = true}) async {
     var c = await PracticeController().insertOrUpdateAnswer(model);
 
-    if (isSyncON) {
+    if (needSync && isSyncON) {
       SocketController.instance.notifyDataChanged();
     }
 
@@ -192,6 +216,10 @@ class RepositoryGL {
     count += await HistoryController().deleteAllUntil(maxTime);
     count += await PracticeController().deleteAllUntil(maxTime);
     return count;
+  }
+
+  Future<List<QuestionStatistic>> getTopWrong(int count) {
+    return PracticeController().statisticTopWrong(count);
   }
 
   TipRepo tips = TipController();
