@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
   }
 
   void onDisposeApp() {
+    log("AppState: onDispose");
     SocketController().close();
     AppConfig().dbController.closeDB();
   }

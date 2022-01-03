@@ -41,7 +41,6 @@ class _WidgetObserverState extends State<WidgetObserver>
   void dispose() {
     log("on: disposeState");
     WidgetsBinding.instance?.removeObserver(this);
-    widget.onDispose?.call();
     super.dispose();
   }
 
@@ -51,18 +50,19 @@ class _WidgetObserverState extends State<WidgetObserver>
     //log("on: didChangeAppLifecycleState");
     switch (state) {
       case AppLifecycleState.inactive:
-        log('inactive');
+        log('on: inactive');
         widget.onInactive?.call();
         break;
       case AppLifecycleState.paused:
-        log('paused');
+        log('on: paused');
         break;
       case AppLifecycleState.resumed:
-        log('resumed');
+        log('on: resumed');
         widget.onResume?.call();
         break;
       case AppLifecycleState.detached:
-        log('detached');
+        log('on: detached');
+        widget.onDispose?.call();
         break;
       default:
     }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as Math;
 
@@ -17,20 +16,25 @@ class SocketController {
   //final String url = "http://192.168.1.110:9000";
   final String url = RepositoryGL.serverURL + ":9000";
 
-  static const String request_get_unsync = "get_unsync_data";
-  static const String response_get_unsync = "response_unsync_data";
+  static const request_get_unsync = "get_unsync_data";
+  static const response_get_unsync = "response_unsync_data";
 
-  static const String request_insert_data = "notify_change_data";
-  static const String response_notify_changed = "responsed_notify_data_changed";
+  static const request_insert_data = "notify_change_data";
+  static const response_notify_changed = "responsed_notify_data_changed";
 
-  static const String request_deleted_data = "delete_data";
+  static const update_userInfo = "update_userInfo";
+  static const request_get_userInfo = "get_userInfo";
+  static const response_get_userInfo = "response_userInfo";
 
-  static const String event_data_changed = "data_changed";
-  static const String event_deleted_data = "deleted_sync_data";
+  static const request_deleted_data = "delete_data";
 
+  static const event_data_changed = "data_changed";
+  static const event_userinfo_changed = "userInfo_changed";
+  static const event_deleted_data = "deleted_sync_data";
+
+  static const event_authorize = "authorize";
+  static const event_authorized = "authorized";
   static const event_failed_authorized = "authorize_failed";
-  static const String event_authorize = "authorize";
-  static const String event_authorized = "authorized";
 
   IO.Socket? _socket;
 
@@ -176,7 +180,47 @@ class SocketController {
     await repository.updateLatestSyncTime(sync_time);
   }
 
+  void updateUserInfo(String name, List<int>? rawimage) {
+    if (_socket == null) {
+      log("ERROR: Call updateUserInfo when socket = null");
+      return;
+    }
+    log("SocketIO: Update userInfo");
+    var data = Map();
+    data["name"] = name;
+    if (rawimage != null) {
+      data["rawimage"] = rawimage;
+    }
+    log(data.toString());
+    _socket!.emit(update_userInfo, data);
+  }
+
+  void _onUserInfoChanged(data) async {
+    log("SocketIO: onUserInfoChanged");
+    log(data.toString());
+    var sync_time = await repository.getLastSyncTime();
+    var userInfo = UserModel.fromJSON(data["userInfo"]);
+    await repository.updateUserInfo(userInfo);
+    SocketBinding.instance._invokeOnUserInfoChanged();
+    sync_time = Math.max(sync_time, userInfo.updateTime);
+    await repository.updateLatestSyncTime(sync_time);
+  }
+
+  void requestUserInfo() async {
+    if (_socket == null) {
+      log("ERROR: Call requestUserInfo when socket = null");
+      return;
+    }
+    var socket = _socket!;
+    socket.on(response_get_userInfo, (data) async {
+      socket.off(response_get_userInfo);
+      _onUserInfoChanged(data);
+    });
+    socket.emit(request_get_userInfo);
+  }
+
   FutureOr<void> close() async {
+    log("SocketIO: Close connection");
     if (_socket == null) {
       return;
     }
@@ -189,14 +233,14 @@ class SocketController {
     SocketBinding.instance._invokeOnDisconnected();
   }
 
-  FutureOr<int> connect() async {
-    if (repository.isAuthorized) {
-      return 0;
-    }
+  // FutureOr<int> connect() async {
+  //   if (repository.isAuthorized) {
+  //     return 0;
+  //   }
 
-    await this.close();
-    return this.init();
-  }
+  //   await this.close();
+  //   return this.init();
+  // }
 
   SocketController._privateController();
 
@@ -207,7 +251,7 @@ class SocketController {
       repository.auth.onUnauthorized();
       return -1;
     }
-
+    log("SocketIO: Found token = " + AppConfig.instance.token!);
     var completer = Completer<int>();
     var op = IO.OptionBuilder()
         .setTransports(['websocket'])
@@ -245,9 +289,6 @@ class SocketController {
     socket.on(event_authorized, (data) async {
       log("Authorized");
 
-      AppConfig.instance.userInfo = UserModel.fromJSON(data["userInfo"]);
-      AppConfig.instance.saveUserInfo(AppConfig.instance.userInfo!);
-
       notifyDataChanged();
       getUnsyncData();
 
@@ -258,6 +299,11 @@ class SocketController {
     socket.on(event_data_changed, (_) {
       log("SocketIO: onEventDataChanged");
       getUnsyncData();
+    });
+
+    socket.on(event_userinfo_changed, (data) {
+      log("SocketIO: onEventUserInfoChanged");
+      requestUserInfo();
     });
 
     socket.on(event_deleted_data, (_) {

@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/model/user.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
@@ -52,14 +55,17 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
 
   @override
   Widget build(BuildContext context) {
-    var avatar = Image.asset("assets/images/avtProfile.png");
+    var defaultAvatar = Image.asset("assets/images/avtProfile.png");
+    var avatar = defaultAvatar;
     String name = "Đăng nhập";
     String phone = "";
     if (_userinfo != null) {
       var userInfo = _userinfo as UserModel;
-      if (userInfo.image != null) {
-        var bytes = Utf8Encoder().convert(userInfo.image!);
-        avatar = Image.memory(bytes);
+      if (userInfo.hasImage) {
+        var bytes = userInfo.rawimage!;
+        avatar = Image.memory(
+          Uint8List.fromList(bytes),
+        );
       }
       name = userInfo.name;
     }

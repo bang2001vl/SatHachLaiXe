@@ -15,7 +15,7 @@ import 'package:sathachlaixe/singleston/socketio.dart';
 class TopWrongScreen extends StatefulWidget {
   TopWrongScreen({Key? key}) : super(key: key);
 
-  final int length = 10;
+  final int length = -1;
 
   @override
   State<StatefulWidget> createState() {

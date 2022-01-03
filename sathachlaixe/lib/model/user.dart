@@ -1,12 +1,14 @@
 class UserModel {
   String name;
-  String? image;
+  List<int>? rawimage;
   int latestDelete;
   int updateTime;
 
+  bool get hasImage => rawimage != null && rawimage!.length > 0;
+
   UserModel({
     required this.name,
-    required this.image,
+    required this.rawimage,
     required this.latestDelete,
     required this.updateTime,
   });
@@ -14,7 +16,7 @@ class UserModel {
   factory UserModel.fromJSON(json) {
     return UserModel(
       name: json["name"],
-      image: json["image"],
+      rawimage: json["rawimage"] == null ? null : json["rawimage"].cast<int>(),
       latestDelete: json["latestDelete"],
       updateTime: json["updateTime"],
     );
@@ -23,7 +25,7 @@ class UserModel {
   Map<String, Object?> toJSON() {
     return Map<String, Object?>.from({
       "name": this.name,
-      "image": this.image,
+      "rawimage": this.rawimage,
       "latestDelete": this.latestDelete,
       "updateTime": this.latestDelete,
     });

@@ -18,6 +18,7 @@ import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
 import 'package:sathachlaixe/repository/sqlite/questionStatistic.dart';
 import 'package:sathachlaixe/repository/sqlite/tipController.dart';
+import 'package:sathachlaixe/repository/user.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
 
@@ -26,7 +27,8 @@ final RepositoryGL repository = new RepositoryGL();
 class RepositoryGL {
   RepositoryGL();
 
-  static const serverURL = "http://thunderv.southeastasia.cloudapp.azure.com";
+  // static const serverURL = "http://thunderv.southeastasia.cloudapp.azure.com";
+  static const serverURL = "http://192.168.1.110"; // Test-only
 
   String getCurrentMode() {
     return AppConfig().topicType;
@@ -224,6 +226,7 @@ class RepositoryGL {
 
   TipRepo tips = TipController();
   AuthRepo auth = AuthController();
+  UserRepos user = UserRepos();
 }
 
 abstract class TipRepo {

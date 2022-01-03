@@ -24,6 +24,7 @@ class AuthController extends AuthRepo {
   @override
   Future<int> login(String email, String password,
       {bool needSaveAuth = true, bool isAutoLogin = false}) {
+    log("Login with isAutoLogin = " + isAutoLogin.toString());
     var url = this.makeURL("login");
     var headers = {
       HttpHeaders.contentTypeHeader: "application/json",
@@ -88,12 +89,20 @@ abstract class AuthRepo {
     var token = AppConfig.instance.token as String;
     log("Logout with token : $token");
 
+    {
+      var result = await showYesNoDialog("Đăng xuất",
+          "Bạn sẽ đăng xuất tài khoản khỏi thiết bị này", "Tiếp tục", "Hủy");
+      if (result == 2) {
+        return -1;
+      }
+    }
+
     var h = await repository.getUnsyncHistories();
     var p = await repository.getUnsyncPractices();
 
     if (h.length > 0 || p.length > 0) {
       var result = await showYesNoDialog(
-          "Đăng xuất", "Dữ liệu chưa đồng bộ sẽ bị mất", "Tiếp tục", "Hủy");
+          "Chưa đồng bộ", "Dữ liệu chưa đồng bộ sẽ bị mất", "Tiếp tục", "Hủy");
       if (result == 2) {
         return -1;
       }
@@ -126,12 +135,12 @@ abstract class AuthRepo {
     if (!isAutoLogin) {
       await repository.updateLatestSyncTime(0);
       await repository.updateSyncState(1);
+      await repository.updateUserInfo(userInfo);
     }
 
-    await repository.updateUserInfo(userInfo);
     await repository.updateToken(token);
 
-    SocketController.instance.init();
+    await SocketController.instance.init();
   }
 
   Future<String?> askBeforeSync() {

@@ -68,11 +68,13 @@ class AppConfig {
 
 /* Preferences user's info */
   Future<void> saveUserInfo(UserModel? user) async {
+    log("Prefs: Save userInfo");
     var prefs = await SharedPreferences.getInstance();
     if (user == null) {
       prefs.remove(_keyUserInfo);
     } else {
       var json = jsonEncode(userInfo!.toJSON());
+      log(json);
       prefs.setString(_keyUserInfo, json);
     }
   }
@@ -141,18 +143,20 @@ class AppConfig {
       await saveLatestSyncTime(0);
     }
 
-    await loadPreferences();
+    await loadPreferences(loadToken: false);
 
     if (syncState == 1) {
-      SocketController.instance.init();
+      await SocketController.instance.init();
     }
   }
 
-  Future<void> loadPreferences() async {
+  Future<void> loadPreferences({bool loadToken = true}) async {
     // Load all preferences
     _topicType = (await getMode())!;
     this.syncState = await getSycnState();
-    this.token = await getSavedToken();
+    if (loadToken) {
+      this.token = await getSavedToken();
+    }
     this.userInfo = await getSavedUser();
     var temp = await getLatestSyncTime();
     this.latestSyncTime = temp == null ? 0 : temp;
