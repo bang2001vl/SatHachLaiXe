@@ -122,15 +122,18 @@ class BoardPlayScreen extends StatelessWidget {
   Widget buildTopBar(BuildContext context, BoardPlayState state) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
-      child: Row(
+      child: Stack(
         children: <Widget>[
           CloseButton(),
-          SizedBox(
-            width: 80.w,
-          ),
-          Text(
-            state.title,
-            style: kText20Bold_13.copyWith(color: dtcolor17),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Text(
+                state.title,
+                style: kText20Bold_13.copyWith(color: dtcolor17),
+              ),
+            ),
           ),
         ],
       ),

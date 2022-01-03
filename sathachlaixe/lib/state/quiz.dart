@@ -21,12 +21,14 @@ class QuizState {
   bool get isUpdate => mode == 2;
   int get length => questionIds.length;
   int get currentQuestionId => int.parse(questionIds[currentIndex]);
+  List<int> getQuestionIDsListInt() =>
+      this.questionIds.map((e) => int.parse(e)).toList();
   List<int> getSelectedListInt() =>
       this.selectedList.map((e) => int.parse(e)).toList();
   List<int> getCorrectListInt() =>
       this.correctList.map((e) => int.parse(e)).toList();
   int get selectedAnswer => int.parse(selectedList[currentIndex]);
-
+  int get correctAnswer => int.parse(correctList[currentIndex]);
   QuizState({
     required this.title,
     required this.mode,

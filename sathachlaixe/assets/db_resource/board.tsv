@@ -85,12 +85,12 @@ id	cateId	name	detail	assetURL
 84	5	Biển số P.502 "Khoảng cách đến đối tượng báo hiệu"	Bên dưới các loại biển báo nguy hiểm, biển báo cấm, biển hiệu lệnh và chỉ dẫn, thông báo khoảng cách thực tế từ vị trí đặt biển đến đối tượng báo hiệu ở phía trước.	assets/images/boards/502.jpg
 85	5	Biển số P.503a "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503a.jpg
 86	5	Biển số P.503b "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503b.jpg
-87	5	Biển số P.503c "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards503c.jpg
+87	5	Biển số P.503c "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503c.jpg
 88	5	Biển số P.504 "Làn đường"	Đặt bên trên làn đường và dưới các biển báo cấm và biển hiệu lệnh hay bên dưới đèn tín hiệu để chỉ làn đường chịu hiệu lực của biển báo hay đèn tín hiệu.	assets/images/boards/504.jpg
 89	5	Biển số P.505a "Loại xe"	Đặt bên dưới các biển báo cấm và biển hiệu lệnh hay biển chỉ dẫn để chỉ loại xe chịu hiệu lực của biển báo cấm, biển hiệu lệnh hay biển chỉ dẫn. 	assets/images/boards/505a.jpg
 90	5	Biển số P.505b "Loại xe hạn chế qua cầu"	Đặt bên dưới biển báo số 106a “Cấm ôtô tải” để chỉ các loại xe tải chịu hiệu lực của biển báo và trọng lượng lớn nhất cho phép	assets/images/boards/505b.jpg
 91	5	Biển số P.505c "Tải trọng trục hạn chế qua cầu"	Đặt bên dưới biển báo số 106a “Cấm ôtô tải” để chỉ các loại xe tải có tải  trọng  trục  lớn nhất cho phép tương ứng với mỗi loại  trục	assets/images/boards/505c.jpg
-92	5	Biển số P.506a "Hướng đường ưu tiên""	Đặt bên dưới biển chỉ dẫn số 401 trên đường ưu tiên để chỉ dẫn cho người lái xe trên đường này biết hướng đường ưu tiên ở ngã tư.	assets/images/boards506a.jpg
+92	5	Biển số P.506a "Hướng đường ưu tiên""	Đặt bên dưới biển chỉ dẫn số 401 trên đường ưu tiên để chỉ dẫn cho người lái xe trên đường này biết hướng đường ưu tiên ở ngã tư.	assets/images/boards/506a.jpg
 93	5	Biển số P.506b "Hướng đường ưu tiên""	Đặt bên dưới biển số 208 và biển số 122 trên đường không ưu tiên để chỉ dẫn cho người lái xe trên đường này biết hướng đường ưu tiên ở ngã tư.	assets/images/boards/506b.jpg
 94	5	Biển số P.507 "Hướng rẽ"	Được sử dụng độc lập để báo trước cho người tham gia giao thông biết chuẩn bị đến chỗ rẽ nguy hiểm và để chỉ hướng rẽ.	assets/images/boards/507.jpg
 95	5	Biển số P.508a "Biểu thị thời gian"	Được đặt dưới biển báo cấm hoặc biển hiệu lệnh nhằm quy định phạm vi thời gian hiệu lực của các biển báo cấm, biển hiệu lệnh cho phù hợp yêu cầu.	assets/images/boards/508a.jpg

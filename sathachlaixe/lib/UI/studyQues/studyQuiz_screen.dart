@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Component/back_button.dart';
+import 'package:sathachlaixe/UI/Component/quesContainer.dart';
 import 'package:sathachlaixe/UI/Quiz/questionWidget.dart';
 import 'package:sathachlaixe/UI/Quiz/quizButtonBar.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/helper.dart';
 import 'package:sathachlaixe/UI/testUI.dart';
@@ -54,6 +56,9 @@ class QuizStudyScreen extends StatelessWidget {
 
   void _onPressPrevious(BuildContext context) {
     BlocProvider.of<PracticeBloc>(context).selectQuestionPrevious();
+    void _changeQuestionIndex(BuildContext context, int index) {
+      BlocProvider.of<PracticeBloc>(context).selectQuestion(index);
+    }
   }
 
   bool checkChanged(QuizState previous, QuizState current) {
@@ -78,7 +83,20 @@ class QuizStudyScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover),
           Scaffold(
+            endDrawer: buildTab(context),
             backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              leading: BlocBuilder<PracticeBloc, QuizState>(
+                builder: buildBackButton,
+              ),
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              centerTitle: true,
+              title: Text(
+                state.title,
+                style: kText18Bold_13,
+              ),
+            ),
             body: Center(
               child: Column(
                 children: buildMainColumn(context),
@@ -92,9 +110,6 @@ class QuizStudyScreen extends StatelessWidget {
 
   List<Widget> buildMainColumn(BuildContext context) {
     return [
-      BlocBuilder<PracticeBloc, QuizState>(
-        builder: buildTopBar,
-      ),
       Container(
         margin: EdgeInsets.only(left: 20.w, right: 15.w, bottom: 10.h),
         child: Row(
@@ -165,23 +180,9 @@ class QuizStudyScreen extends StatelessWidget {
     ];
   }
 
-  Widget buildTopBar(BuildContext context, QuizState state) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
-      child: Row(
-        children: <Widget>[
-          BackButtonComponent.withCallback(
-            callback: () => _onPressBack(context),
-          ),
-          SizedBox(
-            width: 80.w,
-          ),
-          Text(
-            state.title,
-            style: kText18Bold_13,
-          ),
-        ],
-      ),
+  Widget buildBackButton(BuildContext context, QuizState state) {
+    return BackButtonComponent.withCallback(
+      callback: () => _onPressBack(context),
     );
   }
 
@@ -303,6 +304,36 @@ class QuizStudyScreen extends StatelessWidget {
           style: kText20Bold_1,
         ),
       );
+  }
+
+  Widget buildTab(BuildContext context) {
+    return BlocBuilder<PracticeBloc, QuizState>(
+      builder: (context, state) => Container(
+        width: 120.w,
+        height: double.infinity,
+        color: dtcolor13,
+        padding: EdgeInsets.symmetric(vertical: 5.h),
+        child: GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 50,
+              childAspectRatio: 1 / 1,
+            ),
+            itemCount: state.questionIds.length,
+            itemBuilder: (BuildContext context, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<PracticeBloc>(context).selectQuestion(index);
+                },
+                child: QuesContainerItem(
+                    index: index + 1,
+                    correct: state.getCorrectListInt()[index],
+                    selected: state.getSelectedListInt()[index]),
+              );
+            }),
+      ),
+    );
   }
 
   Widget buildButtonBar(BuildContext context, int index, int length) {

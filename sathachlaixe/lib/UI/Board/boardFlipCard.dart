@@ -52,6 +52,7 @@ class _BoardFlipCardState extends State<BoardFlipCard> {
               child: Container(
                   child: isBack
                       ? Container(
+                          padding: EdgeInsets.all(20.w),
                           decoration: BoxDecoration(
                               color: dtcolor13,
                               borderRadius: BorderRadius.circular(15.0),
