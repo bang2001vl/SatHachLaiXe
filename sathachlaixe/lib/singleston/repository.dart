@@ -27,8 +27,8 @@ final RepositoryGL repository = new RepositoryGL();
 class RepositoryGL {
   RepositoryGL();
 
-  // static const serverURL = "http://thunderv.southeastasia.cloudapp.azure.com";
-  static const serverURL = "http://192.168.1.110"; // Test-only
+  static const serverURL = "http://thunderv.southeastasia.cloudapp.azure.com";
+  // static const serverURL = "http://192.168.1.110"; // Test-only
 
   String getCurrentMode() {
     return AppConfig().topicType;
