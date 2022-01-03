@@ -156,6 +156,10 @@ class RepositoryGL {
     return PracticeController().countHasPraticed(questionIds);
   }
 
+  Future<List<PracticeModel>> getPracticeList(List<int> questionIds) {
+    return PracticeController().getPracticeList(questionIds);
+  }
+
   Future<List<PracticeModel>> getPractice(int questionId) {
     return PracticeController().getPratice(questionId);
   }

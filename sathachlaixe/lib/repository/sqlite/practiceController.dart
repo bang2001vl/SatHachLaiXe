@@ -219,4 +219,30 @@ class PracticeController {
 
     return rs;
   }
+
+  Future<List<PracticeModel>> getPracticeList(List<int> questionIds) async {
+    var db = await AppConfig().openDB();
+    var mode = repository.getCurrentMode();
+    var argsPlaceholder = questionIds.map((e) => "?").join(",");
+    String sql =
+        "SELECT * FROM $tableName WHERE mode = ? AND questionId IN ($argsPlaceholder)";
+
+    var values = List<Object>.of([mode], growable: true);
+    values.addAll(questionIds);
+    var reader = await db.rawQuery(sql, values);
+
+    Map<int, PracticeModel> m = Map();
+    reader.forEach((element) {
+      var p = PracticeModel.fromJSON(element);
+      m[p.questionID] = p;
+    });
+
+    for (int i = 0; i < questionIds.length; i++) {
+      if (!m.containsKey(questionIds[i])) {
+        m[questionIds[i]] = PracticeModel(questionIds[i], -1, -2, 0, 0);
+      }
+    }
+
+    return m.values.toList();
+  }
 }
