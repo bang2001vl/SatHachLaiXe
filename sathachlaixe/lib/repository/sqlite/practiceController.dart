@@ -237,12 +237,12 @@ class PracticeController {
       m[p.questionID] = p;
     });
 
-    for (int i = 0; i < questionIds.length; i++) {
+    return List.generate(questionIds.length, (i) {
       if (!m.containsKey(questionIds[i])) {
-        m[questionIds[i]] = PracticeModel(questionIds[i], -1, -2, 0, 0);
+        return PracticeModel(questionIds[i], -1, -2, 0, 0);
+      } else {
+        return m[questionIds[i]]!;
       }
-    }
-
-    return m.values.toList();
+    });
   }
 }
