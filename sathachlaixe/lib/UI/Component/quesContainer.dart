@@ -9,27 +9,34 @@ import 'package:sathachlaixe/model/question.dart';
 class QuesContainerItem extends StatelessWidget {
   const QuesContainerItem({
     Key? key,
+    required this.currentIndex,
     required this.index,
     required this.correct,
     required this.selected,
   }) : super(key: key);
-  final int index, correct, selected;
+  final int index, correct, selected, currentIndex;
 
   @override
   Widget build(BuildContext context) {
     var primecolor = dtcolor13;
     var borderColor = dtcolor5;
     var textColor = dtcolor11;
-    if (selected > 0) {
-      textColor = dtcolor13;
-      if (selected == correct) {
-        // Selected
-        primecolor = dtcolor5;
-      } else {
-        // Correct
-        borderColor = dtcolor4;
-        primecolor = dtcolor4;
+    if (index != currentIndex) {
+      if (selected > 0) {
+        textColor = dtcolor13;
+        if (selected == correct) {
+          // Selected
+          primecolor = dtcolor5;
+        } else {
+          // Correct
+          borderColor = dtcolor4;
+          primecolor = dtcolor4;
+        }
       }
+    } else {
+      textColor = dtcolor13;
+      borderColor = cwcolor26;
+      primecolor = cwcolor26;
     }
 
     return Padding(
