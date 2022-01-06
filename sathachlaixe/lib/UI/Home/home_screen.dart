@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
+import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Board/boardCategoryList.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/QuickTest/selectQuesCategory.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +13,11 @@ import 'package:sathachlaixe/UI/Tips/tips_screen.dart';
 import 'package:sathachlaixe/UI/WrongQues/topWrong_screen.dart';
 import 'package:sathachlaixe/UI/profile/profile_screen.dart';
 import 'package:sathachlaixe/UI/studyQues/quesCategory_sceen.dart';
+import 'package:sathachlaixe/model/user.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketObserver.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
 
 import '../Test/test_list.dart';
 
@@ -21,7 +30,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: 270.h,
+              height: 220.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/homebg.png"),
@@ -34,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 40.h),
+                        padding: EdgeInsets.only(top: 60.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -56,19 +65,7 @@ class HomeScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(top: 20.h),
                               child: InkWell(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 52.h,
-                                  width: 52.h,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/avtProfile.png"),
-                                        fit: BoxFit.fill),
-                                  ),
-                                ),
+                                child: UserAvatarWidget(),
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -81,7 +78,6 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SearchBar(),
                     ],
                   ),
                 ),
@@ -174,6 +170,69 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class UserAvatarWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _UserAvatarWidgetState();
+  }
+}
+
+class _UserAvatarWidgetState extends State<UserAvatarWidget>
+    with SocketObserver {
+  UserModel? _userinfo;
+
+  @override
+  void initState() {
+    super.initState();
+    SocketBinding.instance.addObserver(this);
+    setState(() {
+      _userinfo = AppConfig.instance.userInfo;
+    });
+  }
+
+  @override
+  void onUserInfoChanged() {
+    setState(() {
+      _userinfo = AppConfig.instance.userInfo;
+    });
+  }
+
+  @override
+  void dispose() {
+    SocketBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var defaultAvatar = Image.asset("assets/images/notUser.png");
+    var avatar = defaultAvatar;
+    if (_userinfo != null) {
+      var userInfo = _userinfo as UserModel;
+      if (userInfo.hasImage) {
+        var bytes = userInfo.rawimage!;
+
+        avatar = Image.memory(
+          Uint8List.fromList(bytes),
+        );
+      } else {
+        avatar = Image.asset("assets/images/avtProfile.png");
+      }
+    }
+
+    return Container(
+      alignment: Alignment.center,
+      height: 52.h,
+      width: 52.h,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        image: DecorationImage(image: avatar.image, fit: BoxFit.fill),
       ),
     );
   }

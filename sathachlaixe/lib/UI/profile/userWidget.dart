@@ -74,6 +74,7 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
         avatar = Image.asset("assets/images/avtProfile.png");
       }
       name = userInfo.name;
+      phone = userInfo.name;
     }
 
     return GestureDetector(
