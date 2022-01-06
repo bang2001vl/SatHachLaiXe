@@ -15,7 +15,6 @@ class DataSettingScreen extends StatelessWidget {
   bool status = true;
 
   void onPressDeleteData(context) {
-    log("Delete data sync");
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -34,7 +33,9 @@ class DataSettingScreen extends StatelessWidget {
               ],
             )).then((value) {
       if (value == "OK") {
+        log("Delete data sync and local");
         SocketController.instance.deleteData();
+        repository.deleteAllData();
       }
     });
   }

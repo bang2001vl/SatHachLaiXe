@@ -96,6 +96,9 @@ class PracticeController {
     } else {
       var data = old.first;
       data.countCorrect++;
+      if (data.countCorrect > 2) {
+        data.selectedAnswer = data.correctAnswer;
+      }
       return update(data);
     }
   }

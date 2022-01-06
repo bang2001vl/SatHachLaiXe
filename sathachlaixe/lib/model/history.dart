@@ -4,6 +4,9 @@ import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 
 class HistoryModel extends TimeStampModel {
+  static const String DEFAULT_SELECTED = "0";
+  static const String DEFAULT_CORRECT = "-1";
+
   /// Topic code. Example: topc 1, topic 2,... */
   int topicID = -1;
 
@@ -14,6 +17,10 @@ class HistoryModel extends TimeStampModel {
 
   Duration timeLeft = Duration.zero;
 
+  bool hasSelectedAt(int index) {
+    return selectedAns[index] != DEFAULT_SELECTED;
+  }
+
   /// List of question's d in topic */
   List<String> questionIds = List.empty(growable: true);
   List<String> selectedAns = List.empty(growable: true);
@@ -23,9 +30,9 @@ class HistoryModel extends TimeStampModel {
     this.topicID = topic.topicId;
     this.questionIds = List.from(topic.questionIDs);
     this.selectedAns =
-        List.generate(topic.questionIDs.length, (index) => 0.toString());
+        List.generate(topic.questionIDs.length, (index) => DEFAULT_SELECTED);
     this.correctAns =
-        List.generate(topic.questionIDs.length, (index) => (-1).toString());
+        List.generate(topic.questionIDs.length, (index) => DEFAULT_CORRECT);
     this.isPassed = false;
     this.isFinished = false;
     this.timeLeft = repository.getTimeLimit();

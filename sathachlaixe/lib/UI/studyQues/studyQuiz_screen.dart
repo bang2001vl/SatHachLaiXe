@@ -56,9 +56,6 @@ class QuizStudyScreen extends StatelessWidget {
 
   void _onPressPrevious(BuildContext context) {
     BlocProvider.of<PracticeBloc>(context).selectQuestionPrevious();
-    void _changeQuestionIndex(BuildContext context, int index) {
-      BlocProvider.of<PracticeBloc>(context).selectQuestion(index);
-    }
   }
 
   bool checkChanged(QuizState previous, QuizState current) {
@@ -70,7 +67,6 @@ class QuizStudyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("Build at QuizStudyScreen");
-    String title = "Ôn tập";
     var state = QuizState.fromCategory(cate: cate, title: cate.name);
 
     return BlocProvider(
@@ -112,31 +108,34 @@ class QuizStudyScreen extends StatelessWidget {
     return [
       Container(
         margin: EdgeInsets.only(left: 20.w, right: 15.w, bottom: 10.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BlocBuilder<PracticeBloc, QuizState>(
-              buildWhen: (previous, current) =>
-                  current.currentIndex != previous.currentIndex,
-              builder: (context, state) {
-                if (isModeStudy) {
-                  return QuizTitle(
-                      questionIndex: state.currentIndex, count: state.length);
-                } else if (isModePractice) {
-                  return Text('Câu ' + (state.currentQuestionId).toString(),
-                      style: kText20Normal_13);
-                }
-                throw UnimplementedError();
-              },
-            ),
-            BlocBuilder<PracticeBloc, QuizState>(
-              buildWhen: (previous, current) =>
-                  current.timeLeft != previous.timeLeft,
-              builder: (context, state) => _QuizNotify(
-                isCritical: repository.checkCritical(state.currentQuestionId),
+        child: SizedBox(
+          height: 45.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BlocBuilder<PracticeBloc, QuizState>(
+                buildWhen: (previous, current) =>
+                    current.currentIndex != previous.currentIndex,
+                builder: (context, state) {
+                  if (isModeStudy) {
+                    return QuizTitle(
+                        questionIndex: state.currentIndex, count: state.length);
+                  } else if (isModePractice) {
+                    return Text('Câu ' + (state.currentQuestionId).toString(),
+                        style: kText20Normal_13);
+                  }
+                  throw UnimplementedError();
+                },
               ),
-            ),
-          ],
+              BlocBuilder<PracticeBloc, QuizState>(
+                buildWhen: (previous, current) =>
+                    current.currentIndex != previous.currentIndex,
+                builder: (context, state) => _QuizNotify(
+                  isCritical: repository.checkCritical(state.currentQuestionId),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       Expanded(
@@ -369,20 +368,25 @@ class _QuizNotify extends StatelessWidget {
       return Stack(
         alignment: Alignment.center,
         children: [
-          SvgPicture.asset(
-            'assets/icons/quiz_clock_bg.svg',
-            width: 120.w,
-          ),
+          // SvgPicture.asset(
+          //   'assets/icons/quiz_clock_bg.svg',
+          //   width: 120.w,
+          //   height: 30.h,
+          // ),
           Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                "Câu điểm liệt",
-                style: kText14Medium_13,
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(255, 255, 255, 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Câu điểm liệt",
+                    style: kText14Medium_13,
+                  ),
+                ),
               ),
             ],
           ),

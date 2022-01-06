@@ -6,9 +6,10 @@ import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/question.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/topic.dart';
+import 'package:sathachlaixe/repository/mode/base.dart';
 import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 
-class BMode {
+abstract class BMode extends BaseMode {
   List<String> get criticalQues => rawQuestionCategories.last.questionIDs;
 
   late List<QuestionCategoryModel> rawQuestionCategories;
@@ -25,9 +26,7 @@ class BMode {
     return criticalQues.contains(questionId.toString());
   }
 
-  List<String> getRandomQuesIds() {
-    throw UnimplementedError();
-  }
+  List<String> getRandomQuesIds();
 
   Future<QuestionModel?> getQuestion(int id) {
     return QuizDB().getQuestion(id);
@@ -142,6 +141,7 @@ class BMode {
   }
 
   TopicModel createRandomTopic() {
-    return TopicModel(topicId: 0, questionIDs: getRandomQuesIds());
+    return TopicModel(
+        topicId: 0, questionIDs: getRandomQuesIds(), timeLimit: this.duration);
   }
 }

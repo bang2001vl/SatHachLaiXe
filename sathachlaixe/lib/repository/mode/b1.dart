@@ -4,11 +4,8 @@ import 'package:sathachlaixe/model/history.dart';
 import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/repository/mode/b.dart';
-import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 
-import 'base.dart';
-
-class B1Mode extends BMode implements BaseMode {
+class B1Mode extends BMode {
   late List<TopicModel> _topics;
   List<TopicModel> get topicDemoList => _topics;
 
@@ -55,32 +52,6 @@ class B1Mode extends BMode implements BaseMode {
   }
 
   @override
-  Future<List<HistoryModel>> getHistoryList() async {
-    Map<int, HistoryModel> m = Map();
-
-    var historyRandTopic = await HistoryController().getLastestHistory(0);
-    if (historyRandTopic.isNotEmpty) {
-      m[0] = historyRandTopic.first;
-    }
-
-    for (int i = 0; i < _topics.length; i++) {
-      var key = _topics.elementAt(i).topicId;
-      var value = _topics.elementAt(i).questionIDs;
-      var history = await HistoryController().getLastestHistory(key);
-      if (history.isEmpty) {
-        // Add new empty history if not has history yet
-        m[key] = HistoryModel.empty(topicID: key);
-        m[key]?.questionIds = value;
-      } else {
-        // Get history if already has one
-        m[key] = history.first;
-      }
-    }
-
-    return m.values.toList();
-  }
-
-  @override
   bool checkResult(HistoryModel data) {
     for (int index = 0; index < data.questionIds.length; index++) {
       if (data.selectedAns[index] != data.correctAns[index]) {
@@ -108,12 +79,14 @@ class B1Mode extends BMode implements BaseMode {
           topicId: 1,
           questionIDs:
               "1.21.41.61.81.102.118.137.161.193.228.247.266.287.308.328.348.368.388.408.428.448.468.487.507.523.543.560.583.599"
-                  .split(".")),
+                  .split("."),
+          timeLimit: this.duration),
       TopicModel(
           topicId: 2,
           questionIDs:
               "2.22.42.62.82.101.122.138.162.210.229.249.267.288.309.329.349.369.389.409.425.449.469.488.508.524.544.564.584.600"
-                  .split(".")),
+                  .split("."),
+          timeLimit: this.duration),
     ]);
   }
 }

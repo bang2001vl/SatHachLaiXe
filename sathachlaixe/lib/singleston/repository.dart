@@ -85,9 +85,10 @@ class RepositoryGL {
       for (int i = 0; i < data.questionIds.length; i++) {
         var quesId = int.parse(data.questionIds[i]);
         if (data.selectedAns[i] == data.correctAns[i]) {
-          PracticeController().insertOrPlusCorrect(quesId);
-        } else {
-          PracticeController().plusWrong(quesId);
+          await PracticeController().insertOrPlusCorrect(quesId);
+        } else if (data.hasSelectedAt(i)) {
+          // Only wrong when has selected
+          await PracticeController().plusWrong(quesId);
         }
       }
     }
