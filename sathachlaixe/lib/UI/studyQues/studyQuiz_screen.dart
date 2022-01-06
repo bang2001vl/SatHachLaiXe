@@ -18,6 +18,7 @@ import 'package:sathachlaixe/model/questionCategory.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/state/quiz.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class QuizStudyScreen extends StatelessWidget {
   late final QuestionCategoryModel cate;
@@ -307,12 +308,34 @@ class QuizStudyScreen extends StatelessWidget {
 
   Widget buildTab(BuildContext context) {
     return BlocBuilder<PracticeBloc, QuizState>(
-      builder: (context, state) => Container(
+        builder: (context, state) => FutureBuilder<List<PracticeModel>>(
+            future: repository.getPracticeList(state.getQuestionIDsListInt()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                return BlocBuilder<PracticeBloc, QuizState>(
+                    builder: (context, state) =>
+                        buildQuesContainer(context, snapshot.data!, state));
+              }
+              if (snapshot.hasError) {
+                return buildError(context, snapshot.error!);
+              }
+              // Loading
+              return buildLoading(context);
+            }));
+  }
+
+  Widget buildQuesContainer(
+      BuildContext context, List<PracticeModel> data, QuizState state) {
+    final scrollController = ScrollController();
+    double height = MediaQuery.of(context).size.height;
+    Container container = Container(
         width: 120.w,
         height: double.infinity,
         color: dtcolor13,
         padding: EdgeInsets.symmetric(vertical: 5.h),
         child: GridView.builder(
+            controller: scrollController,
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 50,
@@ -321,18 +344,26 @@ class QuizStudyScreen extends StatelessWidget {
             itemCount: state.questionIds.length,
             itemBuilder: (BuildContext context, index) {
               return InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  BlocProvider.of<PracticeBloc>(context).selectQuestion(index);
-                },
-                child: QuesContainerItem(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    BlocProvider.of<PracticeBloc>(context)
+                        .selectQuestion(index);
+                  },
+                  child: QuesContainerItem(
+                    currentIndex: state.currentIndex + 1,
                     index: index + 1,
-                    correct: state.getCorrectListInt()[index],
-                    selected: state.getSelectedListInt()[index]),
-              );
-            }),
-      ),
-    );
+                    correct: data[index].correctAnswer,
+                    selected: data[index].selectedAnswer,
+                  ));
+            }));
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      int t = ((state.currentIndex) ~/ 3);
+      double scrollTo = state.currentIndex ~/ 3 * 45.h;
+      if (state.questionIds.length * 15.h > height) {
+        scrollController.jumpTo(scrollTo);
+      }
+    });
+    return container;
   }
 
   Widget buildButtonBar(BuildContext context, int index, int length) {
