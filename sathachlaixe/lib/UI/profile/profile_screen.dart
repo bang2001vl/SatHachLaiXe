@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sathachlaixe/UI/Component/profileMenuItem.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Login/profile_screen.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/profile/dataSetting.dart';
@@ -76,20 +77,25 @@ class PersonalScreen extends StatelessWidget {
                       title: 'Thông tin cá nhân',
                       check: true,
                       color: cwcolor23,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileScreen()));
+                      },
                     ),
                     ProfileMenuItem(
                       iconSrc: "assets/icons/password.svg",
                       title: 'Đổi mật khẩu',
                       check: true,
                       color: cwcolor22,
+                      onTap: () {},
                     ),
-                    InkWell(
-                      child: ProfileMenuItem(
-                        iconSrc: 'assets/icons/security.svg',
-                        title: 'Cài đặt dữ liệu',
-                        check: true,
-                        color: cwcolor24,
-                      ),
+                    ProfileMenuItem(
+                      iconSrc: 'assets/icons/security.svg',
+                      title: 'Cài đặt dữ liệu',
+                      check: true,
+                      color: cwcolor24,
                       onTap: () {
                         Navigator.push(
                             context,
@@ -116,26 +122,27 @@ class PersonalScreen extends StatelessWidget {
                       title: 'Quy định sử dụng',
                       check: true,
                       color: cwcolor24,
+                      onTap: () {},
                     ),
                     ProfileMenuItem(
                       iconSrc: 'assets/icons/QA.svg',
                       title: 'Q&A',
                       check: false,
                       color: dtcolor7,
+                      onTap: () {},
                     ),
                     ProfileMenuItem(
                       iconSrc: 'assets/icons/share.svg',
                       title: 'Chia sẻ ứng dụng',
                       check: false,
                       color: cwcolor25,
+                      onTap: () {},
                     ),
-                    GestureDetector(
-                      child: ProfileMenuItem(
-                        iconSrc: 'assets/icons/signout.svg',
-                        title: 'Đăng xuất',
-                        check: false,
-                        color: cwcolor23,
-                      ),
+                    ProfileMenuItem(
+                      iconSrc: 'assets/icons/signout.svg',
+                      title: 'Đăng xuất',
+                      check: false,
+                      color: cwcolor23,
                       onTap: () => onPressLogout(),
                     ),
                   ],
