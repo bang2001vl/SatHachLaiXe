@@ -134,3 +134,11 @@ void closeApplication() {
     exit(0);
   }
 }
+
+void showConnected() {
+  var context = getCurrentContext();
+  const snackBar = SnackBar(
+    content: const Text('Kết nối thành công'),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}

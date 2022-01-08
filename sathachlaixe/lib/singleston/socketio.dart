@@ -250,7 +250,7 @@ class SocketController {
       return;
     }
     _socket?.clearListeners();
-    _socket?.destroy();
+    _socket?.disconnect();
     _socket = null;
 
     //SocketBinding.instance._invokeOnUserInfoChanged();
@@ -267,19 +267,16 @@ class SocketController {
       return;
     }
     log("SocketIO: Found token = " + AppConfig.instance.token!);
-    var completer = Completer<int>();
     var op = IO.OptionBuilder()
         .setTransports(['websocket'])
         // .setReconnectionAttempts(3)
         // .disableReconnection()
-        //.disableAutoConnect()
+        .disableAutoConnect()
         //.enableForceNew()
         .setTimeout(2000)
-        .enableAutoConnect()
         .build();
 
     IO.Socket socket = IO.io(this.url, op);
-    this._socket = socket;
 
     socket.onConnectError((data) =>
         log("SocketIO: Connection failed with error: " + data.toString()));
@@ -307,6 +304,7 @@ class SocketController {
 
     socket.on(event_authorized, (data) {
       log("Authorized");
+      showConnected();
 
       notifyDataChanged();
       getUnsyncData();
@@ -331,6 +329,9 @@ class SocketController {
         SocketBinding.instance._invokeDataChanged();
       }
     });
+
+    socket.connect();
+    this._socket = socket;
 
     log("[OK] : Init socketIO");
   }
