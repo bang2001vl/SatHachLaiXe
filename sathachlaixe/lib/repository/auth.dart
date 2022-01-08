@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -23,7 +24,7 @@ class AuthController extends AuthRepo {
   }
 
   @override
-  Future<int> login(String email, String password,
+  FutureOr<int> login(String email, String password,
       {bool needSaveAuth = true, bool isAutoLogin = false}) async {
     log("Login with isAutoLogin = " + isAutoLogin.toString());
     var url = this.makeURL("login");
@@ -90,7 +91,7 @@ abstract class AuthRepo {
   /// Send login data to server
   ///
   /// Return 1 if login successfull
-  Future<int> login(String email, String password,
+  FutureOr<int> login(String email, String password,
       {bool needSaveAuth = true, bool isAutoLogin = false});
 
   Future<int> logout({bool needComfirm = true}) async {
@@ -123,6 +124,8 @@ abstract class AuthRepo {
     await repository.updateToken(null);
     await repository.updateSyncState(null);
 
+    await saveAuth(null);
+
     await repository.updateUserInfo(null);
     SocketBinding.instance.invokeOnUserInfoChanged();
 
@@ -146,13 +149,14 @@ abstract class AuthRepo {
 
     if (!isAutoLogin) {
       await repository.updateLatestSyncTime(0);
-      await repository.updateSyncState(1);
-      await repository.updateUserInfo(userInfo);
+      await repository.updateSyncState(1, needLogin: false);
     }
 
+    await repository.updateUserInfo(userInfo);
+    log("Token = " + token);
     await repository.updateToken(token);
 
-    await SocketController.instance.init();
+    SocketController.instance.init();
     SocketBinding.instance.invokeOnUserInfoChanged();
   }
 
@@ -185,7 +189,6 @@ abstract class AuthRepo {
     return Navigator.push(
       context,
       MaterialPageRoute(
-        fullscreenDialog: true,
         builder: (context) => LoginScreen(),
       ),
     ).then((value) {
@@ -211,6 +214,7 @@ abstract class AuthRepo {
   }
 
   void onUnauthorized() async {
+    log("Auth: Unauthorized");
     var authSaved = await getAuth();
     if (authSaved != null) {
       var rs =

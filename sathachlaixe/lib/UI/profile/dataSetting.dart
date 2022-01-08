@@ -199,7 +199,7 @@ class _SyncSwitchState extends State<SyncSwitch> {
         }
 
         if (value == repository.isSyncON) return;
-        await repository.updateSyncState(value ? 1 : 0);
+        await repository.updateSyncState(value ? 1 : 0, needLogin: true);
         widget.onChanged?.call(value);
 
         setState(() {

@@ -55,12 +55,19 @@ class SocketController {
   Future<void> _updateData(
       List<HistoryModel> newHistories, List<PracticeModel> newPratices) async {
     for (int i = 0; i < newHistories.length; i++) {
-      await repository.insertHistory(newHistories[i], needUpdateCount: false);
+      await repository.insertHistory(
+        newHistories[i],
+        needUpdateCount: false,
+        needNoti: false,
+      );
     }
 
     for (int i = 0; i < newPratices.length; i++) {
       var practice = newPratices[i];
-      await repository.insertOrUpdatePractice(practice);
+      await repository.insertOrUpdatePractice(
+        practice,
+        needNoti: false,
+      );
     }
   }
 
@@ -139,6 +146,7 @@ class SocketController {
   }
 
   void getUnsyncData() async {
+    log("SocketIO: getUnsyncData");
     if (_socket == null) {
       log("ERROR: Call getUnsyncData() with null socket");
       return;
@@ -241,6 +249,7 @@ class SocketController {
     if (_socket == null) {
       return;
     }
+    _socket?.clearListeners();
     _socket?.destroy();
     _socket = null;
 
@@ -250,24 +259,26 @@ class SocketController {
 
   SocketController._privateController();
 
-  FutureOr<int> init() {
-    if (this._socket != null) return 1;
+  void init() {
+    if (this._socket != null) return;
     if (AppConfig.instance.token == null) {
       log("SocketIO: Not found token");
       repository.auth.autoLogin();
-      return -1;
+      return;
     }
     log("SocketIO: Found token = " + AppConfig.instance.token!);
     var completer = Completer<int>();
-    var op = IO.OptionBuilder().setTransports(['websocket'])
+    var op = IO.OptionBuilder()
+        .setTransports(['websocket'])
         // .setReconnectionAttempts(3)
         // .disableReconnection()
         //.disableAutoConnect()
         //.enableForceNew()
+        .setTimeout(2000)
+        .enableAutoConnect()
         .build();
 
     IO.Socket socket = IO.io(this.url, op);
-    socket.clearListeners();
     this._socket = socket;
 
     socket.onConnectError((data) =>
@@ -281,9 +292,10 @@ class SocketController {
     socket.onConnect((_) async {
       log("SocketIO: onConnect");
 
+      var temp = await getDeviceInfoJson();
       socket.emit(event_authorize, {
         "token": AppConfig.instance.token,
-        "device": await getDeviceInfoJson(),
+        "device": temp,
       });
     });
 
@@ -293,14 +305,14 @@ class SocketController {
       repository.auth.onUnauthorized();
     });
 
-    socket.on(event_authorized, (data) async {
+    socket.on(event_authorized, (data) {
       log("Authorized");
 
       notifyDataChanged();
       getUnsyncData();
 
       SocketBinding.instance._invokeOnAuthorized();
-      completer.complete(1);
+      SocketBinding.instance.invokeOnUserInfoChanged();
     });
 
     socket.on(event_data_changed, (_) {
@@ -313,12 +325,14 @@ class SocketController {
       requestUserInfo();
     });
 
-    socket.on(event_deleted_data, (_) {
-      repository.deleteAllLocalData();
+    socket.on(event_deleted_data, (_) async {
+      var c = await repository.deleteAllLocalData();
+      if (c > 0) {
+        SocketBinding.instance._invokeDataChanged();
+      }
     });
 
     log("[OK] : Init socketIO");
-    return completer.future;
   }
 
   void cannotConnect() {
@@ -371,7 +385,10 @@ class SocketBinding {
       var userInfo = AppConfig.instance.userInfo!;
       var maxTime = userInfo.latestDelete;
       if (maxTime >= await repository.getLastSyncTime()) {
-        await repository.deleteAllDataUntil(maxTime);
+        var c = await repository.deleteAllDataUntil(maxTime);
+        if (c > 0) {
+          SocketBinding.instance._invokeDataChanged();
+        }
       }
     }
     _observers.forEach((element) {

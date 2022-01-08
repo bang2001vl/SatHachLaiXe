@@ -32,12 +32,13 @@ class B2Mode extends BMode {
     var specs = List.generate(2,
         (i) => int.parse(criticalQues[ran.nextInt(criticalQues.length - 1)]));
 
-    var c1 = getRandomIdFromCategory(ran, cateList[1], 8, specs);
+    var c1 = getRandomIdFromCategory(ran, cateList[1], 10, specs);
+    c1.addAll(getRandomIdFromCategory(ran, cateList[2], 2, specs));
     c1.addAll(getRandomIdFromCategory(ran, cateList[3], 1, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[4], 2, specs));
+    c1.addAll(getRandomIdFromCategory(ran, cateList[4], 1, specs));
     c1.addAll(getRandomIdFromCategory(ran, cateList[5], 1, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[6], 9, specs));
-    c1.addAll(getRandomIdFromCategory(ran, cateList[7], 9, specs));
+    c1.addAll(getRandomIdFromCategory(ran, cateList[6], 10, specs));
+    c1.addAll(getRandomIdFromCategory(ran, cateList[7], 10, specs));
     c1.addAll(specs);
 
     c1.sort();

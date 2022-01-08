@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
     bool hasLogin = await repository.auth.hasSaveLogin();
     if (isOnline) {
       if (!repository.isAuthorized && hasLogin) {
-        await SocketController.instance.init();
+        SocketController.instance.init();
       }
     } else {
       if (repository.isSyncON) {

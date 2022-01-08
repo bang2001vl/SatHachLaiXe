@@ -47,19 +47,23 @@ class RepositoryGL {
   bool get isSyncON => AppConfig.instance.syncState == 1;
   bool get isAuthorized => SocketController.instance.isConnected;
 
-  Future<void> updateSyncState(int? state) async {
+  Future<void> updateSyncState(int? state, {bool needLogin = false}) async {
     AppConfig.instance.syncState = state;
     await AppConfig.instance.saveSycnState(state);
     if (isSyncON) {
       if (!isAuthorized) {
-        var rs = await auth.autoLogin();
-        if (rs != 1) {
-          await notifyConnectionError();
-          updateSyncState(0);
-          return;
+        if (needLogin) {
+          log("Auto login by change sync state");
+          var rs = await auth.autoLogin();
+          if (rs != 1) {
+            await notifyConnectionError();
+            updateSyncState(0);
+          }
         }
+        return;
+      } else {
+        SocketController.instance.notifyDataChanged();
       }
-      SocketController.instance.notifyDataChanged();
     }
   }
 
@@ -91,7 +95,7 @@ class RepositoryGL {
   }
 
   Future<int> insertHistory(HistoryModel data,
-      {bool needUpdateCount = true, bool needSync = true}) async {
+      {bool needUpdateCount = true, bool needNoti = true}) async {
     var c = await HistoryController().insertHistory(data);
     if (needUpdateCount) {
       for (int i = 0; i < data.questionIds.length; i++) {
@@ -104,7 +108,7 @@ class RepositoryGL {
         }
       }
     }
-    if (needSync && isSyncON) {
+    if (needNoti && isSyncON) {
       SocketController.instance.notifyDataChanged();
     }
     return c;
@@ -178,10 +182,10 @@ class RepositoryGL {
   }
 
   Future<int> insertOrUpdatePractice(PracticeModel model,
-      {bool needSync = false}) async {
+      {bool needNoti = false}) async {
     var c = await PracticeController().insertOrUpdate(model);
 
-    if (needSync && isSyncON) {
+    if (needNoti && isSyncON) {
       SocketController.instance.notifyDataChanged();
     }
 

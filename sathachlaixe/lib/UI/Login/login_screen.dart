@@ -14,6 +14,20 @@ import 'package:sathachlaixe/singleston/repository.dart';
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  void onPressSubmit(BuildContext context, String email, String password,
+      bool needSaved) async {
+    log("Login with email : $email, password : $password");
+    var result =
+        await repository.auth.login(email, password, needSaveAuth: needSaved);
+    if (result == 1) {
+      Navigator.pop(context, "OK");
+    } else if (result == -1) {
+      showNotifyMessage("Thất bại", "Không thể kết nối đến máy chủ");
+    } else if (result == -402) {
+      showNotifyMessage("Thất bại", "Sai email hoặc mật khẩu");
+    }
+  }
+
   State<StatefulWidget> createState() {
     return _LoginScreenState();
   }
@@ -23,23 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email = '';
   String _password = '';
   bool _needSaved = true;
-
-  void onPressSubmit(context) async {
-    log("Login with email : $_email, password : $_password");
-    var result = await repository.auth
-        .login(_email, _password, needSaveAuth: _needSaved);
-    if (result == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
-    } else if (result == -1) {
-      showNotifyMessage("Thất bại", "Không thể kết nối đến máy chủ");
-    } else if (result == -402) {
-      showNotifyMessage("Thất bại", "Sai email hoặc mật khẩu");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    log("Build login");
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -81,7 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               hintStyle: kText16Medium_1,
                               border: InputBorder.none,
                             ),
-                            onChanged: (value) => _email = value,
+                            onChanged: (value) => setState(() {
+                              _email = value;
+                            }),
                           ),
                         ),
                         SizedBox(
@@ -104,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               hintStyle: kText16Medium_1,
                               border: InputBorder.none,
                             ),
-                            onChanged: (value) => _password = value,
+                            onChanged: (value) => setState(() {
+                              _password = value;
+                            }),
                           ),
                         ),
                         SizedBox(
@@ -161,7 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           onTap: () {
-                            onPressSubmit(context);
+                            widget.onPressSubmit(
+                                context, _email, _password, _needSaved);
                           },
                         ),
                         Row(

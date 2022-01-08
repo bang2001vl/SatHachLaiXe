@@ -28,6 +28,7 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
   String? _email;
 
   void onClick(context) {
+    log("UserAvatar: Click");
     if (_userinfo == null) {
       repository.auth.showLogin(context);
     }
