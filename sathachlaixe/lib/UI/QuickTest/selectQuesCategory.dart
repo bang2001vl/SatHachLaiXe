@@ -14,20 +14,43 @@ class QuickTestScreen extends StatelessWidget {
   QuestionCategoryModel? selected;
   final int count = 5;
 
-  void onClickSubmit(context) {
+  void onClickSubmit(context) async {
     if (selected == null) return;
     int c = count;
     var questionIds = List.of(selected!.questionIDs);
-    questionIds.shuffle(Random(DateTime.now().millisecondsSinceEpoch));
     if (c > questionIds.length) {
       c = questionIds.length;
     }
-    questionIds = questionIds.sublist(0, c);
-    questionIds.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
+
+    // Add by wrong times
+    var p = await repository
+        .getPracticeList(questionIds.map((e) => int.parse(e)).toList());
+    for (var item in p) {
+      for (var i = 0; i < item.countWrong; i++) {
+        questionIds.add(item.questionID.toString());
+      }
+    }
+    // Shuffle
+    questionIds.shuffle(Random(DateTime.now().millisecondsSinceEpoch));
+
+    // Select
+    var selectedList = List<String>.empty(growable: true);
+    for (int i = 0; i < questionIds.length && selectedList.length < c; i++) {
+      var id = questionIds[i];
+      // Prevent duplicate
+      while (i < questionIds.length && selectedList.contains(id)) {
+        i++;
+        id = questionIds[i];
+      }
+      selectedList.add(id);
+    }
+
+    // Sort
+    selectedList.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => QuizStudyScreen.modePratice(questionIds),
+          builder: (context) => QuizStudyScreen.modePratice(selectedList),
         ));
   }
 
