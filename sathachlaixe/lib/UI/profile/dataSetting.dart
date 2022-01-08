@@ -10,8 +10,39 @@ import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
 import 'package:sathachlaixe/singleston/socketObserver.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:typed_data';
 
-class DataSettingScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sathachlaixe/UI/Component/profileMenuItem.dart';
+import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Login/profile_screen.dart';
+import 'package:sathachlaixe/UI/Style/color.dart';
+import 'package:sathachlaixe/UI/Style/text_style.dart';
+import 'package:sathachlaixe/helper/helper.dart';
+import 'package:sathachlaixe/model/user.dart';
+import 'package:sathachlaixe/singleston/appconfig.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
+import 'package:sathachlaixe/singleston/socketObserver.dart';
+import 'package:sathachlaixe/singleston/socketio.dart';
+
+import 'dataSetting.dart';
+
+class DataSettingScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _DataSettingScreenState();
+  }
+}
+
+class _DataSettingScreenState extends State<DataSettingScreen>
+    with SocketObserver {
+  UserModel? _userinfo;
+
   bool status = true;
 
   void onPressDeleteData(context) {
@@ -39,13 +70,41 @@ class DataSettingScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(context) {
-    var size = MediaQuery.of(context).size;
+  void initState() {
+    super.initState();
+    SocketBinding.instance.addObserver(this);
+    setState(() {
+      _userinfo = AppConfig.instance.userInfo;
+    });
+  }
+
+  @override
+  void onUserInfoChanged() {
+    setState(() {
+      _userinfo = AppConfig.instance.userInfo;
+    });
+  }
+
+  @override
+  void dispose() {
+    SocketBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool isLogin = false;
+
+    if (_userinfo != null) {
+      var userInfo = _userinfo as UserModel;
+      isLogin = true;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Container(
-          height: size.height,
-          width: size.width,
+          height: double.infinity,
+          width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
           ),
@@ -81,21 +140,23 @@ class DataSettingScreen extends StatelessWidget {
                           style: kText18Bold_14,
                         ),
                         new CustomRadio(),
-                        SyncSwitch(
-                          firstState: repository.isSyncON,
-                          onChanged: (value) {
-                            log("Changed sync state");
-                          },
-                        ),
+                        if (isLogin)
+                          SyncSwitch(
+                            firstState: repository.isSyncON,
+                            onChanged: (value) {
+                              log("Changed sync state");
+                            },
+                          ),
                         SizedBox(
                           height: 10.h,
                         ),
-                        InkWell(
-                            onTap: () => onPressDeleteData(context),
-                            child: Text(
-                              'Xóa và đặt lại dữ liệu',
-                              style: kText18Bold_14.copyWith(color: dtcolor4),
-                            )),
+                        if (isLogin)
+                          InkWell(
+                              onTap: () => onPressDeleteData(context),
+                              child: Text(
+                                'Xóa và đặt lại dữ liệu',
+                                style: kText18Bold_14.copyWith(color: dtcolor4),
+                              )),
                       ],
                     )),
               ),

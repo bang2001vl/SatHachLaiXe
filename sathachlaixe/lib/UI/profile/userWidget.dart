@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/helper/helper.dart';
@@ -55,19 +56,25 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
 
   @override
   Widget build(BuildContext context) {
-    var defaultAvatar = Image.asset("assets/images/avtProfile.png");
+    var defaultAvatar = Image.asset("assets/images/notUser.png");
     var avatar = defaultAvatar;
-    String name = "Đăng nhập";
-    String phone = "";
+    bool isLogin = false;
+    String name = "Khách";
+    String phone = "Đăng nhập";
     if (_userinfo != null) {
       var userInfo = _userinfo as UserModel;
+      isLogin = true;
       if (userInfo.hasImage) {
         var bytes = userInfo.rawimage!;
+
         avatar = Image.memory(
           Uint8List.fromList(bytes),
         );
+      } else {
+        avatar = Image.asset("assets/images/avtProfile.png");
       }
       name = userInfo.name;
+      phone = userInfo.name;
     }
 
     return GestureDetector(
@@ -81,9 +88,27 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
           SizedBox(
             height: 50.h,
           ),
-          CircleAvatar(
-            radius: 50.h,
-            backgroundImage: avatar.image,
+          Container(
+            height: 95.h,
+            width: 95.h,
+            child: Stack(children: [
+              Center(
+                child: CircleAvatar(
+                  radius: 50.h,
+                  backgroundImage: avatar.image,
+                ),
+              ),
+              if (isLogin)
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 3.w),
+                    height: 20.w,
+                    width: 20.w,
+                    child: SvgPicture.asset('assets/icons/photo.svg'),
+                  ),
+                ),
+            ]),
           ),
           SizedBox(
             height: 10.h,
@@ -103,7 +128,7 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
             phone,
             style: kText16Medium_1.copyWith(
               fontWeight: FontWeight.w600,
-              fontSize: ScreenUtil().setSp(12.sp),
+              fontSize: ScreenUtil().setSp(14.sp),
               color: Colors.white,
             ),
           ),
