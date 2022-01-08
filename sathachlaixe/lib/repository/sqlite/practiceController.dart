@@ -40,6 +40,7 @@ class PracticeController {
   }
 
   Future<int> update(PracticeModel data, {bool updateTime = true}) async {
+    log("Practice: Update");
     var db = await AppConfig().openDB();
     var values = data.toJSON();
     if (updateTime) {
@@ -92,7 +93,7 @@ class PracticeController {
   Future<int> insertOrPlusCorrect(int questionID) async {
     var old = await getPratice(questionID);
     if (old.isEmpty) {
-      return insert(PracticeModel(questionID, -1, -2, 0, 1));
+      return insert(PracticeModel(questionID, 0, -1, 0, 1));
     } else {
       var data = old.first;
       data.countCorrect++;
@@ -106,7 +107,7 @@ class PracticeController {
   Future<int> plusWrong(int questionID) async {
     var old = await getPratice(questionID);
     if (old.isEmpty) {
-      return insert(PracticeModel(questionID, -1, -2, 1, 0));
+      return insert(PracticeModel(questionID, 0, -1, 1, 0));
     } else {
       var data = old.first;
       data.countWrong++;

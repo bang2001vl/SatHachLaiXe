@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: 270.h,
+              height: 160.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/homebg.png"),
@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SearchBar(),
+                      // SearchBar(),
                     ],
                   ),
                 ),

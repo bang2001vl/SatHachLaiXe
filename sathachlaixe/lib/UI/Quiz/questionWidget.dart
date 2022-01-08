@@ -10,18 +10,20 @@ class QuestionWidget extends StatelessWidget {
   final QuestionModel questionData;
   final int _selectedAnswer;
   final int mode;
+  final String? countWrong;
   final Function(int select, int correct)? onSelectAnswer;
   int get _correctAnswer => questionData.correct;
+
   QuestionWidget(this.questionData, this._selectedAnswer, this.mode,
-      {Key? key, this.onSelectAnswer})
+      {Key? key, this.onSelectAnswer, this.countWrong})
       : super(key: key);
 
   QuestionWidget.modeStart(this.questionData, this._selectedAnswer,
-      {Key? key, this.onSelectAnswer, this.mode = 0})
+      {Key? key, this.onSelectAnswer, this.mode = 0, this.countWrong})
       : super(key: key);
 
   QuestionWidget.modeReview(this.questionData, this._selectedAnswer,
-      {Key? key, this.onSelectAnswer, this.mode = 1})
+      {Key? key, this.onSelectAnswer, this.mode = 1, this.countWrong})
       : super(key: key);
 
   @override
@@ -50,9 +52,16 @@ class QuestionWidget extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(
                 top: 10.h, bottom: 20.h, left: 10.w, right: 10.w),
-            child: Text(
-              quiz.question,
-              style: kText16Medium_14,
+            child: RichText(
+              text: TextSpan(style: kText16Medium_14, children: [
+                TextSpan(text: quiz.question),
+                TextSpan(
+                  text: countWrong == null ? "" : " (Sai $countWrong lần)",
+                  style: kText16Medium_14.apply(
+                    color: Colors.red,
+                  ),
+                ),
+              ]),
             ),
           ),
           Expanded(

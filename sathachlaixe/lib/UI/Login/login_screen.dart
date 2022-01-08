@@ -6,9 +6,7 @@ import 'package:sathachlaixe/UI/Component/textbox.dart';
 import 'package:flutter/widgets.dart' as wid;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sathachlaixe/helper/helper.dart';
-import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/repository.dart';
-import 'Register_Screen.dart';
 
 import 'forgot_password_screen.dart';
 
@@ -70,6 +68,8 @@ class LoginScreen extends StatelessWidget {
                 TextFieldContainer(
                   child: TextField(
                     textAlignVertical: TextAlignVertical.center,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.lock,
@@ -134,26 +134,26 @@ class LoginScreen extends StatelessWidget {
                     onPressSubmit(context);
                   },
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Chưa có tài khoản?",
-                      textAlign: TextAlign.center,
-                      style: kText14Bold_9,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterScreen()));
-                      },
-                      child: Text('Đăng ký!', style: kText14Bold_4),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Text(
+                //       "Chưa có tài khoản?",
+                //       textAlign: TextAlign.center,
+                //       style: kText14Bold_9,
+                //     ),
+                //     TextButton(
+                //       onPressed: () {
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => RegisterScreen()));
+                //       },
+                //       child: Text('Đăng ký!', style: kText14Bold_4),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ],

@@ -154,12 +154,18 @@ class QuizBloc extends Cubit<QuizState> {
     var resultView = ResultTest(
       history: history,
     );
-    Navigator.push(context, MaterialPageRoute(builder: (_) => resultView))
-        .then((value) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => resultView,
+      ),
+    ).then((value) {
       if (value == ResultTest.RESULT_CANCEL) {
         Navigator.pop(context, "Review");
       } else if (value == ResultTest.RESULT_REVIEW) {
         changeMode(1);
+      } else {
+        Navigator.pop(context, "Review");
       }
     });
   }

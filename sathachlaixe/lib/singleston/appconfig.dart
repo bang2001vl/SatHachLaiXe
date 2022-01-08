@@ -145,9 +145,9 @@ class AppConfig {
 
     await loadPreferences(loadToken: false);
 
-    if (syncState == 1) {
-      await SocketController.instance.init();
-    }
+    // if (await repository.auth.hasSaveLogin()) {
+    //   await SocketController.instance.init();
+    // }
   }
 
   Future<void> loadPreferences({bool loadToken = true}) async {

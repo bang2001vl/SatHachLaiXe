@@ -15,6 +15,7 @@ import 'package:sathachlaixe/singleston/socketio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends AuthRepo {
+  final Dio dio = Dio(BaseOptions(connectTimeout: 2000, receiveTimeout: 2000));
   final String _apiURL = RepositoryGL.serverURL + ":8080/auth";
 
   String makeURL(String apiName) {
@@ -23,7 +24,7 @@ class AuthController extends AuthRepo {
 
   @override
   Future<int> login(String email, String password,
-      {bool needSaveAuth = true, bool isAutoLogin = false}) {
+      {bool needSaveAuth = true, bool isAutoLogin = false}) async {
     log("Login with isAutoLogin = " + isAutoLogin.toString());
     var url = this.makeURL("login");
     var headers = {
@@ -33,13 +34,13 @@ class AuthController extends AuthRepo {
       email: email,
       password: isAutoLogin ? password : _encryptPassword(password),
     );
-    return Dio()
-        .post(
-      url,
-      options: Options(headers: headers),
-      data: auth.toJSON(),
-    )
-        .then((res) async {
+    try {
+      var res = await dio.post(
+        url,
+        options: Options(headers: headers),
+        data: auth.toJSON(),
+      );
+
       if (res.data["errorCode"] != null) {
         var errorCode = res.data["errorCode"] as int;
         return -1 * errorCode;
@@ -61,7 +62,14 @@ class AuthController extends AuthRepo {
       }
       await onLoginSuccess(userInfo, token, isAutoLogin);
       return 1;
-    }).catchError(onError);
+    } on DioError catch (err) {
+      log("APIs: Login falied with error");
+      if (err.type == DioErrorType.connectTimeout) {
+        log("Connect time out");
+      }
+      //notifyConnectionError();
+      return -1;
+    }
   }
 
   @override
@@ -72,6 +80,7 @@ class AuthController extends AuthRepo {
 
   int onError(err) {
     log("APIs: Login falied with error");
+
     log(err.toString());
     return -1;
   }
@@ -84,12 +93,9 @@ abstract class AuthRepo {
   Future<int> login(String email, String password,
       {bool needSaveAuth = true, bool isAutoLogin = false});
 
-  Future<int> logout() async {
-    if (AppConfig.instance.token == null) return -1;
-    var token = AppConfig.instance.token as String;
-    log("Logout with token : $token");
-
-    {
+  Future<int> logout({bool needComfirm = true}) async {
+    log("Auth: Logout");
+    if (needComfirm) {
       var result = await showYesNoDialog("Đăng xuất",
           "Bạn sẽ đăng xuất tài khoản khỏi thiết bị này", "Tiếp tục", "Hủy");
       if (result == 2) {
@@ -100,7 +106,7 @@ abstract class AuthRepo {
     var h = await repository.getUnsyncHistories();
     var p = await repository.getUnsyncPractices();
 
-    if (h.length > 0 || p.length > 0) {
+    if (needComfirm && (h.length > 0 || p.length > 0)) {
       var result = await showYesNoDialog(
           "Chưa đồng bộ", "Dữ liệu chưa đồng bộ sẽ bị mất", "Tiếp tục", "Hủy");
       if (result == 2) {
@@ -108,11 +114,17 @@ abstract class AuthRepo {
       }
     }
 
-    await repository.deleteAllData();
+    if (repository.isAuthorized) {
+      var token = AppConfig.instance.token as String;
+      await SocketController.instance.close();
+    }
+
+    await repository.deleteAllLocalData();
     await repository.updateToken(null);
     await repository.updateSyncState(null);
+
     await repository.updateUserInfo(null);
-    await SocketController.instance.close();
+    SocketBinding.instance.invokeOnUserInfoChanged();
 
     return 1;
   }
@@ -128,7 +140,7 @@ abstract class AuthRepo {
     if (!isAutoLogin && (h.length > 0 || p.length > 0)) {
       var rs = await askBeforeSync();
       if (rs == "Delete") {
-        await repository.deleteAllData();
+        await repository.deleteAllLocalData();
       }
     }
 
@@ -168,18 +180,33 @@ abstract class AuthRepo {
     return base64Encode(pass.bytes);
   }
 
-  void showLogin(context) {
-    Navigator.push(
+  Future<String?> showLogin(context) {
+    return Navigator.push(
       context,
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (context) => LoginScreen(),
       ),
     ).then((value) {
-      if (value == "OK") {
-        log("Login successfull");
-      }
+      return value;
     });
+  }
+
+  Future<int> autoLogin({bool askFix = false}) async {
+    log("Auth: Auto login");
+    var authSaved = await getAuth();
+    if (authSaved != null) {
+      var rs =
+          await login(authSaved.email, authSaved.password, isAutoLogin: true);
+      if (rs == 1) {
+        log("Auth: Auto login success");
+        return 1;
+      } else {
+        log("Auth: Auto login failed with code = " + rs.toString());
+        return rs;
+      }
+    }
+    return -2;
   }
 
   void onUnauthorized() async {
@@ -197,25 +224,34 @@ abstract class AuthRepo {
     var context = getCurrentContext();
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Đồng bộ thất bại"),
-        content: const Text("Đã có lỗi xảy ra trong quá trình đăng nhập"),
-        actions: [
-          TextButton(
-            child: const Text("Đăng nhập lại"),
-            onPressed: () => Navigator.pop(context, "login"),
-          ),
-          TextButton(
-            child: const Text("Tắt đồng bộ"),
-            onPressed: () => Navigator.pop(context, "offSync"),
-          ),
-        ],
+      builder: (context) => WillPopScope(
+        onWillPop: () {
+          return Future.value(false);
+        },
+        child: AlertDialog(
+          title: const Text("Đồng bộ thất bại"),
+          content: const Text("Đã có lỗi xảy ra trong quá trình đăng nhập"),
+          actions: [
+            TextButton(
+              child: const Text("Đăng nhập lại"),
+              onPressed: () async {
+                showLogin(context);
+                Navigator.pop(context, "login");
+              },
+            ),
+            TextButton(
+              child: const Text("Đăng xuất"),
+              onPressed: () async {
+                await repository.auth.logout();
+                Navigator.pop(context, "logout");
+              },
+            ),
+          ],
+        ),
       ),
     ).then((value) {
       if (value == "login") {
         showLogin(context);
-      } else if (value == "offSync") {
-        AppConfig.instance.saveSycnState(0);
       }
     });
   }
@@ -245,5 +281,9 @@ abstract class AuthRepo {
     } else {
       return null;
     }
+  }
+
+  Future<bool> hasSaveLogin() async {
+    return await getAuth() != null;
   }
 }

@@ -63,7 +63,8 @@ class _TopWrongScreenState extends State<TopWrongScreen> with SocketObserver {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => QuizStudyScreen.modePratice(questionIds),
+          builder: (context) =>
+              QuizStudyScreen.modePraticeShowWrong(questionIds),
         ));
   }
 
@@ -72,7 +73,8 @@ class _TopWrongScreenState extends State<TopWrongScreen> with SocketObserver {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => QuizStudyScreen.modePratice(questionIds),
+          builder: (context) =>
+              QuizStudyScreen.modePraticeShowWrong(questionIds),
         ));
   }
 

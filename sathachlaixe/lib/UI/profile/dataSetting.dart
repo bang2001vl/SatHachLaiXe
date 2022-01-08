@@ -20,7 +20,7 @@ class DataSettingScreen extends StatelessWidget {
         builder: (context) => AlertDialog(
               title: const Text("Xóa dữ liệu"),
               content: const Text(
-                  "Tiến hành xóa cả dữ liệu trên thiết bị và dữ liệu trên server.\nDữ liệu sau khi xóa sẽ không thể khôi phục.\n Bạn thực sự muốn xóa?"),
+                  "Dữ liệu sau khi xóa sẽ không thể khôi phục.\n Bạn thực sự muốn xóa?"),
               actions: [
                 TextButton(
                   child: const Text("Tiếp tục"),
@@ -33,9 +33,7 @@ class DataSettingScreen extends StatelessWidget {
               ],
             )).then((value) {
       if (value == "OK") {
-        log("Delete data sync and local");
-        SocketController.instance.deleteData();
-        repository.deleteAllData();
+        repository.data.deleteData();
       }
     });
   }
@@ -133,11 +131,12 @@ class _SyncSwitchState extends State<SyncSwitch> {
       ),
       value: syncStatus,
       onChanged: (value) async {
-        if (!repository.isAuthorized) {
+        if (repository.user.currentUser == null) {
           showNotifyMessage(
               "Chưa đăng nhập", "Vui lòng đăng nhập để sử dụng chức năng");
           return;
         }
+
         if (value == repository.isSyncON) return;
         await repository.updateSyncState(value ? 1 : 0);
         widget.onChanged?.call(value);

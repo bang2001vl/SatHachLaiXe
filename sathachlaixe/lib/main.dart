@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sathachlaixe/SQLite/quizSQLite.dart';
 import 'package:sathachlaixe/UI/Home/home_screen.dart';
 import 'package:sathachlaixe/UI/helper.dart';
+import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/helper/widgetObserver.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,12 +50,29 @@ class MyApp extends StatelessWidget {
     AppConfig().dbController.closeDB();
   }
 
+  void onConnectivityChanged(bool isOnline) async {
+    log("AppState: isOnline = " + isOnline.toString());
+    bool hasLogin = await repository.auth.hasSaveLogin();
+    if (isOnline) {
+      if (!repository.isAuthorized && hasLogin) {
+        await SocketController.instance.init();
+      }
+    } else {
+      if (repository.isSyncON) {
+        await showNotifyMessage(
+            "Đồng bộ thất bại", "Đã tắt đồng bộ do có lỗi xảy ra khi đồng bộ");
+        repository.updateSyncState(0);
+      }
+    }
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return WidgetObserver(
       onInit: () => onInitApp(),
       onDispose: () => onDisposeApp(),
+      onConnectivityChanged: onConnectivityChanged,
       child: ScreenUtilInit(
           designSize: Size(414, 896),
           builder: () {

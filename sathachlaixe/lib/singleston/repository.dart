@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:sathachlaixe/helper/helper.dart';
 import 'package:sathachlaixe/model/board.dart';
 import 'package:sathachlaixe/model/boardCategory.dart';
 import 'package:sathachlaixe/model/history.dart';
@@ -11,6 +12,7 @@ import 'package:sathachlaixe/model/tip.dart';
 import 'package:sathachlaixe/model/topic.dart';
 import 'package:sathachlaixe/model/user.dart';
 import 'package:sathachlaixe/repository/auth.dart';
+import 'package:sathachlaixe/repository/data.dart';
 import 'package:sathachlaixe/repository/sqlite/appController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardCategoryController.dart';
 import 'package:sathachlaixe/repository/sqlite/boardController.dart';
@@ -18,6 +20,7 @@ import 'package:sathachlaixe/repository/sqlite/historyController.dart';
 import 'package:sathachlaixe/repository/sqlite/practiceController.dart';
 import 'package:sathachlaixe/repository/sqlite/questionStatistic.dart';
 import 'package:sathachlaixe/repository/sqlite/tipController.dart';
+import 'package:sathachlaixe/repository/statistic.dart';
 import 'package:sathachlaixe/repository/user.dart';
 import 'package:sathachlaixe/singleston/appconfig.dart';
 import 'package:sathachlaixe/singleston/socketio.dart';
@@ -28,6 +31,7 @@ class RepositoryGL {
   RepositoryGL();
 
   static const serverURL = "http://thunderv.southeastasia.cloudapp.azure.com";
+  static const serverAddress = "thunderv.southeastasia.cloudapp.azure.com";
   // static const serverURL = "http://192.168.1.110"; // Test-only
 
   String getCurrentMode() {
@@ -47,6 +51,14 @@ class RepositoryGL {
     AppConfig.instance.syncState = state;
     await AppConfig.instance.saveSycnState(state);
     if (isSyncON) {
+      if (!isAuthorized) {
+        var rs = await auth.autoLogin();
+        if (rs != 1) {
+          await notifyConnectionError();
+          updateSyncState(0);
+          return;
+        }
+      }
       SocketController.instance.notifyDataChanged();
     }
   }
@@ -211,7 +223,7 @@ class RepositoryGL {
     return TipController().getTipByType(typeId);
   }
 
-  Future<int> deleteAllData() async {
+  Future<int> deleteAllLocalData() async {
     var count = 0;
     count += await HistoryController().deleteAll();
     count += await PracticeController().deleteAll();
@@ -232,6 +244,8 @@ class RepositoryGL {
   TipRepo tips = TipController();
   AuthRepo auth = AuthController();
   UserRepos user = UserRepos();
+  StatisticRepo statistic = StatisticRepo();
+  DataRepo data = DataRepo();
 }
 
 abstract class TipRepo {

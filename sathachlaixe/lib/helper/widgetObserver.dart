@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
+import 'package:sathachlaixe/singleston/connect.dart';
 
 class WidgetObserver extends StatefulWidget {
   final Function()? onInit;
   final Function()? onInactive;
   final Function()? onResume;
   final Function()? onDispose;
+  final Function(bool isonline)? onConnectivityChanged;
   final Widget child;
 
   WidgetObserver({
@@ -15,6 +17,7 @@ class WidgetObserver extends StatefulWidget {
     this.onInactive,
     this.onResume,
     this.onDispose,
+    this.onConnectivityChanged,
     Key? key,
   }) : super(key: key);
 
@@ -35,6 +38,9 @@ class _WidgetObserverState extends State<WidgetObserver>
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
     widget.onInit?.call();
+    MyConnectivity.instance.myStream.listen((isOnline) {
+      widget.onConnectivityChanged?.call(isOnline);
+    });
   }
 
   @override

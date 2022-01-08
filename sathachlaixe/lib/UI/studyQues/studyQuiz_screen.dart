@@ -23,16 +23,28 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class QuizStudyScreen extends StatelessWidget {
   late final QuestionCategoryModel cate;
   final int mode;
+  final bool showWrong;
 
   bool get isModeStudy => mode == 0;
   bool get isModePractice => mode == 1;
 
-  QuizStudyScreen({required this.cate, required this.mode, Key? key})
+  QuizStudyScreen(
+      {required this.cate,
+      required this.mode,
+      required this.showWrong,
+      Key? key})
       : super(key: key);
-  QuizStudyScreen.modeStudy({required this.cate, this.mode = 0, Key? key})
+  QuizStudyScreen.modeStudy(
+      {required this.cate, this.mode = 0, this.showWrong = false, Key? key})
       : super(key: key);
   QuizStudyScreen.modePratice(List<String> questionIDs,
-      {this.mode = 1, Key? key})
+      {this.mode = 1, this.showWrong = false, Key? key})
+      : super(key: key) {
+    this.cate = QuestionCategoryModel(
+        name: "Ôn tập", detail: "null", questionIDs: questionIDs);
+  }
+  QuizStudyScreen.modePraticeShowWrong(List<String> questionIDs,
+      {this.mode = 1, this.showWrong = true, Key? key})
       : super(key: key) {
     this.cate = QuestionCategoryModel(
         name: "Ôn tập", detail: "null", questionIDs: questionIDs);
@@ -215,11 +227,12 @@ class QuizStudyScreen extends StatelessWidget {
                   prev.selectedAnswer != curr.selectedAnswer ||
                   prev.mode != curr.mode,
               builder: (context, state) => buildQuestionContent(
-                context,
-                quesData,
-                state.selectedAnswer,
-                practice: practiceData.isNotEmpty ? practiceData.first : null,
-              ),
+                  context,
+                  quesData,
+                  state.selectedAnswer,
+                  showWrong && practiceData.isNotEmpty
+                      ? practiceData.first.countWrong.toString()
+                      : null),
             );
           }
           // Load error or data is null
@@ -231,9 +244,8 @@ class QuizStudyScreen extends StatelessWidget {
         });
   }
 
-  Widget buildQuestionContent(
-      BuildContext context, QuestionModel quesData, int selected,
-      {PracticeModel? practice}) {
+  Widget buildQuestionContent(BuildContext context, QuestionModel quesData,
+      int selected, String? countWrong) {
     if (selected == 0) {
       return QuestionWidget.modeStart(
         quesData,
@@ -244,6 +256,7 @@ class QuizStudyScreen extends StatelessWidget {
           correct,
           quesData,
         ),
+        countWrong: countWrong,
       );
     } else {
       return QuestionWidget.modeReview(
@@ -251,6 +264,7 @@ class QuizStudyScreen extends StatelessWidget {
         selected,
         onSelectAnswer: (select, correct) =>
             _onSelectAnswer(context, select, correct, quesData),
+        countWrong: countWrong,
       );
     }
   }
@@ -399,11 +413,6 @@ class _QuizNotify extends StatelessWidget {
       return Stack(
         alignment: Alignment.center,
         children: [
-          // SvgPicture.asset(
-          //   'assets/icons/quiz_clock_bg.svg',
-          //   width: 120.w,
-          //   height: 30.h,
-          // ),
           Row(
             children: [
               Container(

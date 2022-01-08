@@ -40,15 +40,16 @@ class SocketController {
 
   bool get isConnected => _socket == null ? false : _socket!.connected;
 
-  void deleteData() {
+  FutureOr<int> deleteData() {
     if (_socket == null) {
-      return;
+      return 0;
     }
     if (!_socket!.connected) {
       cannotConnect();
-      return;
+      return 0;
     }
     _socket?.emit(request_deleted_data);
+    return 1;
   }
 
   Future<void> _updateData(
@@ -64,14 +65,28 @@ class SocketController {
   }
 
   void notifyDataChanged() async {
+    log("SocketIO: notifyDataChanged");
     // if (_socket == null) {
-    //   return;
-    // }
-    // if (!_socket!.connected) {
     //   return;
     // }
     if (!repository.isSyncON) {
       return;
+    }
+    if (!repository.isAuthorized) {
+      var resultLogin = await repository.auth.autoLogin();
+      if (resultLogin != 1) {
+        if (resultLogin == -1) {
+          var rs = await showYesNoDialog("Đồng bộ thất bại",
+              "Có lỗi xảy ra khi đồng bộ", "Tắt đồng bộ", "Thoát",
+              willPopUp: false);
+          if (rs == 1) {
+            repository.updateSyncState(0);
+          } else {
+            this.close();
+          }
+        }
+        return;
+      }
     }
     // await connect();
     var newHistories = await repository.getUnsyncHistories();
@@ -149,7 +164,7 @@ class SocketController {
     if (jsonUserInfo != null) {
       var userInfo = UserModel.fromJSON(jsonUserInfo);
       await repository.updateUserInfo(userInfo);
-      SocketBinding.instance._invokeOnUserInfoChanged();
+      SocketBinding.instance.invokeOnUserInfoChanged();
       sync_time = Math.max(sync_time, userInfo.updateTime);
     }
 
@@ -201,7 +216,7 @@ class SocketController {
     var sync_time = await repository.getLastSyncTime();
     var userInfo = UserModel.fromJSON(data["userInfo"]);
     await repository.updateUserInfo(userInfo);
-    SocketBinding.instance._invokeOnUserInfoChanged();
+    SocketBinding.instance.invokeOnUserInfoChanged();
     sync_time = Math.max(sync_time, userInfo.updateTime);
     await repository.updateLatestSyncTime(sync_time);
   }
@@ -220,6 +235,8 @@ class SocketController {
   }
 
   FutureOr<void> close() async {
+    await repository.updateToken(null);
+
     log("SocketIO: Close connection");
     if (_socket == null) {
       return;
@@ -227,20 +244,9 @@ class SocketController {
     _socket?.destroy();
     _socket = null;
 
-    await repository.updateToken(null);
-
-    SocketBinding.instance._invokeOnUserInfoChanged();
+    //SocketBinding.instance._invokeOnUserInfoChanged();
     SocketBinding.instance._invokeOnDisconnected();
   }
-
-  // FutureOr<int> connect() async {
-  //   if (repository.isAuthorized) {
-  //     return 0;
-  //   }
-
-  //   await this.close();
-  //   return this.init();
-  // }
 
   SocketController._privateController();
 
@@ -248,27 +254,28 @@ class SocketController {
     if (this._socket != null) return 1;
     if (AppConfig.instance.token == null) {
       log("SocketIO: Not found token");
-      repository.auth.onUnauthorized();
+      repository.auth.autoLogin();
       return -1;
     }
     log("SocketIO: Found token = " + AppConfig.instance.token!);
     var completer = Completer<int>();
-    var op = IO.OptionBuilder()
-        .setTransports(['websocket'])
+    var op = IO.OptionBuilder().setTransports(['websocket'])
         // .setReconnectionAttempts(3)
         // .disableReconnection()
         //.disableAutoConnect()
-        .enableForceNew()
+        //.enableForceNew()
         .build();
 
     IO.Socket socket = IO.io(this.url, op);
+    socket.clearListeners();
     this._socket = socket;
 
     socket.onConnectError((data) =>
         log("SocketIO: Connection failed with error: " + data.toString()));
 
     socket.onDisconnect((_) {
-      log('disconnect');
+      log('SocketIO: disconnected');
+      this.close();
     });
 
     socket.onConnect((_) async {
@@ -307,7 +314,7 @@ class SocketController {
     });
 
     socket.on(event_deleted_data, (_) {
-      repository.deleteAllData();
+      repository.deleteAllLocalData();
     });
 
     log("[OK] : Init socketIO");
@@ -359,7 +366,7 @@ class SocketBinding {
     });
   }
 
-  void _invokeOnUserInfoChanged() async {
+  void invokeOnUserInfoChanged() async {
     if (AppConfig.instance.userInfo != null) {
       var userInfo = AppConfig.instance.userInfo!;
       var maxTime = userInfo.latestDelete;

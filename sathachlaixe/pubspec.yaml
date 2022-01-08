@@ -46,6 +46,7 @@ dependencies:
   socket_io_client: ^2.0.0-beta.4-nullsafety.0
   crypto: ^3.0.1
   device_info_plus: ^3.2.0
+  connectivity_plus: ^2.2.0
 
 
 dev_dependencies:
