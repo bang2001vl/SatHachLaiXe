@@ -153,6 +153,7 @@ abstract class AuthRepo {
     await repository.updateToken(token);
 
     await SocketController.instance.init();
+    SocketBinding.instance.invokeOnUserInfoChanged();
   }
 
   Future<String?> askBeforeSync() {
@@ -285,5 +286,10 @@ abstract class AuthRepo {
 
   Future<bool> hasSaveLogin() async {
     return await getAuth() != null;
+  }
+
+  Future<String?> getEmail() async {
+    var auth = await getAuth();
+    return auth == null ? null : auth.email;
   }
 }

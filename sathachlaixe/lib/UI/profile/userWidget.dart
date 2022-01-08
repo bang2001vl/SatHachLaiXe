@@ -25,6 +25,7 @@ class UserAvatarWidget extends StatefulWidget {
 class _UserAvatarWidgetState extends State<UserAvatarWidget>
     with SocketObserver {
   UserModel? _userinfo;
+  String? _email;
 
   void onClick(context) {
     if (_userinfo == null) {
@@ -36,16 +37,20 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
   void initState() {
     super.initState();
     SocketBinding.instance.addObserver(this);
+    loadData();
+  }
+
+  void loadData() async {
+    var e = await repository.auth.getEmail();
     setState(() {
       _userinfo = AppConfig.instance.userInfo;
+      _email = e;
     });
   }
 
   @override
-  void onUserInfoChanged() {
-    setState(() {
-      _userinfo = AppConfig.instance.userInfo;
-    });
+  void onUserInfoChanged() async {
+    loadData();
   }
 
   @override
@@ -74,7 +79,9 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget>
         avatar = Image.asset("assets/images/avtProfile.png");
       }
       name = userInfo.name;
-      phone = userInfo.name;
+      if (_email != null) {
+        phone = _email!;
+      }
     }
 
     return GestureDetector(
