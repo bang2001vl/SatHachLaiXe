@@ -24,76 +24,200 @@ id	cateId	name	detail	assetURL
 23	1	Biển số P.115 "Hạn chế trọng lượng xe"	Cấm các loại xe (cơ giới và thô sơ) kể cả các xe được ưu tiên theo quy định, có trọng lượng toàn bộ (cả xe và hàng) vượt quá trị số ghi  trên biển đi qua	assets/images/boards/115.jpg
 24	1	Biển số P.116 "Hạn chế trọng lượng trên trục xe"	Cấm các loại xe (cơ giới và thô sơ) kể cả các xe được ưu tiên theo quy định, có trọng lượng toàn bộ phân bổ trên một trục bất kỳ của xe vượt quá trị số ghi trên biển đi qua	assets/images/boards/116.jpg
 25	1	Biển số P.117 "Hạn chế chiều cao xe"	Cấm các loại xe cơ giới/thô sơ (kể cả xe ưu tiên) có chiều cao vượt quá trị số ghi trên biển đi vào.	assets/images/boards/117.jpg
-26	2	Biển số P.301a "Hướng đi phải theo"	Các xe chỉ được đi thẳng (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301a.jpg
-27	2	Biển số P.301b "Hướng đi phải theo"	Các xe chỉ được rẽ phải (trừ xe được quyền ưu tiên theo quy định). Biển này được đặt ở sau  nơi đường giao nhau.	assets/images/boards/301b.jpg
-28	2	Biển số P.301c "Hướng đi phải theo"	Các xe chỉ được rẽ trái (trừ xe được quyền ưu tiên theo quy định). Biển này được đặt ở sau nơi đường giao nhau.	assets/images/boards/301c.jpg
-29	2	Biển số P.301d "Hướng đi phải theo"	Các xe chỉ được rẽ phải (trừ xe được quyền ưu tiên theo quy định). Biển này được đặt ở trước nơi đường giao nhau.	assets/images/boards/301d.jpg
-30	2	Biển số P.301e "Hướng đi phải theo"	Các xe chỉ được rẽ trái (trừ xe được quyền ưu tiên theo quy định).  Biển này được đặt ở trước nơi đường giao nhau.	assets/images/boards/301e.jpg
-31	2	Biển số P.301f  "Hướng đi phải theo"	Các xe chỉ được đi thẳng và rẽ phải (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301f.jpg
-32	2	Biển số P.301h "Hướng đi phải theo"	Các xe chỉ được đi thẳng và rẽ trái (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301h.jpg
-33	2	Biển số P.301i "Hướng đi phải theo"	Các xe chỉ được rẽ phải và rẽ trái (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301i.jpg
-34	2	Biển số P.302a "Hướng phải đi vòng chướng ngại vật"	Báo các loại xe (cơ giới và thô sơ) hướng đi vòng sang phải để qua một chướng ngại vật 	assets/images/boards/302a.jpg
-35	2	Biển số P.302b "Hướng phải đi vòng chướng ngại vật"	Báo các loại xe (cơ giới và thô sơ) hướng đi vòng sang trái để qua một chướng ngại vật 	assets/images/boards/302b.jpg
-36	2	Biển số P.303 "Nơi giao nhau chạy theo vòng xuyến"	Báo cho các loại xe (thô sơ và cơ giới) phải chạy vòng theo đảo an toàn ở nơi đường giao nhau	assets/images/boards/303.jpg
-37	2	Biển số P.304 " Đường dành cho xe thô  sơ"	Báo đường dành cho xe thô sơ (kể cả xe của người tàn tật) và người đi bộ.	assets/images/boards/304.jpg
-38	2	Biển số P.305 "Đường dành cho người đi bộ"	Báo đường dành cho người đi bộ	assets/images/boards/305.jpg
-39	2	Biển số P.306 "Tốc độ tối thiểu cho phép"	Báo tốc độ tối thiểu cho phép các xe cơ giới chạy.	assets/images/boards/306.jpg
-40	2	Biển số P.307 "Hết hạn chế tốc độ tối thiểu",	Báo hết đoạn đường hạn chế tốc độ tối thiểu.	assets/images/boards/307.jpg
-41	2	Biển số P.308a "Tuyến đường cầu vượt cắt qua"	Biểu thị phía trước có cầu vượt, xe có thể đi thẳng hoặc theo chỉ dẫn trên hình vẽ để rẽ trái	assets/images/boards/308a.jpg
-42	2	Biển số P.308b "Tuyến đường cầu vượt cắt qua"	Biểu thị phía trước có cầu vượt, xe có thể đi thẳng hoặc theo chỉ dẫn trên hình vẽ để rẽ phải	assets/images/boards/308b.jpg
-43	2	Biển số P.309 "Ấn còi"	Biểu thị xe cộ đi đến vị trí cắm biển đó thì phải ấn còi.	assets/images/boards/309.jpg
-44	2	Biển số P.310a " Hướng đi phải theo cho các xe chở hàng nguy hiểm"	Báo cho các loại xe chở hàng nguy hiểm phải đi theo hướng quy định (rẽ trái)	assets/images/boards/310a.jpg
-45	2	Biển số P.310b " Hướng đi phải theo cho các xe chở hàng nguy hiểm"	Báo cho các loại xe chở hàng nguy hiểm phải đi theo hướng quy định (đi thẳng)	assets/images/boards/310b.jpg
-46	2	Biển số P.310c " Hướng đi phải theo cho các xe chở hàng nguy hiểm"	Báo cho các loại xe chở hàng nguy hiểm phải đi theo hướng quy định (rẽ phải)	assets/images/boards/310c.jpg
-47	3	Biển số P.401 "Bắt đầu đường ưu tiên"	Để biểu thị ưu tiên cho các phương tiện trên đường có đặt biển này được đi trước. Biển đặt tại vị trí thích hợp trước khi đường nhánh sắp nhập vào trục đường chính, yêu cầu phương tiện từ đường nhánh ra phải dừng lại nhường cho phương tiện trên đường chính đi trước. 	assets/images/boards/401.jpg
-48	3	Biển số P.402 "Hết đoạn đường ưu tiên"	Báo hiệu hết đoạn đường được ưu tiên	assets/images/boards/402.jpg
-49	3	Biển số P.403a "Đường dành cho ô tô"	Để chỉ dẫn bắt đầu đường dành cho các loại ôtô đi lại, các loại phương tiện giao thông khác không được phép đi vào đoạn đường có đặt biển này.	assets/images/boards/403a.jpg
-50	3	Biển số P.403b "Đường dành cho ô tô, xe máy"	Để chỉ dẫn bắt đầu đường dành cho các loại ôtô, xe máy (kể cả xe gắn máy) đi lại, các loại phương tiện giao thông khác không được phép đi vào đoạn đường có đặt biển này	assets/images/boards/403b.jpg
-51	3	Biển số P.404a "Hết đường dành cho ô tô"	Để chỉ dẫn hết đoạn đường dành cho ôtô đi lại	assets/images/boards/404a.jpg
-52	3	Biển số P.404b "Hết đường dành cho ô tô, xe máy"	Báo hiệu hết đoạn đường được ưu tiên	assets/images/boards/404b.jpg
-53	3	Biển số P.405a "Đường cụt"	Để chỉ dẫn đường cụt, lối rẽ vào đường cụt phía bên phải	assets/images/boards/405a.jpg
-54	3	Biển số P.405b "Đường cụt"	Để chỉ dẫn đường cụt, lối rẽ vào đường cụt phía bên trái	assets/images/boards/405b.jpg
-55	3	Biển số P.405c "Đường cụt"	Để chỉ dẫn phía trước là đường cụt, đặt trước đường cụt 300m đến 500m và cứ 100m phải đặt thêm một biển	assets/images/boards/405c.jpg
-56	3	Biển số P.406 "Được ưu tiên qua đường hẹp"	Để chỉ dẫn cho người lái xe cơ giới biết mình được quyền ưu tiên đi trước trên đoạn đường hẹp. Nếu trên hướng đi ngược chiều có xe (cơ giới hoặc thô sơ) đã đi vào phạm vi đường hẹp thì xe đi theo chiều ưu tiên cũng phải nhường đường.	assets/images/boards/406.jpg
-57	3	Biển số P.407 "Đường một chiều"	Để chỉ dẫn những đoạn đường chạy một chiều.	assets/images/boards/407.jpg
-58	3	Biển số P.408 "Nơi đỗ xe"	Để chỉ dẫn những nơi được phép đỗ xe, những bãi đỗ xe, bến xe v.v...	assets/images/boards/408.jpg
-59	3	Biển số P.409 "Chỗ quay xe"	Để chỉ dẫn vị trí được phép quay đầu xe. Biển không cho phép rẽ trái (trừ các xe được quyền ưu tiên theo quy định).	assets/images/boards/409.jpg
-60	3	Biển số P.410 "Khu vực quay xe"	Để chỉ dẫn khu vực được phép quay đầu xe , phải đặt biển số 410 "Khu vực quay xe". Trên biển mô tả cách thức tiến hành quay xe. Biển không cho phép rẽ trái (trừ các xe được quyền ưu tiên theo quy định).	assets/images/boards/410.jpg
-61	3	Biển số P.411 "Hướng đi trên mỗi làn đường theo vạch kẻ đường"	Để chỉ dẫn cho người lái xe biết số lượng làn đường trên mặt đường và hướng đi trên mỗi làn đường theo vạch kẻ đường.	assets/images/boards/411.jpg
-62	3	Biển số P.412 "Làn đường dành riêng cho từng loại xe"	Để chỉ dẫn cho người lái xe biết có làn đường dành riêng cho từng loại xe riêng biệt. 	assets/images/boards/412.jpg
-63	3	Biển số P.413a "Đường có làn đường dành cho ô tô khách"	Để chỉ dẫn khu vực được phép quay đầu xe , phải đặt biển số 410 "Khu vực quay xe". Trên biển mô tả cách thức tiến hành quay xe. Biển không cho phép rẽ trái (trừ các xe được quyền ưu tiên theo quy định).	assets/images/boards/413a.jpg
-64	3	Biển số P.413b "Đường có làn đường dành cho ô tô khách"	Để chỉ dẫn cho người lái xe biết ở nơi đường giao nhau rẽ phải là rẽ ra đường có làn đường dành cho ôtô khách	assets/images/boards/413b.jpg
-65	3	Biển số P.413c "Đường có làn đường dành cho ô tô khách"	Để chỉ dẫn cho người lái xe biết ở nơi đường giao nhau rẽ trái là rẽ ra đường có làn đường dành cho ôtô khách	assets/images/boards/413c.jpg
-66	4	Biển số P.201a "Chỗ ngoặt nguy hiểm vòng bên trái"	Báo trước sắp đến một chỗ ngoặt nguy hiểm phía bên trái	assets/images/boards/201a.jpg
-67	4	Biển số P.201b "chỗ ngoặt nguy hiểm vòng bên phải"	Báo trước sắp đến một chỗ ngoặt nguy hiểm phía bên phải	assets/images/boards/201b.jpg
-68	4	Biển số P.202a "Nhiều chỗ ngoặt nguy hiểm liên tiếp"	Báo trước sắp đến nhiều chỗ ngoặt nguy hiểm liên tiếp trong đó chỗ ngoặt đầu tiên hướng vòng bên trái	assets/images/boards/202a.jpg
-69	4	Biển số P.202b "Nhiều chỗ ngoặt nguy hiểm liên tiếp"	Báo trước sắp đến nhiều chỗ ngoặt nguy hiểm liên tiếp trong đó chỗ ngoặt đầu tiên hướng vòng bên phải	assets/images/boards/202b.jpg
-70	4	Biển số P.203a "Đường bị hẹp cả hai bên"	Báo trước sắp đến một đoạn đường bị hẹp đột ngột cả hai bên	assets/images/boards/203a.jpg
-71	4	Biển số P.203b "Đường bị hẹp về phía trái"	Báo trước sắp đến một đoạn đường bị hẹp đột ngột phía bên trái	assets/images/boards/203b.jpg
-72	4	Biển số P.203c "Đường bị hẹp về phía phải"	Báo trước sắp đến một đoạn đường bị hẹp đột ngột phía bên phải	assets/images/boards/203c.jpg
-73	4	Biển số P.204 "Đường hai chiều"	Báo trước sắp đến đoạn đường hai chiều	assets/images/boards/204.jpg
-74	4	Biển số P.205a "Đường giao nhau cùng cấp"	Báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên)  trên cùng một mặt bằng	assets/images/boards/205a.jpg
-75	4	Biển số P.205b "Đường giao nhau cùng cấp"	Báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên)  trên cùng một mặt bằng	assets/images/boards/205b.jpg
-76	4	Biển số P.205c "Đường giao nhau cùng cấp"	Báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên)  trên cùng một mặt bằng	assets/images/boards/205c.jpg
-77	4	Biển số P.206 "Giao nhau chạy theo vòng xuyến"	Báo trước nơi giao nhau có bố trí đảo an toàn ở giữa nút giao.	assets/images/boards/206.jpg
-78	4	Biển số P.207a "Giao nhau với đường không ưu tiên"	Báo trước sắp đến nơi giao nhau với đường không ưu tiên	assets/images/boards/207a.jpg
-79	4	Biển số P.207b "Giao nhau với đường không ưu tiên"	Báo trước sắp đến nơi giao nhau với đường không ưu tiên	assets/images/boards/207b.jpg
-80	4	Biển số P.208 "Giao nhau với đường ưu tiên"	Để báo trước sắp đến nơi giao nhau với đường ưu tiên	assets/images/boards/208.jpg
-81	4	Biển số P.209 "Giao nhau có tín hiệu đèn"	Báo trước nơi giao nhau có điều khiển giao thông bằng tín hiệu đèn.	assets/images/boards/209.jpg
-82	4	Biển số P.210 " Giao nhau với đường sắt có rào chắn"	Báo trước sắp đến nơi giao nhau với đường không ưu tiên	assets/images/boards/210.jpg
-83	5	Biển số P.501 "Phạm vi tác dụng của biển"	Để thông báo chiều dài đoạn đường nguy hiểm hoặc cấm hoặc hạn chế bên dưới một số biển báo nguy hiểm, biển báo cấm hoặc hạn chế	assets/images/boards/501.jpg
-84	5	Biển số P.502 "Khoảng cách đến đối tượng báo hiệu"	Bên dưới các loại biển báo nguy hiểm, biển báo cấm, biển hiệu lệnh và chỉ dẫn, thông báo khoảng cách thực tế từ vị trí đặt biển đến đối tượng báo hiệu ở phía trước.	assets/images/boards/502.jpg
-85	5	Biển số P.503a "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503a.jpg
-86	5	Biển số P.503b "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503b.jpg
-87	5	Biển số P.503c "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503c.jpg
-88	5	Biển số P.504 "Làn đường"	Đặt bên trên làn đường và dưới các biển báo cấm và biển hiệu lệnh hay bên dưới đèn tín hiệu để chỉ làn đường chịu hiệu lực của biển báo hay đèn tín hiệu.	assets/images/boards/504.jpg
-89	5	Biển số P.505a "Loại xe"	Đặt bên dưới các biển báo cấm và biển hiệu lệnh hay biển chỉ dẫn để chỉ loại xe chịu hiệu lực của biển báo cấm, biển hiệu lệnh hay biển chỉ dẫn. 	assets/images/boards/505a.jpg
-90	5	Biển số P.505b "Loại xe hạn chế qua cầu"	Đặt bên dưới biển báo số 106a “Cấm ôtô tải” để chỉ các loại xe tải chịu hiệu lực của biển báo và trọng lượng lớn nhất cho phép	assets/images/boards/505b.jpg
-91	5	Biển số P.505c "Tải trọng trục hạn chế qua cầu"	Đặt bên dưới biển báo số 106a “Cấm ôtô tải” để chỉ các loại xe tải có tải  trọng  trục  lớn nhất cho phép tương ứng với mỗi loại  trục	assets/images/boards/505c.jpg
-92	5	Biển số P.506a "Hướng đường ưu tiên""	Đặt bên dưới biển chỉ dẫn số 401 trên đường ưu tiên để chỉ dẫn cho người lái xe trên đường này biết hướng đường ưu tiên ở ngã tư.	assets/images/boards/506a.jpg
-93	5	Biển số P.506b "Hướng đường ưu tiên""	Đặt bên dưới biển số 208 và biển số 122 trên đường không ưu tiên để chỉ dẫn cho người lái xe trên đường này biết hướng đường ưu tiên ở ngã tư.	assets/images/boards/506b.jpg
-94	5	Biển số P.507 "Hướng rẽ"	Được sử dụng độc lập để báo trước cho người tham gia giao thông biết chuẩn bị đến chỗ rẽ nguy hiểm và để chỉ hướng rẽ.	assets/images/boards/507.jpg
-95	5	Biển số P.508a "Biểu thị thời gian"	Được đặt dưới biển báo cấm hoặc biển hiệu lệnh nhằm quy định phạm vi thời gian hiệu lực của các biển báo cấm, biển hiệu lệnh cho phù hợp yêu cầu.	assets/images/boards/508a.jpg
-96	5	Biển số P.508b "Biểu thị thời gian"	Được đặt dưới biển báo cấm hoặc biển hiệu lệnh nhằm quy định phạm vi thời gian hiệu lực của các biển báo cấm, biển hiệu lệnh cho phù hợp yêu cầu.	assets/images/boards/508b.jpg
-97	5	Biển số P.509a "Thuyết minh biển chính"	Để bổ sung cho biển số 239 "Đường cáp điện ở phía trên", phải đặt biển số 509a "Chiều cao an toàn" bên dưới biển số 239, biển này chỉ rõ chiều cao cho các phương tiện đi qua an toàn.	assets/images/boards/509a.jpg
-98	5	Biển số P.509b "Thuyết minh biển chính"	Để bổ sung cho biển số 130 "Cấm dừng, đỗ xe", biển số 131 (a,b,c) "Cấm đỗ xe", phải đặt thêm biển số 509b "Cấm đỗ xe" bên dưới biển số 130, 131 (a,b,c)	assets/images/boards/509b.jpg
+26	1	Biển số P.118 "Hạn chế chiều ngang"	Báo hạn chế chiều ngang của xe, cấm các xe (cơ giới và thô sơ) kể cả các xe được ưu tiên theo quy định có chiều ngang (kể cả xe và hàng hóa) vượt quá trị số ghi trên biển không được đi qua. 	assets/images/boards/118.jpg
+27	1	Biển số P.119 "Hạn chế chiều dài ôtô"	Báo đường cấm các loại xe (cơ giới và thô sơ) kể cả các xe được ưu tiên theo quy định, có độ dài toàn bộ kể cả xe và hàng lớn hơn trị số ghi trên biển đi qua	assets/images/boards/119.jpg
+28	1	Biển số P.120 "Hạn chế chiều dài ôtô, máy kéo kéo moóc hoặc sơ mi rơ moóc"	Báo đường cấm các loại xe (cơ giới và thô sơ) kéo theo moóc kể cả ôtô sơ-mi rơ-moóc và các loại xe được ưu tiên kéo moóc theo luật lệ nhà nước quy định, có độ dài toàn bộ kể cả xe, moóc và hàng lớn hơn trị số ghi trên biển đi qua	assets/images/boards/120.jpg
+29	1	Biển số P.121 "Cự ly tối thiểu giữa hai xe"	Báo xe ôtô phải đi cách nhau một khoảng tối thiểu tính bằng mét	assets/images/boards/121.jpg
+30	1	Biển số P.122 "Dừng lại"	Buộc các loại xe cơ giới và thô sơ kể cả xe được ưu tiên theo quy định dừng lại trước biển hoặc trước vạch ngang đường và chỉ được phép đi khi thấy các tín hiệu (do người điều khiển giao thông hoặc đèn cờ) cho phép đi. Trong trường hợp trên đường không đặt tín hiệu đèn cờ, không có người  điều khiển giao thông hoặc các tín hiệu đèn không bật sáng thì người lái xe chỉ được phép đi khi trên đường không còn nguy cơ mất an toàn giao thông. 	assets/images/boards/122.jpg
+31	1	Biển số P.123a "Cấm rẽ trái"	Cấm các loại xe (cơ giới và thô sơ) rẽ sang phía trái ở những vị trí đường giao nhau trừ các xe được ưu tiên theo quy định. Biển này cũng cấm xe quay đầu.	assets/images/boards/123a.jpg
+32	1	Biển số P.123b "Cấm rẽ phải"	Cấm các loại xe (cơ giới và thô sơ) rẽ sang phía phải ở những vị trí đường giao nhau trừ các xe được ưu tiên theo quy định.	assets/images/boards/123b.jpg
+33	1	Biển số P.124a "Cấm quay xe	Báo cấm các loại xe cơ giới và thô sơ quay đầu (theo kiểu chữ U) trừ các xe được ưu tiên theo quy định. Biển này không cấm rẽ trái.	assets/images/boards/124a.jpg
+34	1	Biển số P.124b "Cấm ô tô quay đầu xe"	Báo cấm xe ôtô và mô tô 3 bánh quay đầu (theo kiểu chữ U), trừ các xe được ưu tiên theo quy định. Biển này không cấm rẽ trái.	assets/images/boards/124b.jpg
+35	1	Biển số P.125 "Cấm vượt"	Báo cấm các loại xe cơ giới vượt nhau kể cả xe được ưu tiên theo quy định. 	assets/images/boards/125.jpg
+36	1	Biển số P.126 "Cấm ôtô  tải vượt"	Báo cấm các loại ôtô tải vượt xe cơ giới khác. Biển có hiệu lực cấm tất cả các loại ôtô tải có trọng lượng lớn nhất cho phép (bao gồm trọng lượng xe và hàng) trên 3,5Tấn kể cả các xe được ưu tiên theo quy định vượt xe cơ giới khác.	assets/images/boards/126.jpg
+37	1	Biển số P.127 "Tốc độ tối đa cho phép"	Báo tốc độ tối đa cho phép các xe cơ giới chạy, trừ các xe được ưu tiên theo quy định. 	assets/images/boards/127.jpg
+38	1	Biển số P.128 "Cấm sử dụng còi"	Báo cấm các loại xe cơ giới sử dụng còi	assets/images/boards/128.jpg
+39	1	Biển số P.129 "Kiểm tra"	Báo nơi đặt trạm kiểm tra; các loại phương tiện vận tải qua đó phải dừng lại để làm thủ tục kiểm tra, kiểm soát theo quy định. 	assets/images/boards/129.jpg
+40	1	Biển số P.130 "Cấm dừng xe và đỗ xe"	Báo nơi cấm dừng xe và đỗ xe. Biển có hiệu lực cấm các loại xe cơ giới dừng và đỗ ở phía đường có đặt biển trừ các xe được ưu tiên theo quy định.	assets/images/boards/130.jpg
+41	1	Biển số P.131a "Cấm đỗ xe"	Báo nơi cấm đỗ xe trừ các xe được ưu tiên theo quy định	assets/images/boards/131a.jpg
+42	1	Biển số P.131b "Cấm đỗ xe"	Báo nơi cấm đỗ xe cơ giới vào những ngày lẻ	assets/images/boards/131b.jpg
+43	1	Biển số P.131c "Cấm đỗ xe"	Báo nơi cấm đỗ xe cơ giới vào những ngày chẵn 	assets/images/boards/131c.jpg
+44	1	Biển số P.132 "Nhường đường cho xe cơ giới đi ngược chiều qua đường hẹp"	Báo các loại xe (cơ giới và thô sơ) kể cả các xe được ưu tiên theo quy định phải nhường đường cho các loại xe cơ giới đang đi theo hướng ngược lại qua các đoạn đường hẹp hoặc cầu hẹp	assets/images/boards/132.jpg
+45	1	Biển số P.133 "Hết cấm vượt"	Báo hết đoạn đường cấm vượt	assets/images/boards/133.jpg
+46	1	Biển số P.134 "Hết hạn chế tốc độ tối đa"	Báo hết đoạn đường hạn chế tốc độ tối đa	assets/images/boards/134.jpg
+47	1	Biển số P.135 "Hết tất cả các lệnh cấm"	Báo hết đoạn đường mà nhiều biển báo cấm cùng hết hiệu lực	assets/images/boards/135.jpg
+48	1	Biển số P.136 "Cấm đi thẳng"	Cấm tất cả các loại xe đi thẳng trên đoạn đường phía trước	assets/images/boards/136.jpg
+49	1	Biển số P.137 "Cấm rẽ trái và rẽ phải"	Cấm tất cả các lại xe rẽ trái hay rẽ phải trên các ngả đường phía trước	assets/images/boards/137.jpg
+50	1	Biển số P.138 "Cấm đi thẳng và rẽ trái"	Biểu thị đường qua nút giao cấm tất cả các loại xe đi thẳng và rẽ trái	assets/images/boards/138.jpg
+51	1	Biển số P.139 "Cấm đi thẳng và rẽ phải"	Biểu thị đường qua nút giao cấm tất cả các loại xe đi thẳng và rẽ phải	assets/images/boards/139.jpg
+52	1	Biển số P.140 "Cấm xe công nông"	Để báo đường cấm công nông	assets/images/boards/140.jpg
+53	2	Biển số P.301a "Hướng đi phải theo"	Các xe chỉ được đi thẳng (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301a.jpg
+54	2	Biển số P.301b "Hướng đi phải theo"	Các xe chỉ được rẽ phải (trừ xe được quyền ưu tiên theo quy định). Biển này được đặt ở sau  nơi đường giao nhau.	assets/images/boards/301b.jpg
+55	2	Biển số P.301c "Hướng đi phải theo"	Các xe chỉ được rẽ trái (trừ xe được quyền ưu tiên theo quy định). Biển này được đặt ở sau nơi đường giao nhau.	assets/images/boards/301c.jpg
+56	2	Biển số P.301d "Hướng đi phải theo"	Các xe chỉ được rẽ phải (trừ xe được quyền ưu tiên theo quy định). Biển này được đặt ở trước nơi đường giao nhau.	assets/images/boards/301d.jpg
+57	2	Biển số P.301e "Hướng đi phải theo"	Các xe chỉ được rẽ trái (trừ xe được quyền ưu tiên theo quy định).  Biển này được đặt ở trước nơi đường giao nhau.	assets/images/boards/301e.jpg
+58	2	Biển số P.301f  "Hướng đi phải theo"	Các xe chỉ được đi thẳng và rẽ phải (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301f.jpg
+59	2	Biển số P.301h "Hướng đi phải theo"	Các xe chỉ được đi thẳng và rẽ trái (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301h.jpg
+60	2	Biển số P.301i "Hướng đi phải theo"	Các xe chỉ được rẽ phải và rẽ trái (trừ xe được quyền ưu tiên theo quy định)	assets/images/boards/301i.jpg
+61	2	Biển số P.302a "Hướng phải đi vòng chướng ngại vật"	Báo các loại xe (cơ giới và thô sơ) hướng đi vòng sang phải để qua một chướng ngại vật 	assets/images/boards/302a.jpg
+62	2	Biển số P.302b "Hướng phải đi vòng chướng ngại vật"	Báo các loại xe (cơ giới và thô sơ) hướng đi vòng sang trái để qua một chướng ngại vật 	assets/images/boards/302b.jpg
+63	2	Biển số P.303 "Nơi giao nhau chạy theo vòng xuyến"	Báo cho các loại xe (thô sơ và cơ giới) phải chạy vòng theo đảo an toàn ở nơi đường giao nhau	assets/images/boards/303.jpg
+64	2	Biển số P.304 " Đường dành cho xe thô  sơ"	Báo đường dành cho xe thô sơ (kể cả xe của người tàn tật) và người đi bộ.	assets/images/boards/304.jpg
+65	2	Biển số P.305 "Đường dành cho người đi bộ"	Báo đường dành cho người đi bộ	assets/images/boards/305.jpg
+66	2	Biển số P.306 "Tốc độ tối thiểu cho phép"	Báo tốc độ tối thiểu cho phép các xe cơ giới chạy.	assets/images/boards/306.jpg
+67	2	Biển số P.307 "Hết hạn chế tốc độ tối thiểu",	Báo hết đoạn đường hạn chế tốc độ tối thiểu.	assets/images/boards/307.jpg
+68	2	Biển số P.308a "Tuyến đường cầu vượt cắt qua"	Biểu thị phía trước có cầu vượt, xe có thể đi thẳng hoặc theo chỉ dẫn trên hình vẽ để rẽ trái	assets/images/boards/308a.jpg
+69	2	Biển số P.308b "Tuyến đường cầu vượt cắt qua"	Biểu thị phía trước có cầu vượt, xe có thể đi thẳng hoặc theo chỉ dẫn trên hình vẽ để rẽ phải	assets/images/boards/308b.jpg
+70	2	Biển số P.309 "Ấn còi"	Biểu thị xe cộ đi đến vị trí cắm biển đó thì phải ấn còi.	assets/images/boards/309.jpg
+71	2	Biển số P.310a " Hướng đi phải theo cho các xe chở hàng nguy hiểm"	Báo cho các loại xe chở hàng nguy hiểm phải đi theo hướng quy định (rẽ trái)	assets/images/boards/310a.jpg
+72	2	Biển số P.310b " Hướng đi phải theo cho các xe chở hàng nguy hiểm"	Báo cho các loại xe chở hàng nguy hiểm phải đi theo hướng quy định (đi thẳng)	assets/images/boards/310b.jpg
+73	2	Biển số P.310c " Hướng đi phải theo cho các xe chở hàng nguy hiểm"	Báo cho các loại xe chở hàng nguy hiểm phải đi theo hướng quy định (rẽ phải)	assets/images/boards/310c.jpg
+74	3	Biển số P.401 "Bắt đầu đường ưu tiên"	Để biểu thị ưu tiên cho các phương tiện trên đường có đặt biển này được đi trước. Biển đặt tại vị trí thích hợp trước khi đường nhánh sắp nhập vào trục đường chính, yêu cầu phương tiện từ đường nhánh ra phải dừng lại nhường cho phương tiện trên đường chính đi trước. 	assets/images/boards/401.jpg
+75	3	Biển số P.402 "Hết đoạn đường ưu tiên"	Báo hiệu hết đoạn đường được ưu tiên	assets/images/boards/402.jpg
+76	3	Biển số P.403a "Đường dành cho ô tô"	Để chỉ dẫn bắt đầu đường dành cho các loại ôtô đi lại, các loại phương tiện giao thông khác không được phép đi vào đoạn đường có đặt biển này.	assets/images/boards/403a.jpg
+77	3	Biển số P.403b "Đường dành cho ô tô, xe máy"	Để chỉ dẫn bắt đầu đường dành cho các loại ôtô, xe máy (kể cả xe gắn máy) đi lại, các loại phương tiện giao thông khác không được phép đi vào đoạn đường có đặt biển này	assets/images/boards/403b.jpg
+78	3	Biển số P.404a "Hết đường dành cho ô tô"	Để chỉ dẫn hết đoạn đường dành cho ôtô đi lại	assets/images/boards/404a.jpg
+79	3	Biển số P.404b "Hết đường dành cho ô tô, xe máy"	Báo hiệu hết đoạn đường được ưu tiên	assets/images/boards/404b.jpg
+80	3	Biển số P.405a "Đường cụt"	Để chỉ dẫn đường cụt, lối rẽ vào đường cụt phía bên phải	assets/images/boards/405a.jpg
+81	3	Biển số P.405b "Đường cụt"	Để chỉ dẫn đường cụt, lối rẽ vào đường cụt phía bên trái	assets/images/boards/405b.jpg
+82	3	Biển số P.405c "Đường cụt"	Để chỉ dẫn phía trước là đường cụt, đặt trước đường cụt 300m đến 500m và cứ 100m phải đặt thêm một biển	assets/images/boards/405c.jpg
+83	3	Biển số P.406 "Được ưu tiên qua đường hẹp"	Để chỉ dẫn cho người lái xe cơ giới biết mình được quyền ưu tiên đi trước trên đoạn đường hẹp. Nếu trên hướng đi ngược chiều có xe (cơ giới hoặc thô sơ) đã đi vào phạm vi đường hẹp thì xe đi theo chiều ưu tiên cũng phải nhường đường.	assets/images/boards/406.jpg
+84	3	Biển số P.407 "Đường một chiều"	Để chỉ dẫn những đoạn đường chạy một chiều.	assets/images/boards/407.jpg
+85	3	Biển số P.408 "Nơi đỗ xe"	Để chỉ dẫn những nơi được phép đỗ xe, những bãi đỗ xe, bến xe v.v...	assets/images/boards/408.jpg
+86	3	Biển số P.409 "Chỗ quay xe"	Để chỉ dẫn vị trí được phép quay đầu xe. Biển không cho phép rẽ trái (trừ các xe được quyền ưu tiên theo quy định).	assets/images/boards/409.jpg
+87	3	Biển số P.410 "Khu vực quay xe"	Để chỉ dẫn khu vực được phép quay đầu xe , phải đặt biển số 410 "Khu vực quay xe". Trên biển mô tả cách thức tiến hành quay xe. Biển không cho phép rẽ trái (trừ các xe được quyền ưu tiên theo quy định).	assets/images/boards/410.jpg
+88	3	Biển số P.411 "Hướng đi trên mỗi làn đường theo vạch kẻ đường"	Để chỉ dẫn cho người lái xe biết số lượng làn đường trên mặt đường và hướng đi trên mỗi làn đường theo vạch kẻ đường.	assets/images/boards/411.jpg
+89	3	Biển số P.412 "Làn đường dành riêng cho từng loại xe"	Để chỉ dẫn cho người lái xe biết có làn đường dành riêng cho từng loại xe riêng biệt. 	assets/images/boards/412.jpg
+90	3	Biển số P.413a "Đường có làn đường dành cho ô tô khách"	Để chỉ dẫn khu vực được phép quay đầu xe , phải đặt biển số 410 "Khu vực quay xe". Trên biển mô tả cách thức tiến hành quay xe. Biển không cho phép rẽ trái (trừ các xe được quyền ưu tiên theo quy định).	assets/images/boards/413a.jpg
+91	3	Biển số P.413b "Đường có làn đường dành cho ô tô khách"	Để chỉ dẫn cho người lái xe biết ở nơi đường giao nhau rẽ phải là rẽ ra đường có làn đường dành cho ôtô khách	assets/images/boards/413b.jpg
+92	3	Biển số P.413c "Đường có làn đường dành cho ô tô khách"	Để chỉ dẫn cho người lái xe biết ở nơi đường giao nhau rẽ trái là rẽ ra đường có làn đường dành cho ôtô khách	assets/images/boards/413c.jpg
+93	3	Biển số P.414a "Chỉ hướng đường" 	Đặt ở nơi đường giao nhau và chỉ có một địa danh và khu dân cư trên hướng đường cần phải chỉ dẫn	assets/images/boards/414a.jpg
+94	3	Biển số P.414b "Chỉ hướng đường" 	Đặt ở nơi đường giao nhau và chỉ có một địa danh và khu dân cư trên hướng đường cần phải chỉ dẫn. 	assets/images/boards/414b.jpg
+95	3	Biển số P.414c "Chỉ hướng đường" 	Đặt ở nơi đường giao nhau có từ hai địa danh, khu dân cư cần phải chỉ dẫn trên biển. Địa danh xa hơn phải viết phía dưới. 	assets/images/boards/414c.jpg
+96	3	Biển số P.414d"Chỉ hướng đường" 	Đặt ở nơi đường giao nhau có từ hai địa danh, khu dân cư cần phải chỉ dẫn trên biển. Địa danh xa hơn phải viết phía dưới. 	assets/images/boards/414d.jpg
+97	3	Biển số P.415 "Mũi tên chỉ hướng đi"	Được đặt trong khu đông dân cư, ở các đường giao nhau để chỉ dẫn hướng đi đến một địa danh lân cận tiếp theo và khoảng cách (km) đến nơi đó. Nếu biển này đặt trên đường cao tốc thì phía bên trái biển có thêm hình vẽ đường cao tốc.	assets/images/boards/415.jpg
+98	3	Biển số P.416 "Lối đi đường vòng tránh"	Đặt trước các đường giao nhau, để chỉ dẫn lối đi đường tránh, đường vòng trong trường hợp đường chính bị tắc, hoặc đường chính cấm một số loại xe đi qua	assets/images/boards/411.jpg
+99	3	Biển số P.417a "Chỉ hướng đường phải đi cho từng loại xe" 	Đặt ở các đường giao nhau trong trường hợp cấm hoặc hạn chế một số loại xe, phải có biển để chỉ hướng đường phải đi cho từng loại xe đến một khu dân cư tiếp theo. 	assets/images/boards/417a.jpg
+100	3	Biển số P.417b "Chỉ hướng đường phải đi cho từng loại xe" 	Đặt ở các đường giao nhau trong trường hợp cấm hoặc hạn chế một số loại xe, phải có biển để chỉ hướng đường phải đi cho từng loại xe đến một khu dân cư tiếp theo. 	assets/images/boards/417b.jpg
+101	3	Biển số P.417c "Chỉ hướng đường phải đi cho từng loại xe" 	Đặt ở các đường giao nhau trong trường hợp cấm hoặc hạn chế một số loại xe, phải có biển để chỉ hướng đường phải đi cho từng loại xe đến một khu dân cư tiếp theo. 	assets/images/boards/417c.jpg
+102	3	Biển số P.418 "Lối đi ở những vị trí cấm rẽ" 	Để chỉ lối đi ở các nơi đường giao nhau bị cấm rẽ. Biển được đặt ở nơi đường giao nhau trước đường cấm rẽ. 	assets/images/boards/418.jpg
+103	3	Biển số P.419 "Chỉ dẫn địa giới"	Để chỉ dẫn địa giới hành chính giữa các thành phố, tỉnh, huyện	assets/images/boards/419.jpg
+104	3	Biển số P.420 "Bắt đầu khu đông dân cư" 	Để chỉ dẫn bắt đầu vào phạm vi khu đông dân cư, người sử dụng đường biết phạm vi phải tuân theo những quy định đi đường được áp dụng ở khu đông dân cư.	assets/images/boards/420.jpg
+105	3	Biển số P.421 "Hết khu đông dân cư" 	Để chỉ dẫn hết phạm vi khu đông dân cư, người sử dụng đường biết phạm vi phải tuân theo những quy định đi đường được áp dụng ở khu đông dân cư đã hết hiệu lực.	assets/images/boards/421.jpg
+106	3	Biển số P.422 "Di tích lịch sử"	Để chỉ dẫn những nơi có di tích lịch sử hoặc những nơi có danh lam thắng cảnh, những nơi có thể thăm quan v.v... ở hai ven đường	assets/images/boards/422.jpg
+107	3	Biển số P.423a "Đường người đi bộ sang ngang" 	Để chỉ dẫn cho người đi bộ và người lái xe biết nơi dành cho người đi bộ sang ngang. Biển này được sử dụng độc lập ở những vị trí sang ngang, đường không có tổ chức điều khiển giao thông hoặc có thể sử dụng phối hợp với vạch kẻ đường. Gặp biển này người lái xe phải điều khiển xe chạy chậm, chú ý quan sát, ưu tiên cho người đi bộ sang ngang.	assets/images/boards/423a.jpg
+108	3	Biển số P.423b "Đường người đi bộ sang ngang" 	Để chỉ dẫn cho người đi bộ và người lái xe biết nơi dành cho người đi bộ sang ngang. Biển này được sử dụng độc lập ở những vị trí sang ngang, đường không có tổ chức điều khiển giao thông hoặc có thể sử dụng phối hợp với vạch kẻ đường. Gặp biển này người lái xe phải điều khiển xe chạy chậm, chú ý quan sát, ưu tiên cho người đi bộ sang ngang.	assets/images/boards/423b.jpg
+109	3	Biển số P.424a "Cầu vượt qua đường cho người đi bộ"	Để chỉ dẫn cho người đi bộ sử dụng cầu vượt qua đường. 	assets/images/boards/424a.jpg
+110	3	Biển số P.424b "Cầu vượt qua đường cho người đi bộ"	Để chỉ dẫn cho người đi bộ sử dụng cầu vượt qua đường. 	assets/images/boards/424b.jpg
+111	3	Biển số P.424c "Hầm chui qua đường cho người đi bộ"	Để chỉ dẫn cho người đi bộ sử dụng hầm chui qua đường.	assets/images/boards/424c.jpg
+112	3	Biển số P.424d "Hầm chui qua đường cho người đi bộ"	Để chỉ dẫn cho người đi bộ sử dụng hầm chui qua đường.	assets/images/boards/424d.jpg
+113	3	Biển số P.425 "Bệnh viện"	Để chỉ dẫn sắp đến cơ sở điều trị bệnh ở gần đường như bệnh viện, bệnh xá, trạm xá v.v... Gặp biển này người lái xe đi chậm, chú ý quan sát và không sử dụng còi.	assets/images/boards/425.jpg
+114	3	Biển số P.426 "Trạm cấp cứu"	Để chỉ dẫn nơi có trạm cấp cứu y tế ở gần đường	assets/images/boards/426.jpg
+115	3	Biển số P.427a "Trạm sửa chữa"	Để chỉ dẫn nơi đặt xưởng, trạm chuyên phục vụ sửa chữa ôtô, môtô hỏng trên đường	assets/images/boards/427a.jpg
+116	3	Biển số P.427b “Trạm kiểm tra tải trọng xe” 	Để chỉ dẫn nơi đặt trạm kiểm tra tải trọng xe	assets/images/boards/427b.jpg
+117	3	Biển số P.428 "Trạm cung cấp xăng dầu"	Để chỉ dẫn những nơi có đặt trạm kinh doanh xăng dầu phục vụ cho xe cộ đi trên đường	assets/images/boards/428.jpg
+118	3	Biển số P.429 "Nơi rửa xe"	Để chỉ dẫn những nơi có bố trí rửa xe	assets/images/boards/429.jpg
+119	3	Biển số P.430 "Điện thoại"	Để chỉ dẫn những nơi có đặt trạm điện thoại công cộng chuyên phục vụ khách đi đường	assets/images/boards/430.jpg
+120	3	Biển số P.431 "Trạm dừng nghỉ"	Để chỉ dẫn những nơi có các dịch vụ phục vụ khách đi đường (ăn uống nghỉ ngơi, cung cấp nhiên liệu…). Tùy trạm dừng nghỉ có dịch vụ gì mà bố trí các biểu tượng hình vẽ cho phù hợp.	assets/images/boards/431.jpg
+121	3	Biển số P.432 "Khách sạn"	Để chỉ dẫn nơi có khách sạn phục vụ khách đi đường	assets/images/boards/432.jpg
+122	3	Biển số P.433 "Nơi nghỉ mát"	Để chỉ dẫn nơi nghỉ mát	assets/images/boards/433.jpg
+123	3	Biển số P.434 "Bến xe buýt"	Để chỉ dẫn chỗ dừng đỗ xe buýt cho khách lên xuống	assets/images/boards/434.jpg
+124	3	Biển số P.435 "Bến xe điện"	Để chỉ dẫn chỗ dừng đỗ xe điện cho khách lên xuống	assets/images/boards/435.jpg
+125	3	Biển số P.436 "Trạm cảnh sát giao thông"	Để chỉ dẫn nơi đặt trạm cảnh sát giao thông. Các phương tiện phải giảm tốc độ đến mức an toàn và không được vượt khi đi qua khu vực này.	assets/images/boards/436.jpg
+126	3	Biển số P.437 “Đường cao tốc”	Để chỉ dẫn bắt đầu đường cao tốc	assets/images/boards/437.jpg
+127	3	Biển số P.438 “Hết đường cao tốc”	Để chỉ hết đường cao tốc	assets/images/boards/438.jpg
+128	3	Biển số P.439 "Tên cầu"	Để chỉ các thông tin về một cây cầu	assets/images/boards/439.jpg
+129	3	Biển số P.440 "Đoạn đường thi công"	Để chỉ dẫn những đoạn đường đang thi công sửa chữa hoặc nâng cấp cải tạo	assets/images/boards/440.jpg
+130	3	Biển số P.441a "Báo hiệu phía trước có công trường thi công"	Để báo cho người sử dụng đường biết phía trước có công trườngthi công, sửa chữa hoặc nâng cấp. Biển số 441(a,b,c) được đặt ở hai đầu đoạn thi công và cách hai đầu đoạn thi công 500m trước biển số 440.	assets/images/boards/441a.jpg
+131	3	Biển số P.441a "Báo hiệu phía trước có công trường thi công"	Để báo cho người sử dụng đường biết phía trước có công trườngthi công, sửa chữa hoặc nâng cấp. Biển số 441(a,b,c) được đặt ở hai đầu đoạn thi công và cách hai đầu đoạn thi công 100m trước biển số 440.	assets/images/boards/441b.jpg
+132	3	Biển số P.441a "Báo hiệu phía trước có công trường thi công"	Để báo cho người sử dụng đường biết phía trước có công trườngthi công, sửa chữa hoặc nâng cấp. Biển số 441(a,b,c) được đặt ở hai đầu đoạn thi công và cách hai đầu đoạn thi công 50m trước biển số 440.	assets/images/boards/441c.jpg
+133	3	Biển số P.442 "Chợ"	Để báo sắp đến khu vực có chợ gần đường, xe cơ giới qua lại khu vực này phải chú ý quan sát, giảm tốc độ.	assets/images/boards/442.jpg
+134	3	Biển số P.443 "Xe kéo moóc"	Để báo hiệu xe có kéo moóc hoặc xe kéo xe, biển này được đặt trên nóc xe kéo.	assets/images/boards/443.jpg
+135	3	Biển số P.444a "Biển báo ga xe lửa" 	Nhằm chỉ dẫn cho người đi đường biết hướng đến ga xe lửa đặt biển ở trước nơi đường giao nhau chỉ hướng vào ga xe lửa.	assets/images/boards/444a.jpg
+136	3	Biển số P.444b "Biển báo sân bay" 	Nhằm chỉ dẫn cho người đi đường biết hướng đến sân bay đặt biển ở trước nơi đường giao nhau với đường vào sân bay.	assets/images/boards/444b.jpg
+137	3	Biển số P.444c "Biển báo bến xe khách đường dài" 	Nhằm chỉ dẫn cho người đi đường biết hướng bến xe khách đường dài đặt biển ở trước nơi đường giao nhau với đường vào bến xe khách đường dài.	assets/images/boards/444c.jpg
+138	3	Biển số P.444d "Biển báo bãi đậu xe" 	Nhằm chỉ dẫn cho người đi đường biết hướng đến bãi đậu xe đặt biển ở trước nơi đường giao nhau với đường vào bãi đậu xe.	assets/images/boards/444b.jpg
+139	3	Biển số P.444e "Biển báo trạm cấp cứu" 	Nhằm chỉ dẫn cho người đi đường biết hướng đến trạm cấp cứu, đặt biển ở nơi đường giao nhau với đường vào bệnh viện và trạm cấp cứu	assets/images/boards/444e.jpg
+140	3	Biển số P.444f "Biển báo bến tàu khách" 	Nhằm chỉ dẫn cho người đi đường biết hướng đến bến tàu khách đặt biển ở trước nơi đường giao nhau với đường vào bến tàu khách	assets/images/boards/444f.jpg
+141	4	Biển số P.201a "Chỗ ngoặt nguy hiểm vòng bên trái"	Báo trước sắp đến một chỗ ngoặt nguy hiểm phía bên trái	assets/images/boards/201a.jpg
+142	4	Biển số P.201b "chỗ ngoặt nguy hiểm vòng bên phải"	Báo trước sắp đến một chỗ ngoặt nguy hiểm phía bên phải	assets/images/boards/201b.jpg
+143	4	Biển số P.202a "Nhiều chỗ ngoặt nguy hiểm liên tiếp"	Báo trước sắp đến nhiều chỗ ngoặt nguy hiểm liên tiếp trong đó chỗ ngoặt đầu tiên hướng vòng bên trái	assets/images/boards/202a.jpg
+144	4	Biển số P.202b "Nhiều chỗ ngoặt nguy hiểm liên tiếp"	Báo trước sắp đến nhiều chỗ ngoặt nguy hiểm liên tiếp trong đó chỗ ngoặt đầu tiên hướng vòng bên phải	assets/images/boards/202b.jpg
+145	4	Biển số P.203a "Đường bị hẹp cả hai bên"	Báo trước sắp đến một đoạn đường bị hẹp đột ngột cả hai bên	assets/images/boards/203a.jpg
+146	4	Biển số P.203b "Đường bị hẹp về phía trái"	Báo trước sắp đến một đoạn đường bị hẹp đột ngột phía bên trái	assets/images/boards/203b.jpg
+147	4	Biển số P.203c "Đường bị hẹp về phía phải"	Báo trước sắp đến một đoạn đường bị hẹp đột ngột phía bên phải	assets/images/boards/203c.jpg
+148	4	Biển số P.204 "Đường hai chiều"	Báo trước sắp đến đoạn đường hai chiều	assets/images/boards/204.jpg
+149	4	Biển số P.205a "Đường giao nhau cùng cấp"	Báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên)  trên cùng một mặt bằng	assets/images/boards/205a.jpg
+150	4	Biển số P.205b "Đường giao nhau cùng cấp"	Báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên)  trên cùng một mặt bằng	assets/images/boards/205b.jpg
+151	4	Biển số P.205c "Đường giao nhau cùng cấp"	Báo trước sắp đến nơi giao nhau cùng mức của các tuyến đường cùng cấp (không có đường nào ưu tiên)  trên cùng một mặt bằng	assets/images/boards/205c.jpg
+152	4	Biển số P.206 "Giao nhau chạy theo vòng xuyến"	Báo trước nơi giao nhau có bố trí đảo an toàn ở giữa nút giao.	assets/images/boards/206.jpg
+153	4	Biển số P.207a "Giao nhau với đường không ưu tiên"	Báo trước sắp đến nơi giao nhau với đường không ưu tiên	assets/images/boards/207a.jpg
+154	4	Biển số P.207b "Giao nhau với đường không ưu tiên"	Báo trước sắp đến nơi giao nhau với đường không ưu tiên	assets/images/boards/207b.jpg
+155	4	Biển số P.208 "Giao nhau với đường ưu tiên"	Để báo trước sắp đến nơi giao nhau với đường ưu tiên	assets/images/boards/208.jpg
+156	4	Biển số P.209 "Giao nhau có tín hiệu đèn"	Báo trước nơi giao nhau có điều khiển giao thông bằng tín hiệu đèn.	assets/images/boards/209.jpg
+157	4	Biển số P.210 " Giao nhau với đường sắt có rào chắn"	Báo trước sắp đến nơi giao nhau với đường không ưu tiên	assets/images/boards/210.jpg
+158	4	Biển số P.211a "Giao nhau với đường sắt không có rào chắn"	Báo trước sắp đến chỗ giao nhau giữa đường bộ và đường sắt không có rào chắn, không có người điều khiển giao thông	assets/images/boards/211a.jpg
+159	4	Biển số P.211b "Giao nhau với đường tàu điện"	Chỉ nơi đường bộ giao nhau cùng mức với đường tàu điện	assets/images/boards/211b.jpg
+160	4	Biển số P.212"Cầu hẹp"	Báo trước sắp đến cầu hẹp là loại cầu có chiều rộng phần xe chạy nhỏ hơn hoặc bằng 4,5m	assets/images/boards/212.jpg
+161	4	Biển số P.213 "Cầu tạm"	Báo trước sắp đến cầu tạm là loại cầu được làm để sử dụng tạm thời cho xe cộ qua lại	assets/images/boards/213.jpg
+162	4	Biển số P.214 "Cầu quay-cầu cất"	Báo phía trước gặp cầu xoay, cầu cất là loại cầu trong từng thời gian có cắt giao thông đường bộ bằng cách quay hoặc nâng nhịp thông thuyền để cho tàu thuyền qua lại	assets/images/boards/214.jpg
+163	4	Biển số P.215 "Kè, vực sâu phía trước"	Báo trước sắp tới những vị trí có kè chắn vực sâu, hoặc sông suối đi sát đường, cần đề phòng tình huống nguy hiểm rơi xuống vực sâu hoặc sông su ối (thường có ở những chỗ ngoặt nguy hiểm)	assets/images/boards/215.jpg
+164	4	Biển số P.216 "Đường ngầm"	Báo trước những vị trí có đường ngầm (đường tràn) phải đặt biển số 216 "Đường ngầm"	assets/images/boards/216.jpg
+165	4	Biển số P.217 "Bến phà"	Báo trước sắp đến bến phà	assets/images/boards/217.jpg
+166	4	Biển số P.218 "Cửa chui"	Để báo trước sắp đến đường có cổng chắn ngang, kiểu cổng như đường hầm, cổng thành, cầu vượt đường bộ dạng cầu vòm v.v...	assets/images/boards/218.jpg
+167	4	Biển số P.219 "Dốc xuống nguy hiểm"	 Báo trước sắp tới đoạn đường xuống dốc nguy hiểm	assets/images/boards/219.jpg
+168	4	Biển số P.220 "Dốc lên nguy hiểm"	Báo trước sắp tới đoạn đường lên dốc nguy hiểm	assets/images/boards/220.jpg
+169	4	Biển số P.221a "Đường có ổ gà, lồi lõm"	Đặt trong trường hợp đường đang tốt, xe chạy nhanh, chuyển sang những đoạn lồi lõm, gập ghềnh, ổ gà, lượn sóng	assets/images/boards/221a.jpg
+170	4	Biển số P.221b "Đường có sóng mấp mô nhân tạo" 	Để báo trước sắp đến đường có cổng chắn ngang, kiểu cổng như đường hầm, cổng thành, cầu vượt đường bộ dạng cầu vòm v.v...	assets/images/boards/221b.jpg
+171	4	Biển số P.222a "Đường trơn"	Báo trước sắp tới đoạn đường có thể xảy ra trơn trượt đặc biệt là khi thời tiết xấu, mưa phùn (hệ số bám của lốp với mặt đường < 0,3) cần tránh hãm phanh, tăng ga, sang số đột ngột hoặc xe chạy với tốc độ cao sẽ bị nguy hiểm	assets/images/boards/222a.jpg
+172	4	Biển số P.222b "Lề đường nguy hiểm"	Báo những nơi lề đường không ổn định, khi xe đi vào dễ gây văng đất đá hoặc bánh xe quay tại chỗ	assets/images/boards/222b.jpg
+173	4	Biển số P.223a "Vách núi nguy hiểm"	Báo hiệu sắp đi vào đoạn đường đi sát vách núi nằm ở bên tay trái, đường vừa hẹp vừa hạn chế tầm nhìn, người lái xe phải cẩn thận	assets/images/boards/223a.jpg
+174	4	Biển số P.223b "Vách núi nguy hiểm"	Báo hiệu sắp đi vào đoạn đường đi sát vách núi nằm ở bên tay phải, đường vừa hẹp vừa hạn chế tầm nhìn, người lái xe phải cẩn thận	assets/images/boards/223b.jpg
+175	4	Biển số P.224 "Đường người đi bộ cắt ngang"	Báo trước sắp tới phần đường dành cho người đi bộ sang qua đường. Gặp biển này các xe phải giảm tốc độ, nhường ưu tiên cho người đi bộ và chỉ được chạy xe khi không gây nguy hiểm cho người đi bộ.	assets/images/boards/224.jpg
+176	4	Biển số P.225 "Trẻ em"	Để báo trước là gần đến đoạn đường thường có trẻ em đi ngang qua hoặc tụ tập trên đường như ở vườn trẻ, trường học, câu lạc bộ	assets/images/boards/225.jpg
+177	4	Biển số P.226 "Đường người đi xe đạp cắt ngang"	Báo trước là gần tới vị trí thường có người đi xe đạp từ những đường nhỏ cắt ngang qua hoặc từ đường dành cho xe đạp đi nhập vào đường ôtô	assets/images/boards/226.jpg
+178	4	Biển số P.227 "Công trường"	Báo trước gần tới đoạn đường đang tiến hành thi công sửa chữa, cải tạo, nâng cấp có người và máy móc đang làm việc trên mặt đường. Khi gặp biển báo này tốc độ xe chạy phải giảm cho thích hợp, không gây nguy hiểm cho người và máy móc trên đoạn đường đó	assets/images/boards/227.jpg
+179	4	Biển số P. 228a "Đá lở"	Báo trước gần tới đoạn đường có hiện tượng đất đá từ trên ta luy dương sụt lở bất ngờ gây nguy hiểm cho xe cộ và người đi đường, đặc biệt là ở những đoạn đường miền núi. Gặp biển này, người lái xe phải chú ý; đặc biệt khi thời tiết xấu, hạn chế tầm nhìn, không dừng hay đỗ xe trong khu vực đá lở sau những trận mưa lớn.	assets/images/boards/228a.jpg
+180	4	Biển số P.228b "Đá lở"	Báo trước gần tới đoạn đường có hiện tượng đất đá từ trên ta luy dương sụt lở bất ngờ gây nguy hiểm cho xe cộ và người đi đường, đặc biệt là ở những đoạn đường miền núi. Gặp biển này, người lái xe phải chú ý; đặc biệt khi thời tiết xấu, hạn chế tầm nhìn, không dừng hay đỗ xe trong khu vực đá lở sau những trận mưa lớn.	assets/images/boards/228b.jpg
+181	4	Biển số P.228c "Sỏi đá bắn lên"	Báo trước nơi có kết cấu mặt đường rời rạc, khi phương tiện đi qua, làm cho các viên đá, sỏi băng lên gây nguy hiểm và mất an toàn cho người và phương tiện tham gia giao thông	assets/images/boards/228c.jpg
+182	4	Biển số P.229 "Giải máy bay lên xuống"	Báo trước đoạn đường ở vùng sát đường băng sân bay và cắt ngang qua hướng máy bay lên xuống ở độ cao không lớn.	assets/images/boards/229.jpg
+183	4	Biển số P.230 "Gia súc"	Báo trước gần tới đoạn đường thường có gia súc thả rông hoặc lùa qua ngang đường, đường ở vùng đồng cỏ của nông trường chăn nuôi, vùng thảo nguyên... Người lái xe có trách nhiệm đi chậm, quan sát và dừng lại bảo đảm cho gia súc có thể qua đường không bị nguy hiểm.	assets/images/boards/230.jpg
+184	4	Biển số P.231 "Thú rừng vượt qua đường"	Báo trước gần tới đoạn đường thường có thú rừng qua đường như đường đi qua rừng hay khu vực bảo tồn thiên nhiên cấm săn bắn. Người lái xe phải đi chậm, chú ý quan sát hai bên đường và thận trọng đề phòng tai nạn.	assets/images/boards/231.jpg
+185	4	Biển số P.232 "Gió ngang"	Báo trước gần tới đoạn đường thường có gió ngang thổi mạnh gây nguy hiểm. Người lái xe cần phải điều chỉnh tốc độ xe chạy cho thích hợp, đề phòng gió thổi mạnh gây lật xe.	assets/images/boards/232.jpg
+186	4	Biển số P.233 "Nguy hiểm khác"	Báo trên đường có những nguy hiểm mà không thể vận dụng được các kiểu biển từ biển số 201a đến biển số 232	assets/images/boards/233.jpg
+187	4	Biển số P.234 "Giao nhau với đường hai chiều"	Đặt trên đường một chiều, để báo trước sắp đến vị trí giao nhau với đường hai chiều	assets/images/boards/234.jpg
+188	4	Biển số P.235 "Đường đôi"	Báo trước sắp đến đoạn đường có chiều đi và chiều về phân biệt bằng giải phân cách cứng	assets/images/boards/235.jpg
+189	4	Biển số P.236 "Hết đường đôi	Báo trước sắp kết thúc đoạn đường có chiều đi và chiều về phân biệt bằng giải phân cách cứng	assets/images/boards/236.jpg
+190	4	Biển số P.237 "Cầu vồng"	Đặt ở trên đoạn đường sắp đến công trình có độ vồng lớn ảnh hưởng tới tầm nhìn, nhắc nhở lái xe lái cẩn thận	assets/images/boards/237.jpg
+191	4	Biển số P.238 "Đường cao tốc phía trước"	Được đặt trên đường nhánh nhập vào đường cao tốc để báo cho các phương tiện đi trên đường này biết có Đường cao tốc ở phía trước	assets/images/boards/238.jpg
+192	4	Biển số P.239 "Đường cáp điện ở phía trên"	Được đặt Ở những nơi có đường dây điện cắt ngang phía trên tuyến đường	assets/images/boards/239.jpg
+193	4	Biển số P.240 " Đường hầm"	Nhắc lái xe chú ý chuẩn bị đi vào hầm đường bộ. Biển đặt ở bên phải chiều đi trước khi vào hầm.	assets/images/boards/240.jpg
+194	4	Biển số P.241 "Ùn tắc giao thông"	Báo đoạn đường hay xảy ra ùn tắc giao thông	assets/images/boards/241.jpg
+195	4	Biển số P.242a "Nơi đường sắt giao vuông góc với đường bộ"	Bổ sung cho biển số 211 "Giao nhau với đường sắt không có rào chắn", để chỉ chỗ đường sắt giao vuông góc đường bộ, và tại chỗ giao nhau đường sắt chỉ có một đường cắt ngang đường bộ	assets/images/boards/242a.jpg
+196	4	Biển số P.242b "Nơi đường sắt giao vuông góc với đường bộ"	Bổ sung cho biển số 211 "Giao nhau với đường sắt không có rào chắn", để chỉ chỗ đường sắt giao vuông góc đường bộ, và tại chỗ giao nhau đường sắt có từ hai đường cắt ngang đường bộ	assets/images/boards/242b.jpg
+197	4	Biển số P.243a "Nơi đường sắt giao không vuông góc với đường bộ "	Đặt ở nơi cách ray ngoài cùng nơi giao đường sắt 50m, báo trước sắp đến vị trí giao cắt đường bộ với đường sắt cùng mức, không vuông góc và không có người gác, không có rào chắn.	assets/images/boards/243a.jpg
+198	4	Biển số P.243b "Nơi đường sắt giao không vuông góc với đường bộ "	Đặt ở nơi cách ray ngoài cùng nơi giao đường sắt 100m, báo trước sắp đến vị trí giao cắt đường bộ với đường sắt cùng mức, không vuông góc và không có người gác, không có rào chắn.	assets/images/boards/243b.jpg
+199	4	Biển số P.243c "Nơi đường sắt giao không vuông góc với đường bộ "	Đặt ở nơi cách ray ngoài cùng nơi giao đường sắt 150m, báo trước sắp đến vị trí giao cắt đường bộ với đường sắt cùng mức, không vuông góc và không có người gác, không có rào chắn.	assets/images/boards/243c.jpg
+200	4	Biển số P.244 "Đoạn đường hay xảy ra tai nạn"	Cảnh báo nguy hiểm đoạn đường phía trước thường xảy ra tai nạn để lái xe cần đặc biệt chú ý	assets/images/boards/244.jpg
+201	4	Biển số P.245a "Đi chậm"	Nhắc lái xe giảm tốc độ đi chậm	assets/images/boards/245a.jpg
+202	4	Biển số P.245b "Đi chậm"	Nhắc lái xe giảm tốc độ đi chậm, đối với các tuyến đường đối ngoại	assets/images/boards/245b.jpg
+203	4	Biển số P.246a "Chú ý chướng ngại vật - Vòng tránh ra hai bên"	Báo trước cho lái xe biết phía trước có chướng ngại vật, xe cần giảm tốc độ và đi vòng tránh ra hai bên	assets/images/boards/246a.jpg
+204	4	Biển số P.246b "Chú ý chướng ngại vật - Vòng tránh sang bên trái"	Báo trước cho lái xe biết phía trước có chướng ngại vật, xe cần giảm tốc độ và đi vòng tránh sang bên trái	assets/images/boards/246b.jpg
+205	4	Biển số P.246c "Chú ý chướng ngại vật - Vòng tránh sang bên phải"	Báo trước cho lái xe biết phía trước có chướng ngại vật, xe cần giảm tốc độ và đi vòng tránh sang bên phải	assets/images/boards/246c.jpg
+206	4	Biển số P.247 "Chú ý xe đỗ"	Cảnh báo có các loại xe ô tô; máy kéo; rơ moóc hoặc sơ mi rơ moóc được kéo bởi xe ô tô hoặc ôtô đầu kéo; xe máy chuyên dùng đang đỗ chiếm một phần đường xe chạy (biển này tương tự, chỉ lộn ngược đầu so với biển báo nguy hiểm số 208 "Giao nhau với đường ưu tiên")	assets/images/boards/247.jpg
+207	5	Biển số P.501 "Phạm vi tác dụng của biển"	Để thông báo chiều dài đoạn đường nguy hiểm hoặc cấm hoặc hạn chế bên dưới một số biển báo nguy hiểm, biển báo cấm hoặc hạn chế	assets/images/boards/501.jpg
+208	5	Biển số P.502 "Khoảng cách đến đối tượng báo hiệu"	Bên dưới các loại biển báo nguy hiểm, biển báo cấm, biển hiệu lệnh và chỉ dẫn, thông báo khoảng cách thực tế từ vị trí đặt biển đến đối tượng báo hiệu ở phía trước.	assets/images/boards/502.jpg
+209	5	Biển số P.503a "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503a.jpg
+210	5	Biển số P.503b "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503b.jpg
+211	5	Biển số P.503c "Hướng tác dụng của biển"	Đặt bên dưới các biển báo cấm, biển hiệu lệnh để chỉ hướng tác dụng của biển là hướng vuông góc với chiều đi.	assets/images/boards/503c.jpg
+212	5	Biển số P.504 "Làn đường"	Đặt bên trên làn đường và dưới các biển báo cấm và biển hiệu lệnh hay bên dưới đèn tín hiệu để chỉ làn đường chịu hiệu lực của biển báo hay đèn tín hiệu.	assets/images/boards/504.jpg
+213	5	Biển số P.505a "Loại xe"	Đặt bên dưới các biển báo cấm và biển hiệu lệnh hay biển chỉ dẫn để chỉ loại xe chịu hiệu lực của biển báo cấm, biển hiệu lệnh hay biển chỉ dẫn. 	assets/images/boards/505a.jpg
+214	5	Biển số P.505b "Loại xe hạn chế qua cầu"	Đặt bên dưới biển báo số 106a “Cấm ôtô tải” để chỉ các loại xe tải chịu hiệu lực của biển báo và trọng lượng lớn nhất cho phép	assets/images/boards/505b.jpg
+215	5	Biển số P.505c "Tải trọng trục hạn chế qua cầu"	Đặt bên dưới biển báo số 106a “Cấm ôtô tải” để chỉ các loại xe tải có tải  trọng  trục  lớn nhất cho phép tương ứng với mỗi loại  trục	assets/images/boards/505c.jpg
+216	5	Biển số P.506a "Hướng đường ưu tiên""	Đặt bên dưới biển chỉ dẫn số 401 trên đường ưu tiên để chỉ dẫn cho người lái xe trên đường này biết hướng đường ưu tiên ở ngã tư.	assets/images/boards/506a.jpg
+217	5	Biển số P.506b "Hướng đường ưu tiên""	Đặt bên dưới biển số 208 và biển số 122 trên đường không ưu tiên để chỉ dẫn cho người lái xe trên đường này biết hướng đường ưu tiên ở ngã tư.	assets/images/boards/506b.jpg
+218	5	Biển số P.507 "Hướng rẽ"	Được sử dụng độc lập để báo trước cho người tham gia giao thông biết chuẩn bị đến chỗ rẽ nguy hiểm và để chỉ hướng rẽ.	assets/images/boards/507.jpg
+219	5	Biển số P.508a "Biểu thị thời gian"	Được đặt dưới biển báo cấm hoặc biển hiệu lệnh nhằm quy định phạm vi thời gian hiệu lực của các biển báo cấm, biển hiệu lệnh cho phù hợp yêu cầu.	assets/images/boards/508a.jpg
+220	5	Biển số P.508b "Biểu thị thời gian"	Được đặt dưới biển báo cấm hoặc biển hiệu lệnh nhằm quy định phạm vi thời gian hiệu lực của các biển báo cấm, biển hiệu lệnh cho phù hợp yêu cầu.	assets/images/boards/508b.jpg
+221	5	Biển số P.509a "Thuyết minh biển chính"	Để bổ sung cho biển số 239 "Đường cáp điện ở phía trên", phải đặt biển số 509a "Chiều cao an toàn" bên dưới biển số 239, biển này chỉ rõ chiều cao cho các phương tiện đi qua an toàn.	assets/images/boards/509a.jpg
+222	5	Biển số P.509b "Thuyết minh biển chính"	Để bổ sung cho biển số 130 "Cấm dừng, đỗ xe", biển số 131 (a,b,c) "Cấm đỗ xe", phải đặt thêm biển số 509b "Cấm đỗ xe" bên dưới biển số 130, 131 (a,b,c)	assets/images/boards/509b.jpg
