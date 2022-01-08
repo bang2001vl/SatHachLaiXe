@@ -97,8 +97,8 @@ abstract class AuthRepo {
     log("Auth: Logout");
     if (needComfirm) {
       var result = await showYesNoDialog("Đăng xuất",
-          "Bạn sẽ đăng xuất tài khoản khỏi thiết bị này", "Tiếp tục", "Hủy");
-      if (result == 2) {
+          "Bạn sẽ đăng xuất tài khoản khỏi thiết bị này", "Hủy", "Đăng xuất");
+      if (result == 1) {
         return -1;
       }
     }

@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: 160.h,
+              height: 180.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/homebg.png"),
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 60.h),
+                        padding: EdgeInsets.only(top: 50.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

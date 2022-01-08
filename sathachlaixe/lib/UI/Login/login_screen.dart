@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:sathachlaixe/UI/Component/return_button.dart';
+import 'package:sathachlaixe/UI/Home/home_screen.dart';
 import 'package:sathachlaixe/UI/Login/Register_Screen.dart';
 import 'package:sathachlaixe/UI/Style/text_style.dart';
 import 'package:sathachlaixe/UI/Style/color.dart';
@@ -28,7 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
     var result = await repository.auth
         .login(_email, _password, needSaveAuth: _needSaved);
     if (result == 1) {
-      wid.Navigator.pop(context, "OK");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     } else if (result == -1) {
       showNotifyMessage("Thất bại", "Không thể kết nối đến máy chủ");
     } else if (result == -402) {
@@ -108,36 +110,38 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: 10.h,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(4),
-                            ),
-                            Checkbox(
-                              value: _needSaved,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _needSaved = newValue!;
-                                });
-                              },
-                            ),
-                            Text('Nhớ mật khẩu', style: kText14Normal_11),
-                            SizedBox(
-                              width: 100.w,
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ForgotPassScreen()));
-                              },
-                              child: Text('Quên mật khẩu?',
-                                  style: kText12Medium_1.copyWith(
-                                      fontSize: 14.sp)),
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: _needSaved,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        _needSaved = newValue!;
+                                      });
+                                    },
+                                  ),
+                                  Text('Nhớ mật khẩu', style: kText14Normal_11),
+                                ],
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ForgotPassScreen()));
+                                },
+                                child: Text('Quên mật khẩu?',
+                                    style: kText12Medium_1.copyWith(
+                                        fontSize: 14.sp)),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 30.h,
