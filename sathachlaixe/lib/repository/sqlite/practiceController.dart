@@ -90,7 +90,7 @@ class PracticeController {
     }
   }
 
-  Future<int> insertOrPlusCorrect(int questionID) async {
+  Future<int> insertOrPlusCorrect(int questionID, int correct) async {
     var old = await getPratice(questionID);
     if (old.isEmpty) {
       return insert(PracticeModel(questionID, 0, -1, 0, 1));
@@ -98,6 +98,7 @@ class PracticeController {
       var data = old.first;
       data.countCorrect++;
       if (data.countCorrect > 2) {
+        data.correctAnswer = correct;
         data.selectedAnswer = data.correctAnswer;
       }
       return update(data);
