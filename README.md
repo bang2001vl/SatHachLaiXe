@@ -37,7 +37,7 @@ This is the Software Requirement Specification Documentions.
 
 ## Preview
 
-- Here is detail prototype: [Edrive prototype figma](https://www.figma.com/proto/LB4L2DvCZtpceeWgBBNXDq/EDrive?node-id=608%3A638&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A1566)
+- Here is detail prototype: [Edrive prototype](https://www.figma.com/proto/LB4L2DvCZtpceeWgBBNXDq/EDrive?node-id=608%3A638&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A1566)
 - To know more about project, please click here: [Edrive analysis and design document](https://docs.google.com/document/d/1R-Gpr8YoYJYOb5bAJG96o6bDRJ_MMjb6/edit?usp=sharing&ouid=106768158041367014875&rtpof=true&sd=true)
 
 ![Homepage](https://drive.google.com/uc?id=1l7fk5xx8bIqlkIT7CFYuJL06mDMii7LZ)
