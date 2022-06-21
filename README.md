@@ -26,7 +26,7 @@ This is the server database for Driver's License Practice App to store user info
 ## Documentions 
 This is the Software Requirement Specification Documentions.
 
-[Google Drive link](https://drive.google.com/drive/folders/1FXQm1Og3sW50E5i4BkG7ZowRY78kSdnJ)
+[Google Drive link](https://drive.google.com/file/d/1NWEYwr6ionhV8sS50MZhozKCLHae8XyE/view)
 
 ## Technology
 - Main programming language: Dart
