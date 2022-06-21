@@ -24,9 +24,9 @@ This is the server database for Driver's License Practice App to store user info
 [Server project github](https://github.com/bang2001vl/luyenthigplx)
 
 ## Documentions 
-This is all data and document we use for this project.
+This is the Software Requirement Specification Documentions.
 
-[Google Drive link](https://drive.google.com/drive/folders/1lIYyPM59bN40QAoac-AtSXJ6qSRwfHs9?usp=sharing)
+[Google Drive link](https://drive.google.com/drive/folders/1FXQm1Og3sW50E5i4BkG7ZowRY78kSdnJ)
 
 ## Technology
 - Main programming language: Dart
