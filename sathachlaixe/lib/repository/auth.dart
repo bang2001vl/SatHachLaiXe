@@ -33,7 +33,8 @@ class AuthController extends AuthRepo {
     };
     var auth = AuthModel(
       email: email,
-      password: isAutoLogin ? password : _encryptPassword(password),
+      // password: isAutoLogin ? password : _encryptPassword(password),
+      password: password, // Test-only
     );
     try {
       var res = await dio.post(
