@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: Size(414, 896),
-        builder: () {
+        builder: (BuildContext context, Widget? widget) {
           return MaterialApp(
             navigatorKey: navigatorKeyConsole,
             title: 'Flutter Demo',

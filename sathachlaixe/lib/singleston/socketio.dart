@@ -13,7 +13,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'socketObserver.dart';
 
 class SocketController {
-  //final String url = "http://192.168.1.110:9000";
   final String url = RepositoryGL.serverURL + ":9000";
 
   static const request_get_unsync = "get_unsync_data";
@@ -162,6 +161,7 @@ class SocketController {
   }
 
   void _onResponseUnsyncData(data) async {
+    log("onResponseUnsyncData");
 // Unbind response's handler after got it
     _socket?.off(response_get_unsync);
     var jsonHistories = data["histories"] as List;

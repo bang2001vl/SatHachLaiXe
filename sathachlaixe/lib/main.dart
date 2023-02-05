@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
       onConnectivityChanged: onConnectivityChanged,
       child: ScreenUtilInit(
           designSize: Size(414, 896),
-          builder: () {
+          builder: (BuildContext context, Widget? widget) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               navigatorKey: navigatorKey,
