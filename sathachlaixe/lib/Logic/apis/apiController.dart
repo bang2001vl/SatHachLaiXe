@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:sathachlaixe/Logic/model/TopicOverviewData.dart';
+import 'package:sathachlaixe/singleston/repository.dart';
 
 class ApiController {
   String _token = '';
   String topicType = 'b1';
 
-  final _serverURL = 'http://localhost:8080';
+  //final _serverURL = 'http://192.168.1.111:8080';
+  final _serverURL = RepositoryGL.serverURL + ":8080";
 
   late Dio _dio;
 
